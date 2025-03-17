@@ -19,6 +19,8 @@
               <th>País</th>
               <th>Equipos</th>
               <th>Activo</th>
+              <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -31,6 +33,12 @@
                 <td>{{ $player->birth_country }}</td>
                 <td></td>
                 <td>{{ $player->debut_season }} - {{ $player->last_season }}</td>
+                <td>
+                    <a href="{{ route('editplayer', ['id' => $player->id]) }}" class="btn btn-primary btn-sm">edit</a>
+                </td>
+                <td>
+                    
+                </td>
               </tr>
              @endforeach
           </tbody>

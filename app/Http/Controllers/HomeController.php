@@ -30,7 +30,7 @@ class HomeController extends Controller
 
 
     /**
-     * Show the player add/edit form.
+     * Show the player add form.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
@@ -52,17 +52,66 @@ class HomeController extends Controller
             'surnames' => 'required|max:100',
             'birth_country' => 'required|max:100',
             'country' => 'required|max:100',
-
+            'photo'=> 'image|mimes:jpeg,webp,png,jpg,gif,svg|max:2048',
         ]);     
 
         $player = new Player;
 
         $player->fill($request->all());
 
+        if($request->hasFile('photo')){
+            $image = $request->file('photo');
+            $nameImage = $image->getClientOriginalName();
+            $image->move(public_path('img/players'), $nameImage);
+            $player->photo = $nameImage;
+        } 
+
         $player->save();
 
         return redirect()->route('home');
     }
 
+    /**
+     * Show the player edit form.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function playerEditForm($id)
+    {
+        $player = Player::find($id);
+        return view('playereditform', compact('player'));
+    }
+
+    /**
+     * Update the player.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function playerUpdate(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required|max:40',
+            'first_name' => 'required|max:40',
+            'surnames' => 'required|max:100',
+            'birth_country' => 'required|max:100',
+            'country' => 'required|max:100',
+            'photo'=> 'image|mimes:jpeg,webp,png,jpg,gif,svg|max:2048',
+        ]);   
+
+        $player = Player::find($request->id);
+
+        $player->fill($request->all());
+
+        if($request->hasFile('photo')){
+            $image = $request->file('photo');
+            $nameImage = $image->getClientOriginalName();
+            $image->move(public_path('img/players'), $nameImage);
+            $player->photo = $nameImage;
+        } 
+
+        $player->save();
+
+        return redirect()->route('home');
+    }
 
 }
