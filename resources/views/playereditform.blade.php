@@ -109,15 +109,20 @@
                   <div class="mt-2">
                     <button class="btn btn-success btn-sm btn-block" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Añadir</button>
 
-                    <div class="clubes p-2 mt-3" id="clubs-list">
-                      @foreach($clubs as $club)
-                        @if(in_array($club->id, $playerClubs))
-                         <input type="checkbox" class="form-check-input mr-4 ml-4" name="clubs[]" id="club{{ $club->id }}" checked>
-                        @else
-                         <input type="checkbox" class="form-check-input mr-4 ml-4" name="clubs[]" id="club{{ $club->id }}" >
-                        @endif
-                      <label class="form-check-label mr-4 ml-4" for="exampleCheck1">{{ $club->name }}</label>
-                      @endforeach
+                    <div class="clubes p-2 mt-3" >
+                      <ul id="clubs-list">
+                        @foreach($clubs as $club)
+                        <li>
+                          @if(in_array($club->id, $playerClubs))
+                           <input type="checkbox" class="form-check-input mr-4 ml-4" name="clubs[]" id="club{{ $club->id }}" checked>
+                          @else
+                           <input type="checkbox" class="form-check-input mr-4 ml-4" name="clubs[]" id="club{{ $club->id }}" >
+                          @endif
+                        <label class="form-check-label mr-4 ml-4" for="exampleCheck1">{{ $club->name }}</label>
+                        </li>
+                        @endforeach
+                      </ul>
+                      
                     </div>
                   </div>
                 </div>          
@@ -183,6 +188,7 @@
       processData: false, // Importante: no procesar los datos
       success: function(result){
         $('#clubs-list').append(result);
+        clubForm.reset();
       },
       error: function(error) {
           // Manejar el error

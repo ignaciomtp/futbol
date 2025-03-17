@@ -42,10 +42,4 @@ class ClubController extends Controller
     }
 
 
-    public function clubbb() {
-        return '<input type="checkbox" class="form-check-input" name="clubs" id="fc-barcelona"><label class="form-check-label" for="exampleCheck1">F.C. Barcelona</label>';
-    }
-
-
-
 }
