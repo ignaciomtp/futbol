@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Player;
+use App\Models\Club;
 
 class HomeController extends Controller
 {
@@ -79,7 +80,12 @@ class HomeController extends Controller
     public function playerEditForm($id)
     {
         $player = Player::find($id);
-        return view('playereditform', compact('player'));
+        $clubs = Club::all();
+        $playerClubs = [];
+        foreach($player->clubs as $club) {
+            array_push($playerClubs, $club->id);
+        }
+        return view('playereditform', compact('player', 'clubs', 'playerClubs'));
     }
 
     /**

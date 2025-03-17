@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Club;
+use App\Models\Player;
 
 class ClubController extends Controller
 {
@@ -13,7 +14,10 @@ class ClubController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function addClub(Request $request) {
+    public function addClub(Request $request, $idPlayer) {
+
+        $player = Player::findOrFail($idPlayer);
+
         $this->validate($request, [
             'name' => 'required|max:80',
             'badge'=> 'image|mimes:jpeg,webp,png,jpg,gif,svg|max:2048',
@@ -31,6 +35,8 @@ class ClubController extends Controller
         } 
 
         $club->save();
+
+        $player->clubs()->attach($club->id);
 
         return returnNewClub($club->name);
     }

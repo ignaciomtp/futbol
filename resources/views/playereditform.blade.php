@@ -110,7 +110,14 @@
                     <button class="btn btn-success btn-sm btn-block" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Añadir</button>
 
                     <div class="clubes p-2 mt-3" id="clubs-list">
-                      
+                      @foreach($clubs as $club)
+                        @if(in_array($club->id, $playerClubs))
+                         <input type="checkbox" class="form-check-input mr-4 ml-4" name="clubs[]" id="club{{ $club->id }}" checked>
+                        @else
+                         <input type="checkbox" class="form-check-input mr-4 ml-4" name="clubs[]" id="club{{ $club->id }}" >
+                        @endif
+                      <label class="form-check-label mr-4 ml-4" for="exampleCheck1">{{ $club->name }}</label>
+                      @endforeach
                     </div>
                   </div>
                 </div>          
@@ -132,11 +139,15 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <label for="club" class="form-label">Club:</label>
-        <input type="text" class="form-control" id="club" name="club" placeholder="" required>
+        <form id="clubForm" enctype="multipart/form-data">
+          <label for="club" class="form-label">Club:</label>
+          <input type="text" class="form-control" id="club" name="name" placeholder="" required>
 
-        <label for="badge" class="form-label">Escudo:</label>
-        <input type="file" class="form-control" id="badge" name="badge" >
+          <label for="badge" class="form-label">Escudo:</label>
+          <input type="file" class="form-control" id="badge" name="badge" >
+          
+        </form>
+
 
       </div>
       <div class="modal-footer">
@@ -150,16 +161,32 @@
   function createClub() {
     //console.log(window.location.origin);
 
-    let url = window.location.origin + '/player/club/'
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 
-    let club = $('#club').val();
+    let playerId = $('#id').val();
+
+    let url = window.location.origin + '/player/club/' + playerId;
+
+    let clubForm = $('#clubForm')[0];
+
+    var formData = new FormData(clubForm); 
 
     $.ajax({
       url: url,
       type : 'POST',
-      data: {name: club},
+      data: formData,
+      contentType: false, // Importante: no establecer el tipo de contenido
+      processData: false, // Importante: no procesar los datos
       success: function(result){
         $('#clubs-list').append(result);
+      },
+      error: function(error) {
+          // Manejar el error
+          console.error(error);
       }
     });   
   }  
