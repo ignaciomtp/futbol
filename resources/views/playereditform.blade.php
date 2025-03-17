@@ -65,7 +65,7 @@
 
                     <div class="col-sm-3">
                       <label for="debut_season" class="form-label">Debut:</label>
-                      <input type="number" class="form-control" id="debut_season" name="debut_season" placeholder="" value="{{ $player->debut_season }}" required="">
+                      <input type="number" class="form-control" id="debut_season" name="debut_season" placeholder="" value="{{ $player->debut_season }}" >
                       <div class="invalid-feedback">
                         Valid debut_season is required.
                       </div>
@@ -73,7 +73,7 @@
 
                     <div class="col-sm-3">
                       <label for="last_season" class="form-label">Retirada:</label>
-                      <input type="number" class="form-control" id="last_season" name="last_season" placeholder="" value="{{ $player->last_season }}" required="">
+                      <input type="number" class="form-control" id="last_season" name="last_season" placeholder="" value="{{ $player->last_season }}" >
                       <div class="invalid-feedback">
                         Valid last_season is required.
                       </div>
@@ -114,9 +114,9 @@
                         @foreach($clubs as $club)
                         <li>
                           @if(in_array($club->id, $playerClubs))
-                           <input type="checkbox" class="form-check-input mr-4 ml-4" name="clubs[]" id="club{{ $club->id }}" checked>
+                           <input type="checkbox" class="form-check-input mr-4 ml-4" name="clubs[]" id="club{{ $club->id }}" value="{{ $club->id }}" checked>
                           @else
-                           <input type="checkbox" class="form-check-input mr-4 ml-4" name="clubs[]" id="club{{ $club->id }}" >
+                           <input type="checkbox" class="form-check-input mr-4 ml-4" name="clubs[]" id="club{{ $club->id }}" value="{{ $club->id }}">
                           @endif
                         <label class="form-check-label mr-4 ml-4" for="exampleCheck1">{{ $club->name }}</label>
                         </li>

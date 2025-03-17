@@ -3,22 +3,23 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <h1>Player Form</h1>
+        <h1>Player Form</h1>
 
-            <form enctype="multipart/form-data" action="{{ route('newplayer') }}" method="post">
-              @csrf
+        <form enctype="multipart/form-data" action="{{ route('newplayer') }}" method="post">
+          @csrf
 
-              @if ($errors->any())
-                  <div class="alert alert-danger">
-                      <ul>
-                          @foreach ($errors->all() as $error)
-                              <li>{{ $error }}</li>
-                          @endforeach
-                      </ul>
-                  </div>
-              @endif
+          @if ($errors->any())
+              <div class="alert alert-danger">
+                  <ul>
+                      @foreach ($errors->all() as $error)
+                          <li>{{ $error }}</li>
+                      @endforeach
+                  </ul>
+              </div>
+          @endif
 
+          <div class="row ">
+            <div class="col-md-8">
               <div class="row g-3">
                 <div class="col-sm-4">
                   <label for="name" class="form-label">Nombre fut:</label>
@@ -42,7 +43,7 @@
                   <div class="invalid-feedback">
                     Valid surnames is required.
                   </div>
-                </div>                  
+                </div>   
               </div>
 
               <div class="row g-3">
@@ -64,7 +65,7 @@
 
                 <div class="col-sm-3">
                   <label for="debut_season" class="form-label">Debut:</label>
-                  <input type="number" class="form-control" id="debut_season" name="debut_season" placeholder="" value="" required="">
+                  <input type="number" class="form-control" id="debut_season" name="debut_season" placeholder="" value="">
                   <div class="invalid-feedback">
                     Valid debut_season is required.
                   </div>
@@ -72,26 +73,47 @@
 
                 <div class="col-sm-3">
                   <label for="last_season" class="form-label">Retirada:</label>
-                  <input type="number" class="form-control" id="last_season" name="last_season" placeholder="" value="" required="">
+                  <input type="number" class="form-control" id="last_season" name="last_season" placeholder="" value="">
                   <div class="invalid-feedback">
                     Valid last_season is required.
                   </div>
-                </div>
-                 
+                </div>               
               </div>
 
               <div class="row g-3">
+                <div class="col-sm-9">
                   <label for="photo" class="form-label">Foto:</label>
                   <input type="file" class="form-control" id="photo" name="photo" >
+                </div>
               </div>
 
-              <div class="row g-3 mt-4">
-                  <button class="btn btn-primary btn-lg btn-block" type="submit">Guardar</button>
-              </div>
+               <div class="row g-3 mt-4">
+                    <button class="btn btn-primary btn-lg btn-block" type="submit">Guardar</button>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+              <h2>Clubs</h2>
+                  <div class="mt-2">
+
+                    <div class="clubes p-2 mt-3" >
+                      <ul id="clubs-list">
+                        @foreach($clubs as $club)
+                        <li><input type="checkbox" class="form-check-input mr-4 ml-4" name="clubs[]" id="club{{ $club->id }}" value="{{ $club->id }}"><label class="form-check-label mr-4 ml-4" for="exampleCheck1">{{ $club->name }}</label></li>
+                        @endforeach
+                      </ul>
+                  </div>
+            </div>
 
               
-            </form>
-        </div>
+          </div>
+
+
+          
+        </form>
+        
     </div>
 </div>
+
+
 @endsection
