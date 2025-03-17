@@ -81,7 +81,16 @@
               </div>
 
               <div class="row g-3">
-                <div class="col-sm-9">
+                <div class="col-sm-3">
+                      <label for="position" class="form-label">Posición:</label>
+                      <select class="form-select" id="position" name="position">
+                        <option value=""></option>
+                        @foreach($positions as $position)
+                          <option value="{{ $position }}">{{ $position }}</option>
+                        @endforeach
+                      </select>
+                    </div>
+                    <div class="col-sm-6">
                   <label for="photo" class="form-label">Foto:</label>
                   <input type="file" class="form-control" id="photo" name="photo" >
                 </div>

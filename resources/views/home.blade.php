@@ -17,7 +17,6 @@
               <th>Apelliddos</th>
               <th>Conocido</th>
               <th>País</th>
-              <th>Equipos</th>
               <th>Activo</th>
               <th></th>
               <th></th>
@@ -31,7 +30,6 @@
                 <td>{{ $player->surnames }}</td>
                 <td>{{ $player->name }}</td>
                 <td>{{ $player->birth_country }}</td>
-                <td></td>
                 <td>{{ $player->debut_season }} - {{ isset($player->last_season) ? $player->last_season : 'Actualidad' }}</td>
                 <td>
                     <a href="{{ route('editplayer', ['id' => $player->id]) }}" class="btn btn-primary btn-sm">edit</a>
@@ -43,6 +41,8 @@
              @endforeach
           </tbody>
         </table>
+
+        {{ $players->links() }}
     </div>
 </div>
 @endsection

@@ -38,7 +38,15 @@ class HomeController extends Controller
     public function playerForm()
     {
         $clubs = Club::orderBy('name')->get();
-        return view('playerform', compact('clubs'));
+
+        $positions = [
+            'Goalkeeper',
+            'Defender',
+            'Midfielder',
+            'Attacker',
+        ];
+
+        return view('playerform', compact('clubs', 'positions'));
     }
 
     /**
@@ -88,7 +96,15 @@ class HomeController extends Controller
         foreach($player->clubs as $club) {
             array_push($playerClubs, $club->id);
         }
-        return view('playereditform', compact('player', 'clubs', 'playerClubs'));
+
+        $positions = [
+            'Goalkeeper',
+            'Defender',
+            'Midfielder',
+            'Attacker',
+        ];
+
+        return view('playereditform', compact('player', 'clubs', 'playerClubs', 'positions'));
     }
 
     /**

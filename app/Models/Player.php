@@ -20,6 +20,7 @@ class Player extends Model
         'debut_season',
         'last_season',
         'photo',
+        'position',
     ];
 
     public function clubs() {
