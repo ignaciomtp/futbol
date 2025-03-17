@@ -37,7 +37,8 @@ class HomeController extends Controller
      */
     public function playerForm()
     {
-        return view('playerform');
+        $clubs = Club::orderBy('name')->get();
+        return view('playerform', compact('clubs'));
     }
 
     /**
@@ -68,6 +69,8 @@ class HomeController extends Controller
         } 
 
         $player->save();
+
+        $player->clubs()->attach($request->clubs);
 
         return redirect()->route('home');
     }
@@ -116,6 +119,9 @@ class HomeController extends Controller
         } 
 
         $player->save();
+
+        $player->clubs()->detach();
+        $player->clubs()->attach($request->clubs);
 
         return redirect()->route('home');
     }
