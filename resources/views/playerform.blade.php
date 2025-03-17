@@ -82,7 +82,7 @@
 
               <div class="row g-3">
                   <label for="photo" class="form-label">Foto:</label>
-                  <input type="text" class="form-control" id="photo" name="photo" placeholder="" value="''" >
+                  <input type="file" class="form-control" id="photo" name="photo" >
               </div>
 
               <div class="row g-3 mt-4">

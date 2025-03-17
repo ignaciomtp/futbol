@@ -13,6 +13,10 @@
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
+    <link rel="stylesheet" href="{{ URL::to('css/styles-admin.css') }}" />
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js">
+
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
