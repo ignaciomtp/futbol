@@ -80,7 +80,7 @@ class HomeController extends Controller
     public function playerEditForm($id)
     {
         $player = Player::find($id);
-        $clubs = Club::all();
+        $clubs = Club::orderBy('name')->get();
         $playerClubs = [];
         foreach($player->clubs as $club) {
             array_push($playerClubs, $club->id);
