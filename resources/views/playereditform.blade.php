@@ -19,7 +19,7 @@
               @endif
 
               <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-6">
                   <div class="row g-3">
                     <div class="col-sm-4">
                       <label for="name" class="form-label">Nombre fut:</label>
@@ -117,7 +117,7 @@
                       
                 </div> 
 
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <h2>Clubs</h2>
                   <div class="mt-2">
                     <button class="btn btn-success btn-sm btn-block" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Añadir</button>
@@ -131,14 +131,38 @@
                           @else
                            <input type="checkbox" class="form-check-input mr-4 ml-4" name="clubs[]" id="club{{ $club->id }}" value="{{ $club->id }}">
                           @endif
-                        <label class="form-check-label mr-4 ml-4" for="exampleCheck1">{{ $club->name }}</label>
+                        <label class="form-check-label mr-4 ml-4" for="club{{ $club->id }}">{{ $club->name }}</label>
                         </li>
                         @endforeach
                       </ul>
                       
                     </div>
                   </div>
-                </div>          
+                </div>    
+
+                <div class="col-md-3">
+                  <h2>Títulos</h2>
+                  <div class="mt-2">
+                    <button class="btn btn-success btn-sm btn-block" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal2">Añadir</button>
+
+                    <button class="btn btn-sm btn-warning floatright" type="button" onclick="updateTitles()">Guardar</button>
+
+                    <div class="clubes p-2 mt-3" >
+                      <ul id="titles-list">
+                        @foreach($titles as $title)
+                        <li>
+                        <label class="form-check-label mr-4 ml-4 smallfont" for="title{{ $title->id }}">{{ $title->name }}</label>
+                        @if(array_key_exists($title->id, $playerTitles))
+                            <input type="number" class="numtitles" id="num-titles-{{ $title->id }}" data-title-id="{{ $title->id }}" value="{{ $playerTitles[$title->id] }}">
+                        @else
+                            <input type="number" class="numtitles" id="num-titles-{{ $title->id }}" data-title-id="{{ $title->id }}" value="0">
+                        @endif
+                        </li>
+                        @endforeach
+                      </ul>
+                    </div>
+                  </div>
+                </div>      
     
               </div>
 
@@ -148,12 +172,12 @@
 </div>
 
 
-<!-- Modal -->
+<!-- Modal Clubes Form -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Añadir Club</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -174,7 +198,43 @@
       </div>
     </div>
   </div>
-  <script type="text/javascript">
+
+</div>
+
+
+<!-- Modal Títulos -->
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Añadir Título</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="titleForm" >
+          <label for="name" class="form-label">Título:</label>
+          <input type="text" class="form-control" id="name" name="name" placeholder="" required>
+
+          <label for="number" class="form-label">Veces que lo ganó:</label>
+          <input type="text" class="form-control" id="number" name="number" >
+          
+        </form>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="createTitle()">Save changes</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+<script type="text/javascript">
 
   function createClub() {
     //console.log(window.location.origin);
@@ -210,8 +270,80 @@
     });   
   }  
 
+
+  function createTitle() {
+    //console.log(window.location.origin);
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    let playerId = $('#id').val();
+
+    let url = window.location.origin + '/player/title/' + playerId;
+
+    let titleForm = $('#titleForm')[0];
+
+    var formData = new FormData(titleForm); 
+
+    $.ajax({
+      url: url,
+      type : 'POST',
+      data: formData,
+      contentType: false, // Importante: no establecer el tipo de contenido
+      processData: false, // Importante: no procesar los datos
+      success: function(result){
+        $('#titles-list').append(result);
+        titleForm.reset();
+      },
+      error: function(error) {
+          // Manejar el error
+          console.error(error);
+      }
+    });   
+  }  
+
+
+  function updateTitles() {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    let playerId = $('#id').val();
+
+    let url = window.location.origin + '/player/titlesupdate/' + playerId;
+
+    let titleInputs = $('.numtitles').get();
+
+    let titles = titleInputs.map(elem => {
+      return {
+        id: $(elem).attr('data-title-id'),
+        number: $(elem).val()
+      }
+    });
+
+    console.log(titles);
+
+    $.ajax({
+      url: url,
+      type : 'POST',
+      data: {titles: titles},
+      success: function(result){
+        console.log(result);
+      },
+      error: function(error) {
+          // Manejar el error
+          console.error(error);
+      }
+    });   
+
+  }
+
   </script>
-</div>
 
 @endsection
 

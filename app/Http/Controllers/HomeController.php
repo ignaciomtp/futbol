@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Player;
 use App\Models\Club;
+use App\Models\Title;
 
 class HomeController extends Controller
 {
@@ -38,6 +39,7 @@ class HomeController extends Controller
     public function playerForm()
     {
         $clubs = Club::orderBy('name')->get();
+        $titles = Title::orderBy('name')->get();
 
         $positions = [
             'Goalkeeper',
@@ -46,7 +48,7 @@ class HomeController extends Controller
             'Attacker',
         ];
 
-        return view('playerform', compact('clubs', 'positions'));
+        return view('playerform', compact('clubs', 'positions', 'titles'));
     }
 
     /**
@@ -92,11 +94,19 @@ class HomeController extends Controller
     {
         $player = Player::find($id);
         $clubs = Club::orderBy('name')->get();
+        $titles = Title::orderBy('name')->get();
+
         $playerClubs = [];
+        $playerTitles = [];
+
         foreach($player->clubs as $club) {
             array_push($playerClubs, $club->id);
         }
 
+        foreach($player->titles as $title) {
+            $playerTitles[$title->id] = $title->pivot->number; 
+        }
+        
         $positions = [
             'Goalkeeper',
             'Defender',
@@ -104,7 +114,7 @@ class HomeController extends Controller
             'Attacker',
         ];
 
-        return view('playereditform', compact('player', 'clubs', 'playerClubs', 'positions'));
+        return view('playereditform', compact('player', 'clubs', 'playerClubs', 'positions', 'titles', 'playerTitles'));
     }
 
     /**

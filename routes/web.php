@@ -26,6 +26,8 @@ Route::get('/player/edit/{id}', [App\Http\Controllers\HomeController::class, 'pl
 Route::post('/player/edit', [App\Http\Controllers\HomeController::class, 'playerUpdate'])->name('updateplayer');
 
 Route::post('/player/club/{idPlayer}', [App\Http\Controllers\ClubController::class, 'addClub'])->name('newclub');
+Route::post('/player/title/{idPlayer}', [App\Http\Controllers\TitleController::class, 'addTitle'])->name('newtitle');
+Route::post('/player/titlesupdate/{idPlayer}', [App\Http\Controllers\TitleController::class, 'updatePlayersTitles'])->name('updatetitles');
 
 
 

@@ -103,16 +103,16 @@
 
             <div class="col-md-4">
               <h2>Clubs</h2>
-                  <div class="mt-2">
-
-                    <div class="clubes p-2 mt-3" >
-                      <ul id="clubs-list">
-                        @foreach($clubs as $club)
-                        <li><input type="checkbox" class="form-check-input mr-4 ml-4" name="clubs[]" id="club{{ $club->id }}" value="{{ $club->id }}"><label class="form-check-label mr-4 ml-4" for="exampleCheck1">{{ $club->name }}</label></li>
-                        @endforeach
-                      </ul>
-                  </div>
+              <div class="clubes p-2 mt-3" >
+                <ul id="clubs-list">
+                  @foreach($clubs as $club)
+                  <li><input type="checkbox" class="form-check-input mr-4 ml-4" name="clubs[]" id="club{{ $club->id }}" value="{{ $club->id }}"><label class="form-check-label mr-4 ml-4" for="club{{ $club->id }}">{{ $club->name }}</label></li>
+                  @endforeach
+                </ul>
+              </div>
             </div>
+
+
 
               
           </div>
