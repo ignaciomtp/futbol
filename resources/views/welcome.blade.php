@@ -3,6 +3,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>Laravel</title>
 
     <!-- Fonts -->
@@ -22,6 +26,10 @@
         .dropdown-menu {
             width: 100%; /* Igual al ancho del input */
             margin-top: 0 !important; /* Elimina márgenes extra */
+        }
+
+        .tinythumb {
+            max-height: 50px;
         }
     </style>
 </head>
@@ -69,11 +77,7 @@
                     <input type="text" class="form-control" placeholder="Type a guess here..." id="searchbox" autocomplete="off">
                     <div class="dropdown w-100">
                         <ul class="dropdown-menu" id="suggestions">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Separated link</a></li>
+                            
                         </ul>
                     </div>
                 </div>
@@ -85,7 +89,43 @@
     $(document).ready(function() {
         // Mostrar el dropdown al escribir
         $('#searchbox').on('keyup', function() {
-            $('#suggestions').addClass('show');
+
+            $('#suggestions').empty();
+
+            let playerName = $('#searchbox').val();
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+
+            let url = window.location.origin + '/player/search/';
+
+            $.ajax({
+              url: url,
+              type : 'POST',
+              data: {name: playerName},
+              success: function(result){
+                console.log(result);
+
+                let playersList = '';
+                result.forEach(elem => {
+                    playersList += '<li><a class="dropdown-item" href="#">' + elem.name + '<img class="tinythumb" src="../../img/players/'+ elem.photo +'" style="float:right;" /></a></li>';
+                });
+
+                $('#suggestions').append(playersList);
+              },
+              error: function(error) {
+                  // Manejar el error
+                  console.error(error);
+              }
+            });   
+
+            $('#suggestions').addClass('show');    
+
+
         });
 
         // Ajustar posición del dropdown
