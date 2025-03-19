@@ -15,7 +15,7 @@
 
     <link rel="stylesheet" href="{{ URL::to('css/styles-admin.css') }}" />
 
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
