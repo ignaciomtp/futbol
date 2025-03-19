@@ -12,26 +12,14 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ URL::to('css/styles-admin.css') }}" />
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
-    <style>
-        .input-dropdown-container {
-            position: relative;
-            width: 100%; /* Asegura que ocupe todo el ancho del input-group */
-        }
-        .dropdown-menu {
-            width: 100%; /* Igual al ancho del input */
-            margin-top: 0 !important; /* Elimina márgenes extra */
-        }
-
-        .tinythumb {
-            max-height: 50px;
-        }
-    </style>
+    
 </head>
 <body class="antialiased">
     <nav class="navbar navbar-expand navbar-dark bg-dark" aria-label="Second navbar example">
@@ -70,9 +58,11 @@
         </div>
     </nav>
 
-    <div id="app"> 
-        <main class="container p-4">
-            <div class="m-5 text-center">
+
+    <main class="container text-center p-4">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4 m-5 text-center">
                 <div class="input-group mb-3 input-dropdown-container">
                     <input type="text" class="form-control" placeholder="Type a guess here..." id="searchbox" autocomplete="off">
                     <div class="dropdown w-100">
@@ -81,9 +71,15 @@
                         </ul>
                     </div>
                 </div>
+
+                <div class="mt-5" id="guesses">
+                    
+                </div>
             </div>
-        </main>
-    </div>
+            <div class="col-md-4"></div>
+        </div>
+    </main>
+
 
     <script>
     $(document).ready(function() {
@@ -110,12 +106,12 @@
               success: function(result){
                 console.log(result);
 
-                let playersList = '';
+                
                 result.forEach(elem => {
-                    playersList += '<li><a class="dropdown-item" href="#">' + elem.name + '<img class="tinythumb" src="../../img/players/'+ elem.photo +'" style="float:right;" /></a></li>';
+                    showPlayer(elem);
                 });
 
-                $('#suggestions').append(playersList);
+                
               },
               error: function(error) {
                   // Manejar el error
@@ -148,6 +144,56 @@
             }
         });
     });
+
+
+    function showPlayer(player) {
+
+
+      var playerLi = $('<li>');
+      
+      var playerDiv = $('<div>').addClass('dropdown-item');
+      playerDiv.addClass('dropdown-player-item');
+
+      
+      // Crea la imagen con la clase round-thumb y los atributos src y alt
+      var playerImg = $('<img>')
+        .attr('src', '../../img/players/' + player.photo)
+        .attr('alt', player.name)
+        .addClass('tinythumb');
+
+      playerImg.css('float', 'right');
+
+      playerDiv.append(document.createTextNode(player.name));
+      playerDiv.append(playerImg);
+
+      playerDiv.on('click', function(){
+          // Crea el div principal con la clase player-div-box
+          var playerDiv = $('<div>').addClass('player-div-box p-2 mt-2 mb-2');
+
+          // Crea la imagen con la clase round-thumb y los atributos src y alt
+          var playerImg = $('<img>')
+            .attr('src', '../../img/players/' + player.photo)
+            .attr('alt', player.name)
+            .addClass('round-thumb');
+
+          // Crea el encabezado h2 con el nombre del jugador
+          var playerName = $('<h2>').text(player.name);
+
+          // Agrega la imagen y el encabezado al div principal
+          playerDiv.append(playerImg);
+          playerDiv.append(playerName);
+                
+          $('#guesses').prepend(playerDiv);         
+      });
+
+            
+      $('#suggestions').append(playerDiv);
+
+    }
+
+
+
+
     </script>
 </body>
 </html>
