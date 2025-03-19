@@ -1,21 +1,31 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Laravel</title>
 
-        <title>Laravel</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
-        <!-- Scripts -->
-        @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <!-- Scripts -->
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
-
-    </head>
-    <body class="antialiased">
+    <style>
+        .input-dropdown-container {
+            position: relative;
+            width: 100%; /* Asegura que ocupe todo el ancho del input-group */
+        }
+        .dropdown-menu {
+            width: 100%; /* Igual al ancho del input */
+            margin-top: 0 !important; /* Elimina márgenes extra */
+        }
+    </style>
+</head>
+<body class="antialiased">
     <nav class="navbar navbar-expand navbar-dark bg-dark" aria-label="Second navbar example">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">Always expand</a>
@@ -52,39 +62,52 @@
         </div>
     </nav>
 
-        <div id="app"> 
-
-            <main class="container p-4">
-
-                <h1> How to Install Bootstrap 5 in Laravel 10 - ItSolutionstuiff.com</h1>
-
-                <div class="card">
-
-                  <div class="card-header">
-
-                    Icons
-
-                  </div>
-
-                  <div class="card-body text-center">
-
-                        <i class="bi bi-bag-heart-fill"></i>
-
-                        <i class="bi bi-app"></i>
-
-                        <i class="bi bi-arrow-right-square-fill"></i>
-
-                        <i class="bi bi-bag-check-fill"></i>
-
-                        <i class="bi bi-calendar-plus-fill"></i>
-
-                  </div>
-
+    <div id="app"> 
+        <main class="container p-4">
+            <div class="m-5 text-center">
+                <div class="input-group mb-3 input-dropdown-container">
+                    <input type="text" class="form-control" placeholder="Type a guess here..." id="searchbox" autocomplete="off">
+                    <div class="dropdown w-100">
+                        <ul class="dropdown-menu" id="suggestions">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Separated link</a></li>
+                        </ul>
+                    </div>
                 </div>
+            </div>
+        </main>
+    </div>
 
-            </main>
+    <script>
+    $(document).ready(function() {
+        // Mostrar el dropdown al escribir
+        $('#searchbox').on('keyup', function() {
+            $('#suggestions').addClass('show');
+        });
 
-        </div>
-        
-    </body>
+        // Ajustar posición del dropdown
+        $('#suggestions').on('show.bs.dropdown shown.bs.dropdown', function() {
+            const $input = $('#searchbox');
+            const inputHeight = $input.outerHeight();
+            const inputOffset = $input.offset();
+
+            $('#suggestions').css({
+                'top': inputHeight, // Justo debajo del input
+                'left': 0,
+                'position': 'absolute'
+            });
+        });
+
+        // Ocultar el dropdown al hacer clic fuera
+        $(document).on('click', function(event) {
+            if (!$(event.target).closest('.input-dropdown-container').length) {
+                $('#suggestions').removeClass('show');
+            }
+        });
+    });
+    </script>
+</body>
 </html>
