@@ -3,7 +3,6 @@
 }
 
 
-
 .clubes {
 	border: 1px solid #ccc;
 	border-radius: 5px;
@@ -40,3 +39,37 @@
 	font-size: 0.7rem;
 }
 
+
+.input-dropdown-container {
+    position: relative;
+    width: 100%; /* Asegura que ocupe todo el ancho del input-group */
+}
+.dropdown-menu {
+    width: 100%; /* Igual al ancho del input */
+    margin-top: 0 !important; /* Elimina márgenes extra */
+}
+
+.dropdown-player-item:hover {
+	background-color: #CCC !important;
+	cursor: pointer;
+}
+
+.tinythumb {
+    max-height: 50px;
+}
+
+.player-div-box {
+	border: 1px solid #CCC;
+	border-radius: 15px;
+	display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.round-thumb {
+	width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 16px;
+}
