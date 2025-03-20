@@ -194,11 +194,14 @@
           var playerActive = $('<div>').addClass('player-data-item wrong-guess p-2');
           var playerPosition = $('<div>').addClass('player-data-item wrong-guess p-2');
 
-          var countryTag = $('<h3>').text('Country');
+          var countryTag = $('<h3>').text(player.country);
           var activeTag = $('<h3>').text('Active');
           var positionTag = $('<h3>').text('Position');
 
-          var countryData = $('<h4>').text(player.country);
+          var countryData = $('<img>')
+            .attr('src', player.country_flag)
+            .attr('alt', player.country);
+
           var activeData = $('<h4>').text(player.debut_season + '-' + (player.last_season ? player.last_season : 'Today'));
           var positionData = $('<h4>').text(player.position);
 
