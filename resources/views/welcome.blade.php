@@ -193,10 +193,15 @@
           var playerCountry = $('<div>').addClass('player-data-item wrong-guess p-2');
           var playerActive = $('<div>').addClass('player-data-item wrong-guess p-2');
           var playerPosition = $('<div>').addClass('player-data-item wrong-guess p-2');
+          var playerClubs = $('<div>').addClass('player-data-item wrong-guess p-2');
+          var playerTitles = $('<div>').addClass('player-data-item wrong-guess p-2');
 
           var countryTag = $('<h3>').text(player.country);
           var activeTag = $('<h3>').text('Active');
           var positionTag = $('<h3>').text('Position');
+          var clubsTag = $('<h3>').text('Played for');
+          var titlesTag = $('<h3>').text('Won');
+
 
           var countryData = $('<img>')
             .attr('src', player.country_flag)
@@ -204,6 +209,8 @@
 
           var activeData = $('<h4>').text(player.debut_season + '-' + (player.last_season ? player.last_season : 'Today'));
           var positionData = $('<h4>').text(player.position);
+
+          //var clubData 
 
           playerCountry.append(countryTag);
           playerCountry.append(countryData);
