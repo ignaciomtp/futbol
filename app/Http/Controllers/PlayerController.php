@@ -17,7 +17,7 @@ class PlayerController extends Controller
 
         $playerName = $request->name;
 
-        $players = Player::where('name', 'LIKE', '%' . $playerName . '%')->limit(5)->get();
+        $players = Player::where('name', 'LIKE', '%' . $playerName . '%')->limit(5)->with('clubs', 'titles')->get();
 
         foreach($players as $player) {
             $flag = returnCountryFlag($player->country);

@@ -319,12 +319,12 @@
 
     let titleInputs = $('.numtitles').get();
 
-    let titles = titleInputs.map(elem => {
-      return {
+    let titles = titleInputs
+      .filter(elem => $(elem).val() !== '0')  // Filtra elementos donde titlesWon no sea '0'
+      .map(elem => ({
         id: $(elem).attr('data-title-id'),
         number: $(elem).val()
-      }
-    });
+      }));
 
     console.log(titles);
 
