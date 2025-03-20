@@ -59,7 +59,7 @@
     </nav>
 
 
-    <main class="container text-center p-4">
+    <main class="container p-4">
         <div class="row pt-4">
             <div class="col-md-4">
                 <p>col left</p>
@@ -190,17 +190,17 @@
           var playerDataDiv = $('<div>').addClass('player-data data-row mt-2');
 
           // Crear los divs de los datos
-          var playerCountry = $('<div>').addClass('player-data-item wrong-guess p-2');
-          var playerActive = $('<div>').addClass('player-data-item wrong-guess p-2');
-          var playerPosition = $('<div>').addClass('player-data-item wrong-guess p-2');
-          var playerClubs = $('<div>').addClass('player-data-item wrong-guess p-2');
-          var playerTitles = $('<div>').addClass('player-data-item wrong-guess p-2');
+          var playerCountry = $('<div>').addClass('player-data-item wrong-guess p-2 text-center');
+          var playerActive = $('<div>').addClass('player-data-item wrong-guess p-2 text-center');
+          var playerPosition = $('<div>').addClass('player-data-item wrong-guess p-2 text-center');
+          var playerClubs = $('<div>').addClass('player-data-item wrong-guess p-2 text-left');
+          var playerTitles = $('<div>').addClass('player-data-item wrong-guess p-2 text-left');
 
           var countryTag = $('<h3>').text(player.country);
           var activeTag = $('<h3>').text('Active');
           var positionTag = $('<h3>').text('Position');
-          var clubsTag = $('<h3>').text('Played for');
-          var titlesTag = $('<h3>').text('Won');
+          var clubsTag = $('<h3>').text('Played for').addClass('text-center');
+          var titlesTag = $('<h3>').text('Won').addClass('text-center');
 
 
           var countryData = $('<img>')
@@ -210,7 +210,23 @@
           var activeData = $('<h4>').text(player.debut_season + '-' + (player.last_season ? player.last_season : 'Today'));
           var positionData = $('<h4>').text(player.position);
 
-          //var clubData 
+          var clubData = $('<ul>').addClass('text-left');
+          player.clubs.forEach(elem => {
+            var clubDataLi = $('<li>').text(elem.name);
+            clubData.append(clubDataLi);
+          });
+
+          playerClubs.append(clubsTag);
+          playerClubs.append(clubData);
+
+          var titlesData = $('<ul>').addClass('text-left');
+          player.titles.forEach(elem => {
+            var titlesDataLi = $('<li>').text(elem.name);
+            titlesData.append(titlesDataLi);
+          });
+
+          playerTitles.append(titlesTag);
+          playerTitles.append(titlesData);
 
           playerCountry.append(countryTag);
           playerCountry.append(countryData);
@@ -225,6 +241,8 @@
           playerDataDiv.append(playerCountry);
           playerDataDiv.append(playerActive);
           playerDataDiv.append(playerPosition);
+          playerDataDiv.append(playerClubs);
+          playerDataDiv.append(playerTitles);
 
 
           // Agrega la imagen, el encabezado y los datos al div principal
@@ -233,7 +251,8 @@
           playerDiv.append(firstRow);
           playerDiv.append(playerDataDiv);
                 
-          $('#guesses').prepend(playerDiv);         
+          $('#guesses').prepend(playerDiv);     
+          $('#suggestions').removeClass('show');    
       });
 
             
