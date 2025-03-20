@@ -19,6 +19,11 @@ class PlayerController extends Controller
 
         $players = Player::where('name', 'LIKE', '%' . $playerName . '%')->limit(5)->get();
 
+        foreach($players as $player) {
+            $flag = returnCountryFlag($player->country);
+            $player->country_flag = 'https://flagcdn.com/w40/'.$flag.'.png';
+        }
+
         return $players;
 
     }

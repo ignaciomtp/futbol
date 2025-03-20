@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Str;
 
+use Illuminate\Support\Facades\Storage;
+
 if (! function_exists('returnNewClub')) {
     function returnNewClub($clubName) {
     	$slugName = Str::slug($clubName);
@@ -20,4 +22,21 @@ if (! function_exists('returnNewTitle')) {
         return $html;
     }
 
+}
+
+if (! function_exists('returnCountryFlag')) {
+    function returnCountryFlag($country) {
+
+        // Leer el archivo JSON desde storage/app/data
+        $jsonContent = Storage::get('public/codes.json');
+
+        // Convertir el JSON a un array asociativo
+        $paises = json_decode($jsonContent, true);
+
+        // Buscar el código correspondiente al nombre del país
+        $codigo = array_search($country, $paises);
+
+        return $codigo ? $codigo : 'error';
+
+    }
 }
