@@ -60,9 +60,11 @@
 
 
     <main class="container text-center p-4">
-        <div class="row">
-            <div class="col-md-4"></div>
-            <div class="col-md-4 m-5 text-center">
+        <div class="row pt-4">
+            <div class="col-md-4">
+                <p>col left</p>
+            </div>
+            <div class="col-md-4">
                 <div class="input-group mb-3 input-dropdown-container">
                     <input type="text" class="form-control" placeholder="Type a guess here..." id="searchbox" autocomplete="off">
                     <div class="dropdown w-100">
@@ -76,7 +78,9 @@
                     
                 </div>
             </div>
-            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                 <p>col right</p>
+            </div>
         </div>
     </main>
 
@@ -179,9 +183,45 @@
           // Crea el encabezado h2 con el nombre del jugador
           var playerName = $('<h2>').text(player.name);
 
-          // Agrega la imagen y el encabezado al div principal
-          playerDiv.append(playerImg);
-          playerDiv.append(playerName);
+          // Crea la primera fila de datos
+          var firstRow = $('<div>').addClass('data-row data-player-id');
+
+          // Crea el div contenedor de los datos
+          var playerDataDiv = $('<div>').addClass('player-data data-row mt-2');
+
+          // Crear los divs de los datos
+          var playerCountry = $('<div>').addClass('player-data-item wrong-guess p-2');
+          var playerActive = $('<div>').addClass('player-data-item wrong-guess p-2');
+          var playerPosition = $('<div>').addClass('player-data-item wrong-guess p-2');
+
+          var countryTag = $('<h3>').text('Country');
+          var activeTag = $('<h3>').text('Active');
+          var positionTag = $('<h3>').text('Position');
+
+          var countryData = $('<h4>').text(player.country);
+          var activeData = $('<h4>').text(player.debut_season + '-' + (player.last_season ? player.last_season : 'Today'));
+          var positionData = $('<h4>').text(player.position);
+
+          playerCountry.append(countryTag);
+          playerCountry.append(countryData);
+
+          playerActive.append(activeTag);
+          playerActive.append(activeData);
+
+          playerPosition.append(positionTag);
+          playerPosition.append(positionData);
+
+          // Agregar divs de datos al contenedor de datos
+          playerDataDiv.append(playerCountry);
+          playerDataDiv.append(playerActive);
+          playerDataDiv.append(playerPosition);
+
+
+          // Agrega la imagen, el encabezado y los datos al div principal
+          firstRow.append(playerImg);
+          firstRow.append(playerName);
+          playerDiv.append(firstRow);
+          playerDiv.append(playerDataDiv);
                 
           $('#guesses').prepend(playerDiv);         
       });
