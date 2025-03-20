@@ -26,12 +26,18 @@ if (! function_exists('returnNewTitle')) {
 
 if (! function_exists('returnCountryFlag')) {
     function returnCountryFlag($country) {
-
+/*
         // Leer el archivo JSON desde storage/app/data
         $jsonContent = Storage::get('public/codes.json');
 
         // Convertir el JSON a un array asociativo
-        $paises = json_decode($jsonContent, true);
+        $paises = json_decode($jsonContent, true);  */
+
+        // Cargar los países desde el caché o el archivo JSON
+        $paises = Cache::remember('paises', 60 * 60 * 24, function () {
+            $jsonContent = Storage::get('public/codes.json');
+            return json_decode($jsonContent, true);
+        });
 
         // Buscar el código correspondiente al nombre del país
         $codigo = array_search($country, $paises);

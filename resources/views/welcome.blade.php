@@ -61,10 +61,10 @@
 
     <main class="container p-4">
         <div class="row pt-4">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <p>col left</p>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="input-group mb-3 input-dropdown-container">
                     <input type="text" class="form-control" placeholder="Type a guess here..." id="searchbox" autocomplete="off">
                     <div class="dropdown w-100">
@@ -78,7 +78,7 @@
                     
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                  <p>col right</p>
             </div>
         </div>
@@ -172,7 +172,7 @@
 
       playerDiv.on('click', function(){
           // Crea el div principal con la clase player-div-box
-          var playerDiv = $('<div>').addClass('player-div-box p-2 mt-2 mb-2');
+          var playerDiv = $('<div>').addClass('player-div-box p-2 mt-4 mb-4');
 
           // Crea la imagen con la clase round-thumb y los atributos src y alt
           var playerImg = $('<img>')
@@ -194,13 +194,13 @@
           var playerActive = $('<div>').addClass('player-data-item wrong-guess p-2 text-center');
           var playerPosition = $('<div>').addClass('player-data-item wrong-guess p-2 text-center');
           var playerClubs = $('<div>').addClass('player-data-item wrong-guess p-2 text-left');
-          var playerTitles = $('<div>').addClass('player-data-item wrong-guess p-2 text-left');
+          var playerTitles = $('<div>').addClass('player-data-item wrong-guess p-2 pl-3 text-left');
 
           var countryTag = $('<h3>').text(player.country);
           var activeTag = $('<h3>').text('Active');
           var positionTag = $('<h3>').text('Position');
-          var clubsTag = $('<h3>').text('Played for').addClass('text-center');
-          var titlesTag = $('<h3>').text('Won').addClass('text-center');
+          var clubsTag = $('<h3>').text('Played for').addClass('text-center player-data-item-wide');
+          var titlesTag = $('<h3>').text('Won').addClass('text-center player-data-item-wide');
 
 
           var countryData = $('<img>')
@@ -212,7 +212,14 @@
 
           var clubData = $('<ul>').addClass('text-left');
           player.clubs.forEach(elem => {
-            var clubDataLi = $('<li>').text(elem.name);
+            var clubBadge = $('<img>')
+                .attr('src', '../../img/clubs/' + elem.badge)
+                .addClass('club-badge');
+
+            var clubDataLi = $('<li>').addClass('mt-1 mb-1');
+            var clubDataLiText = $('<span>').text(elem.name).addClass('ml-2');
+            clubDataLi.append(clubBadge);
+            clubDataLi.append(clubDataLiText);
             clubData.append(clubDataLi);
           });
 
@@ -221,7 +228,11 @@
 
           var titlesData = $('<ul>').addClass('text-left');
           player.titles.forEach(elem => {
-            var titlesDataLi = $('<li>').text(elem.name);
+            var titlesDataLi = $('<li>');
+            var titlesDataLiText = $('<span>').text(elem.name).addClass('ml-2');
+            titlesDataLi.append(titlesDataLiText);
+            var titlesDataNumber = $('<span>').text(elem.pivot.number).addClass('mr15');
+            titlesDataLi.prepend(titlesDataNumber);
             titlesData.append(titlesDataLi);
           });
 

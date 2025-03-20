@@ -60,8 +60,8 @@ class HomeController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|max:40',
-            'first_name' => 'required|max:40',
-            'surnames' => 'required|max:100',
+            'first_name' => 'max:40',
+            'surnames' => 'max:100',
             'birth_country' => 'required|max:100',
             'country' => 'required|max:100',
             'photo'=> 'image|mimes:jpeg,webp,png,jpg,gif,svg|max:2048',
@@ -126,8 +126,8 @@ class HomeController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|max:40',
-            'first_name' => 'required|max:40',
-            'surnames' => 'required|max:100',
+            'first_name' => 'max:40',
+            'surnames' => 'max:100',
             'birth_country' => 'required|max:100',
             'country' => 'required|max:100',
             'photo'=> 'image|mimes:jpeg,webp,png,jpg,gif,svg|max:2048',

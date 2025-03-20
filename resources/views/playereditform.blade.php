@@ -31,7 +31,7 @@
 
                     <div class="col-sm-4">
                       <label for="first_name" class="form-label">Nombre</label>
-                      <input type="text" class="form-control" id="first_name" name="first_name" placeholder="" value="{{ $player->first_name }}" required="">
+                      <input type="text" class="form-control" id="first_name" name="first_name" placeholder="" value="{{ $player->first_name }}" >
                       <div class="invalid-feedback">
                         Valid first_name is required.
                       </div>
@@ -39,7 +39,7 @@
 
                     <div class="col-sm-4">
                       <label for="surnames" class="form-label">Apellidos</label>
-                      <input type="text" class="form-control" id="surnames" name="surnames" placeholder="" value="{{ $player->surnames }}" required="">
+                      <input type="text" class="form-control" id="surnames" name="surnames" placeholder="" value="{{ $player->surnames }}" >
                       <div class="invalid-feedback">
                         Valid surnames is required.
                       </div>
