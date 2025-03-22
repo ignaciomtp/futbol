@@ -33,7 +33,7 @@ class PublicController extends Controller
 
         $guessResult->match = false;
 
-        $offsetFromDate = new DateTime('2025-03-20');
+        $offsetFromDate = new DateTime('2025-03-21');
         $now = new DateTime();
         $interval = $now->diff($offsetFromDate);
         $dayOffset = $interval->days + 1;
@@ -59,8 +59,31 @@ class PublicController extends Controller
             $guessResult->position = 'wrong';
         }
 
-        if(($guessPlayer->debut_season >= $targetPlayer->debut_season && $guessPlayer->debut_season <= $targetPlayer->last_season) || ($targetPlayer->debut_season >= $guessPlayer->debut_season && $targetPlayer->debut_season <= $guessPlayer->last_season)) {
-            $guessResult->active = 'right';
+        $targetFirstSeason = $targetPlayer->debut_season;
+        $targetLastSeason = $targetPlayer->last_season ? $targetPlayer->last_season : date('Y');
+
+        $guessFirstSeason = $guessPlayer->debut_season;
+        $guessLastSeason = $guessPlayer->last_season ? $guessPlayer->last_season : date('Y');
+
+        if(($guessFirstSeason >= $targetFirstSeason && $guessFirstSeason <= $targetLastSeason) || ($guessFirstSeason < $targetFirstSeason && $guessLastSeason >= $targetFirstSeason)) {
+
+
+            if($guessFirstSeason < $targetFirstSeason && $guessLastSeason >= $targetFirstSeason) {
+                $coincidence = $guessLastSeason - $targetFirstSeason;
+            }
+
+            if($guessFirstSeason >= $targetFirstSeason && $guessFirstSeason <= $targetLastSeason) {
+                $coincidence = $targetLastSeason - $guessFirstSeason;
+            }
+
+
+            if($coincidence >= 10) {
+                $guessResult->active = 'right';
+            } else {
+                $guessResult->active = 'partial';
+            }
+
+            
         } else {
             $guessResult->active = 'wrong';
         }
@@ -83,7 +106,12 @@ class PublicController extends Controller
         $commonTitles = $guessPlayerTitles->pluck('id')->intersect($targetPlayerTitles->pluck('id'));
 
         if ($commonTitles->isNotEmpty()) {
-            $guessResult->titles = 'right';
+            if($commonTitles->count() == 1) {
+                $guessResult->titles = 'partial';
+            } else {
+                $guessResult->titles = 'right';
+            }
+            
         } else {
             $guessResult->titles = 'wrong';
         }
