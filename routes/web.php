@@ -13,9 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+
+Route::get('/', [App\Http\Controllers\PublicController::class, 'index'])->name('homeapp');
+Route::get('/checkresult/{idGuess}', [App\Http\Controllers\PublicController::class, 'checkGuess'])->name('checkresult');
 
 Auth::routes();
 

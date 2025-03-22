@@ -34,15 +34,15 @@
                 <td>
                     <a href="{{ route('editplayer', ['id' => $player->id]) }}" class="btn btn-primary btn-sm">edit</a>
                 </td>
-                <td>
-                    
-                </td>
+                <td></td>
               </tr>
              @endforeach
           </tbody>
         </table>
 
-        {{ $players->links() }}
+        
     </div>
+
+    {{ $players->links('pagination::bootstrap-5') }}
 </div>
 @endsection

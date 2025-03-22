@@ -38,7 +38,7 @@ class ClubController extends Controller
 
         $player->clubs()->attach($club->id);
 
-        return returnNewClub($club->name);
+        return returnNewClub($club->name, $club->id);
     }
 
 

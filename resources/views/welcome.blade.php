@@ -191,10 +191,15 @@
 
           // Crear los divs de los datos
           var playerCountry = $('<div>').addClass('player-data-item wrong-guess p-2 text-center');
+          playerCountry.attr('id', 'player' + player.id + 'Country');
           var playerActive = $('<div>').addClass('player-data-item wrong-guess p-2 text-center');
+          playerActive.attr('id', 'player' + player.id + 'Active');
           var playerPosition = $('<div>').addClass('player-data-item wrong-guess p-2 text-center');
+          playerPosition.attr('id', 'player' + player.id + 'Position');
           var playerClubs = $('<div>').addClass('player-data-item wrong-guess p-2 text-left');
+          playerClubs.attr('id', 'player' + player.id + 'Clubs');
           var playerTitles = $('<div>').addClass('player-data-item wrong-guess p-2 pl-3 text-left');
+          playerTitles.attr('id', 'player' + player.id + 'Titles');
 
           var countryTag = $('<h3>').text(player.country);
           var activeTag = $('<h3>').text('Active');
@@ -264,14 +269,49 @@
                 
           $('#guesses').prepend(playerDiv);     
           $('#suggestions').removeClass('show');    
+
+          checkGuess(player.id);
+
       });
 
             
       $('#suggestions').append(playerDiv);
 
+
     }
 
+    function checkGuess(idPlayer) {
+        let url = window.location.origin + '/checkresult/' + idPlayer;
 
+        $.ajax({
+          url: url,
+          type : 'GET',
+          dataType: 'json',
+          success: function(result){
+            console.log(result);
+
+            if(result.match) {
+                $('#player' + idPlayer + 'Country').removeClass('wrong-guess').addClass('right-guess');
+                $('#player' + idPlayer + 'Active').removeClass('wrong-guess').addClass('right-guess');
+                $('#player' + idPlayer + 'Position').removeClass('wrong-guess').addClass('right-guess');
+                $('#player' + idPlayer + 'Clubs').removeClass('wrong-guess').addClass('right-guess');
+                $('#player' + idPlayer + 'Titles').removeClass('wrong-guess').addClass('right-guess');
+            } else {
+                if(result.country == 'right') $('#player' + idPlayer + 'Country').removeClass('wrong-guess').addClass('right-guess');
+                if(result.active == 'right') $('#player' + idPlayer + 'Active').removeClass('wrong-guess').addClass('right-guess');
+                if(result.position == 'right') $('#player' + idPlayer + 'Position').removeClass('wrong-guess').addClass('right-guess');
+                if(result.clubs == 'right') $('#player' + idPlayer + 'Clubs').removeClass('wrong-guess').addClass('right-guess');
+                if(result.titles == 'right') $('#player' + idPlayer + 'Titles').removeClass('wrong-guess').addClass('right-guess');
+            }
+            
+          },
+          error: function(error) {
+              // Manejar el error
+              console.error(error);
+          }
+        });   
+
+    }
 
 
     </script>

@@ -147,6 +147,12 @@
 
                     <button class="btn btn-sm btn-warning floatright" type="button" onclick="updateTitles()">Guardar</button>
 
+                    
+                    <div class="alert alert-success oculto" id="updated-titles">
+                        Títulos actualizados
+                    </div>
+                    
+
                     <div class="clubes p-2 mt-3" >
                       <ul id="titles-list">
                         @foreach($titles as $title)
@@ -334,6 +340,7 @@
       data: {titles: titles},
       success: function(result){
         console.log(result);
+        $('#updated-titles').removeClass('oculto');
       },
       error: function(error) {
           // Manejar el error

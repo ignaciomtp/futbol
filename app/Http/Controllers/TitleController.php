@@ -50,6 +50,8 @@ class TitleController extends Controller
 
         }
 
+        
+
         return 'Títulos actualizados';
 
     }
