@@ -115,7 +115,11 @@
 }
 
 .right-guess {
-	background-color: #43a865;
+	background-color: hsl(115, 29%, 43%);
+}
+
+.partial-guess {
+	background-color: hsl(49, 51%, 47%);
 }
 
 .player-data-item {

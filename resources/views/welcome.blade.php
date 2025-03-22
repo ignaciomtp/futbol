@@ -21,7 +21,7 @@
 
     
 </head>
-<body class="antialiased">
+<body class="antialiased bg-dark">
     <nav class="navbar navbar-expand navbar-dark bg-dark" aria-label="Second navbar example">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">Always expand</a>
@@ -181,7 +181,7 @@
             .addClass('round-thumb');
 
           // Crea el encabezado h2 con el nombre del jugador
-          var playerName = $('<h2>').text(player.name);
+          var playerName = $('<h2>').text(player.name).addClass('text-bg-dark');
 
           // Crea la primera fila de datos
           var firstRow = $('<div>').addClass('data-row data-player-id');
@@ -298,10 +298,18 @@
                 $('#player' + idPlayer + 'Titles').removeClass('wrong-guess').addClass('right-guess');
             } else {
                 if(result.country == 'right') $('#player' + idPlayer + 'Country').removeClass('wrong-guess').addClass('right-guess');
-                if(result.active == 'right') $('#player' + idPlayer + 'Active').removeClass('wrong-guess').addClass('right-guess');
+                if(result.active == 'right') {
+                    $('#player' + idPlayer + 'Active').removeClass('wrong-guess').addClass('right-guess');
+                } else if(result.active == 'partial') {
+                     $('#player' + idPlayer + 'Active').removeClass('wrong-guess').addClass('partial-guess');
+                }
                 if(result.position == 'right') $('#player' + idPlayer + 'Position').removeClass('wrong-guess').addClass('right-guess');
                 if(result.clubs == 'right') $('#player' + idPlayer + 'Clubs').removeClass('wrong-guess').addClass('right-guess');
-                if(result.titles == 'right') $('#player' + idPlayer + 'Titles').removeClass('wrong-guess').addClass('right-guess');
+                if(result.titles == 'right'){
+                    $('#player' + idPlayer + 'Titles').removeClass('wrong-guess').addClass('right-guess');
+                } else if(result.titles == 'partial'){
+                    $('#player' + idPlayer + 'Titles').removeClass('wrong-guess').addClass('partial-guess');
+                }
             }
             
           },
