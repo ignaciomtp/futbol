@@ -5,9 +5,9 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
 if (! function_exists('returnNewClub')) {
-    function returnNewClub($clubName) {
+    function returnNewClub($clubName, $clubId) {
     	$slugName = Str::slug($clubName);
-    	$html = '<li><input type="checkbox" class="form-check-input mr-4 ml-4" name="clubs[]" id="'. $slugName .'" checked><label class="form-check-label mr-4 ml-4" for="'. $slugName .'">'.$clubName.'</label></li>';
+    	$html = '<li><input type="checkbox" class="form-check-input mr-4 ml-4" name="clubs[]" id="'. $slugName .'" value="'.$clubId.'" checked><label class="form-check-label mr-4 ml-4" for="'. $slugName .'">'.$clubName.'</label></li>';
 
     	return $html;
     }

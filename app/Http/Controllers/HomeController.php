@@ -82,7 +82,7 @@ class HomeController extends Controller
 
         $player->clubs()->attach($request->clubs);
 
-        return redirect()->route('home');
+        return redirect()->route('editplayer', ['id' => $player->id]);
     }
 
     /**
