@@ -172,7 +172,7 @@
 
       playerDiv.on('click', function(){
           // Crea el div principal con la clase player-div-box
-          var playerDiv = $('<div>').addClass('player-div-box p-2 mt-4 mb-4');
+          var playerDiv = $('<div>').addClass('player-div-box p-3 mt-4 mb-4');
 
           // Crea la imagen con la clase round-thumb y los atributos src y alt
           var playerImg = $('<img>')
@@ -181,7 +181,7 @@
             .addClass('round-thumb');
 
           // Crea el encabezado h2 con el nombre del jugador
-          var playerName = $('<h2>').text(player.name).addClass('text-bg-dark');
+          var playerName = $('<h2>').text(player.name).addClass('text-bg-dark text-center');
 
           // Crea la primera fila de datos
           var firstRow = $('<div>').addClass('data-row data-player-id');
@@ -190,22 +190,22 @@
           var playerDataDiv = $('<div>').addClass('player-data data-row mt-2');
 
           // Crear los divs de los datos
-          var playerCountry = $('<div>').addClass('player-data-item wrong-guess p-2 text-center');
+          var playerCountry = $('<div>').addClass('player-data-item wrong-guess text-center');
           playerCountry.attr('id', 'player' + player.id + 'Country');
-          var playerActive = $('<div>').addClass('player-data-item wrong-guess p-2 text-center');
+          var playerActive = $('<div>').addClass('player-data-item wrong-guess text-center');
           playerActive.attr('id', 'player' + player.id + 'Active');
-          var playerPosition = $('<div>').addClass('player-data-item wrong-guess p-2 text-center');
+          var playerPosition = $('<div>').addClass('player-data-item wrong-guess text-center');
           playerPosition.attr('id', 'player' + player.id + 'Position');
-          var playerClubs = $('<div>').addClass('player-data-item wrong-guess p-2 text-left');
+          var playerClubs = $('<div>').addClass('player-data-item-wide wrong-guess text-left');
           playerClubs.attr('id', 'player' + player.id + 'Clubs');
-          var playerTitles = $('<div>').addClass('player-data-item wrong-guess p-2 pl-3 text-left');
+          var playerTitles = $('<div>').addClass('player-data-item-wide wrong-guess text-left');
           playerTitles.attr('id', 'player' + player.id + 'Titles');
 
           var countryTag = $('<h3>').text(player.country);
           var activeTag = $('<h3>').text('Active');
           var positionTag = $('<h3>').text('Position');
-          var clubsTag = $('<h3>').text('Played for').addClass('text-center player-data-item-wide');
-          var titlesTag = $('<h3>').text('Won').addClass('text-center player-data-item-wide');
+          var clubsTag = $('<h3>').text('Played for').addClass('text-center ');
+          var titlesTag = $('<h3>').text('Won').addClass('text-center ');
 
 
           var countryData = $('<img>')
@@ -222,8 +222,10 @@
                 .addClass('club-badge');
 
             var clubDataLi = $('<li>').addClass('mt-1 mb-1');
-            var clubDataLiText = $('<span>').text(elem.name).addClass('ml-2');
-            clubDataLi.append(clubBadge);
+            var clubDataLiText = $('<div>').text(elem.name).addClass('club-name-box');
+            var clubDataLiBadge = $('<div>').addClass('badge-box');
+            clubDataLiBadge.append(clubBadge);
+            clubDataLi.append(clubDataLiBadge);
             clubDataLi.append(clubDataLiText);
             clubData.append(clubDataLi);
           });
@@ -234,9 +236,9 @@
           var titlesData = $('<ul>').addClass('text-left');
           player.titles.forEach(elem => {
             var titlesDataLi = $('<li>');
-            var titlesDataLiText = $('<span>').text(elem.name).addClass('ml-2');
+            var titlesDataLiText = $('<div>').text(elem.name).addClass('name-titles-box');
             titlesDataLi.append(titlesDataLiText);
-            var titlesDataNumber = $('<span>').text(elem.pivot.number).addClass('mr15');
+            var titlesDataNumber = $('<div>').text(elem.pivot.number).addClass('num-titles-box');
             titlesDataLi.prepend(titlesDataNumber);
             titlesData.append(titlesDataLi);
           });
