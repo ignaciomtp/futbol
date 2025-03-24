@@ -181,7 +181,7 @@
             .addClass('round-thumb');
 
           // Crea el encabezado h2 con el nombre del jugador
-          var playerName = $('<h2>').text(player.name).addClass('text-bg-dark text-center');
+          var playerName = $('<h2>').text(player.name).addClass('text-bg-dark');
 
           // Crea la primera fila de datos
           var firstRow = $('<div>').addClass('data-row data-player-id');
@@ -212,7 +212,7 @@
             .attr('src', player.country_flag)
             .attr('alt', player.country);
 
-          var activeData = $('<h4>').text(player.debut_season + '-' + (player.last_season ? player.last_season : 'Today'));
+          var activeData = $('<h4>').text(player.debut_season + ' - ' + (player.last_season ? player.last_season : 'Today'));
           var positionData = $('<h4>').text(player.position);
 
           var clubData = $('<ul>').addClass('text-left');
@@ -293,26 +293,32 @@
             console.log(result);
 
             if(result.match) {
-                $('#player' + idPlayer + 'Country').removeClass('wrong-guess').addClass('right-guess');
-                $('#player' + idPlayer + 'Active').removeClass('wrong-guess').addClass('right-guess');
-                $('#player' + idPlayer + 'Position').removeClass('wrong-guess').addClass('right-guess');
-                $('#player' + idPlayer + 'Clubs').removeClass('wrong-guess').addClass('right-guess');
-                $('#player' + idPlayer + 'Titles').removeClass('wrong-guess').addClass('right-guess');
+                $('#player' + idPlayer + 'Country').removeClass('wrong-guess').addClass('right-guess flip');
+                $('#player' + idPlayer + 'Active').removeClass('wrong-guess').addClass('right-guess flip');
+                $('#player' + idPlayer + 'Position').removeClass('wrong-guess').addClass('right-guess flip');
+                $('#player' + idPlayer + 'Clubs').removeClass('wrong-guess').addClass('right-guess flip');
+                $('#player' + idPlayer + 'Titles').removeClass('wrong-guess').addClass('right-guess flip');
             } else {
                 if(result.country == 'right') $('#player' + idPlayer + 'Country').removeClass('wrong-guess').addClass('right-guess');
                 if(result.active == 'right') {
-                    $('#player' + idPlayer + 'Active').removeClass('wrong-guess').addClass('right-guess');
+                    $('#player' + idPlayer + 'Active').removeClass('wrong-guess').addClass('right-guess flip');
                 } else if(result.active == 'partial') {
-                     $('#player' + idPlayer + 'Active').removeClass('wrong-guess').addClass('partial-guess');
+                     $('#player' + idPlayer + 'Active').removeClass('wrong-guess').addClass('partial-guess flip');
                 }
-                if(result.position == 'right') $('#player' + idPlayer + 'Position').removeClass('wrong-guess').addClass('right-guess');
-                if(result.clubs == 'right') $('#player' + idPlayer + 'Clubs').removeClass('wrong-guess').addClass('right-guess');
+                if(result.position == 'right') $('#player' + idPlayer + 'Position').removeClass('wrong-guess').addClass('right-guess flip');
+                if(result.clubs == 'right') $('#player' + idPlayer + 'Clubs').removeClass('wrong-guess').addClass('right-guess flip');
                 if(result.titles == 'right'){
-                    $('#player' + idPlayer + 'Titles').removeClass('wrong-guess').addClass('right-guess');
+                    $('#player' + idPlayer + 'Titles').removeClass('wrong-guess').addClass('right-guess flip');
                 } else if(result.titles == 'partial'){
-                    $('#player' + idPlayer + 'Titles').removeClass('wrong-guess').addClass('partial-guess');
+                    $('#player' + idPlayer + 'Titles').removeClass('wrong-guess').addClass('partial-guess flip');
                 }
             }
+
+            setTimeout(() => {
+                $('.player-data-item').removeClass('flip');
+                $('.player-data-item-wide').removeClass('flip');
+            }, 250);
+
             
           },
           error: function(error) {

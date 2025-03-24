@@ -71,7 +71,9 @@
 
 .player-div-box h2 {
 	padding-top: 3%;
+
 }
+
 
 .round-thumb {
 	width: 80px;
@@ -94,7 +96,7 @@
 	flex-wrap: wrap;
 	gap: 6px;
 	justify-content: space-between;
-
+	
 }
 
 .player-data ul {
@@ -136,12 +138,22 @@
 	width: 31%;
 	margin-bottom: 10px;
 	padding: 10px;
+	transition: transform 250ms linear;
 }
 
 .player-data-item-wide {
 	border-radius: 10px;
 	width: 48%;
 	padding: 10px;
+	transition: transform 250ms linear;
+}
+
+.player-data-item.flip {
+    transform: rotateY(90deg);
+}
+
+.player-data-item-wide.flip {
+    transform: rotateY(90deg);
 }
 
 .player-data-item-wide li div {
