@@ -66,7 +66,10 @@
             </div>
             <div class="col-md-6">
                 <div class="input-group mb-3 input-dropdown-container">
-                    <input type="text" class="form-control" placeholder="Type a guess here..." id="searchbox" autocomplete="off">
+                    <input type="text" class="searchbox" placeholder="Type a guess here..." id="searchbox" autocomplete="off">
+                    <span class="searchbox-button">
+                        <i class="bi bi-search"></i>
+                    </span>
                     <div class="dropdown w-100">
                         <ul class="dropdown-menu" id="suggestions">
                             
@@ -221,8 +224,8 @@
                 .attr('src', '../../img/clubs/' + elem.badge)
                 .addClass('club-badge');
 
-            var clubDataLi = $('<li>').addClass('mt-1 mb-1');
-            var clubDataLiText = $('<div>').text(elem.name).addClass('club-name-box');
+            var clubDataLi = $('<li>').addClass('mt-1 mb-1 ');
+            var clubDataLiText = $('<div>').text(elem.name).addClass('club-name-box ');
             var clubDataLiBadge = $('<div>').addClass('badge-box');
             clubDataLiBadge.append(clubBadge);
             clubDataLi.append(clubDataLiBadge);
