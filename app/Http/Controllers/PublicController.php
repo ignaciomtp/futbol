@@ -47,10 +47,22 @@ class PublicController extends Controller
 
         $guessPlayer = Player::find($idGuess);  
 
+        $guessResult->countryguess = $guessPlayer->country;
+        $guessResult->countrytarget = $targetPlayer->country;
+
         if($targetPlayer->country == $guessPlayer->country) {
             $guessResult->country = 'right';
         } else {
-            $guessResult->country = 'wrong';
+
+            $targetCountryRegion = checkContinent($targetPlayer->country);
+            $guessCountryRegion = checkContinent($guessPlayer->country);
+
+            if ($targetCountryRegion === $guessCountryRegion) {                
+                $guessResult->country = 'partial';
+
+            } else {
+                $guessResult->country = 'wrong';
+            }        
         }
 
         if($targetPlayer->position == $guessPlayer->position) {
