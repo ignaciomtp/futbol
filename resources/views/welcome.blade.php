@@ -59,16 +59,16 @@
     </nav>
 
 
-    <main class="container p-4">
+    <main class="container text-bg-dark p-4">
         <div class="row pt-4">
-            <div class="col-md-3">
+            <div class="col-md-3 text-center">
                 <p>col left</p>
             </div>
             <div class="col-md-6">
-                <div class="input-group mb-3 input-dropdown-container">
+                <div class="input-group mb-3 input-dropdown-container pl-5 pr-5">
                     <input type="text" class="searchbox" placeholder="Type a guess here..." id="searchbox" autocomplete="off">
                     <span class="searchbox-button">
-                        <i class="bi bi-search"></i>
+                        <i class="bi bi-search text-bg-light"></i>
                     </span>
                     <div class="dropdown w-100">
                         <ul class="dropdown-menu" id="suggestions">
@@ -81,7 +81,7 @@
                     
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 text-center">
                  <p>col right</p>
             </div>
         </div>
@@ -293,7 +293,6 @@
           type : 'GET',
           dataType: 'json',
           success: function(result){
-            console.log(result);
 
             if(result.match) {
                 $('#player' + idPlayer + 'Country').removeClass('wrong-guess').addClass('right-guess flip');
@@ -302,14 +301,22 @@
                 $('#player' + idPlayer + 'Clubs').removeClass('wrong-guess').addClass('right-guess flip');
                 $('#player' + idPlayer + 'Titles').removeClass('wrong-guess').addClass('right-guess flip');
             } else {
-                if(result.country == 'right') $('#player' + idPlayer + 'Country').removeClass('wrong-guess').addClass('right-guess');
+                if(result.country == 'right') {
+                    $('#player' + idPlayer + 'Country').removeClass('wrong-guess').addClass('right-guess flip');
+                } else if(result.country == 'partial') {
+                    $('#player' + idPlayer + 'Country').removeClass('wrong-guess').addClass('partial-guess flip');
+                }
+
                 if(result.active == 'right') {
                     $('#player' + idPlayer + 'Active').removeClass('wrong-guess').addClass('right-guess flip');
                 } else if(result.active == 'partial') {
                      $('#player' + idPlayer + 'Active').removeClass('wrong-guess').addClass('partial-guess flip');
                 }
+
                 if(result.position == 'right') $('#player' + idPlayer + 'Position').removeClass('wrong-guess').addClass('right-guess flip');
+
                 if(result.clubs == 'right') $('#player' + idPlayer + 'Clubs').removeClass('wrong-guess').addClass('right-guess flip');
+
                 if(result.titles == 'right'){
                     $('#player' + idPlayer + 'Titles').removeClass('wrong-guess').addClass('right-guess flip');
                 } else if(result.titles == 'partial'){
