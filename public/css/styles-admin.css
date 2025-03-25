@@ -2,6 +2,40 @@
 	max-height: 150px;
 }
 
+.searchbox {
+	width: 100%;
+    border: none;
+    height: 40px;
+    border-radius: 1.625rem;
+    font-size: 18px;
+    box-sizing: border-box;
+    padding-left: 1rem;
+    padding-right: 3rem;
+    box-shadow: 0 1px 4px #0000001a;
+    border-top-right-radius: 1.625rem !important;
+    border-bottom-right-radius: 1.625rem !important;
+}
+
+.searchbox-button {
+	position: absolute;
+	top: 8px;
+    right: 30px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.borde1 {
+	border: 1px solid black;
+}
+
+.borde2 {
+	border: 1px solid white;
+}
 
 .clubes {
 	border: 1px solid #ccc;
@@ -158,7 +192,7 @@
 
 .player-data-item-wide li div {
 	display: inline-block;
-	vertical-align: text-top;
+	vertical-align: text-top; 
 }
 
 .badge-box {
