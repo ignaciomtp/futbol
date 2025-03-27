@@ -37,6 +37,11 @@
 	border: 1px solid white;
 }
 
+.borde3 {
+	border: 1px solid red;
+}
+
+
 .clubes {
 	border: 1px solid #ccc;
 	border-radius: 5px;

@@ -24,6 +24,11 @@
 <body class="antialiased bg-dark">
     <nav class="navbar navbar-expand navbar-dark bg-dark" aria-label="Second navbar example">
         <div class="container-fluid">
+
+
+
+
+
           <a class="navbar-brand" href="#">Always expand</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -36,6 +41,24 @@
               </li>
 
             </ul>
+
+            <ul class="navbar-nav ms-auto">
+                <!-- Otros elementos de la navbar -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{ strtoupper(app()->getLocale()) }} <!-- Muestra el locale actual -->
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+                        <li>
+                            <a class="dropdown-item text-bg-light" href="{{ route('change.locale', 'en') }}">English</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ route('change.locale', 'es') }}">Español</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
                 @if (Route::has('login'))
                     <ul class="navbar-nav ">
                         @auth
@@ -62,11 +85,15 @@
     <main class="container text-bg-dark p-4">
         <div class="row pt-4">
             <div class="col-md-3 text-center">
-                <p>col left</p>
+                <p>{{  __('left column') }}</p>
+
+                <div>
+                    {{ config('app.locale') }}
+                </div>
             </div>
             <div class="col-md-6">
                 <div class="input-group mb-3 input-dropdown-container pl-5 pr-5">
-                    <input type="text" class="searchbox" placeholder="Type a guess here..." id="searchbox" autocomplete="off">
+                    <input type="text" class="searchbox" placeholder="{{ __('Type a footballer name here') }}..." id="searchbox" autocomplete="off">
                     <span class="searchbox-button">
                         <i class="bi bi-search text-bg-light"></i>
                     </span>
@@ -82,7 +109,7 @@
                 </div>
             </div>
             <div class="col-md-3 text-center">
-                 <p>col right</p>
+                 <p>{{  __('right column') }}</p>
             </div>
         </div>
     </main>
