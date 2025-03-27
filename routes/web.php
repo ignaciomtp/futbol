@@ -16,7 +16,10 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [App\Http\Controllers\PublicController::class, 'index'])->name('homeapp');
+Route::get('/home2', [App\Http\Controllers\PublicController::class, 'index2'])->name('homeapp2');
 Route::get('/checkresult/{idGuess}', [App\Http\Controllers\PublicController::class, 'checkGuess'])->name('checkresult');
+
+Route::get('/change-locale/{locale}', [App\Http\Controllers\LanguageController::class, 'changeLocale'])->name('change.locale');
 
 Auth::routes();
 

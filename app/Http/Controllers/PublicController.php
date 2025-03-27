@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 use App\Models\Player;
 
 use DateTime;
@@ -19,7 +21,15 @@ class PublicController extends Controller
     public function index()
     {
     
+        //return view('welcome');
+        return Inertia::render('Index');
+    }
+
+    public function index2()
+    {
+    
         return view('welcome');
+        
     }
 
 
