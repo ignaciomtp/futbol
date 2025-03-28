@@ -1,5 +1,15 @@
 {
     "left column": "columna izquierda",
     "right column": "columna derecha",
-    "Type a footballer name here": "Escribe el nombre de un futbolista"
+    "Type a footballer name here": "Escribe el nombre de un futbolista",
+    "Played for": "Jugó en",
+    "Active": "Activo",
+    "Today": "Actualidad",
+    "Position": "Posición",
+    "Goalkeeper": "Portero",
+    "Defender": "Defensa",
+    "Midfielder": "Centrocampista",
+    "Attacker": "Delantero",
+    "Won": "Ganó",
+    "England": "Inglaterra"
 }

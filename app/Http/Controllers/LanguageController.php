@@ -8,15 +8,13 @@ use Illuminate\Support\Facades\App;
 
 class LanguageController extends Controller
 {
-    public function changeLocale($locale)
+    public function changeLocale(Request $request)
     {
         // Validar el locale (opcional)
-        if (in_array($locale, config('languages'))) {
-            App::setLocale($locale);
+        if (in_array($request->locale, config('languages'))) {
+            App::setLocale($request->locale);
         }
 
-
-        // Redirigir o devolver una respuesta
-        return view('welcome');
+        return response()->json(['message' => 'locale changed']);
     }
 }

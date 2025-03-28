@@ -3,7 +3,7 @@ import '../css/app.css'
 import 'bootstrap' // Esto carga el JS de Bootstrap
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
-
+import { i18nVue } from 'laravel-vue-i18n'; 
 
 createInertiaApp({
     resolve: name => {
@@ -13,6 +13,13 @@ createInertiaApp({
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })
             .use(plugin)
+            .use(i18nVue, { 
+                lang: props.initialPage.props.locale || 'en', // Usar el locale inicial desde Inertia
+                resolve: async lang => {
+                    const langs = import.meta.glob('../../lang/*.json');
+                    return await langs[`../../lang/${lang}.json`]();
+                }
+            })
             .mount(el)
     },
 })

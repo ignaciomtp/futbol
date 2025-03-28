@@ -10,7 +10,7 @@
 </script>
 <template>
 	<div :class="['player-data-item', 'text-center', guessClass, { 'flip': isFlipping }]">
-		<h3>Position</h3>
-		<h4>{{ position }}</h4>
+		<h3>{{ $t('Position') }}</h3>
+		<h4>{{ $t(position) }}</h4>
 	</div>
 </template>
