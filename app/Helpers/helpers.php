@@ -264,3 +264,12 @@ if (! function_exists('checkContinent')) {
     }
 
 }
+
+if (! function_exists('getFootbleNumber')) {
+    function getFootbleNumber() {
+        $offsetFromDate = new DateTime(config('startdate'));
+        $now = new DateTime();
+        $interval = $now->diff($offsetFromDate);
+        return $interval->days + 1;
+    }
+}
