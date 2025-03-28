@@ -1,5 +1,15 @@
 {
     "left column": "left column",
     "right column": "right column",
-    "Type a footballer name here": "Type a footballer name here"
+    "Type a footballer name here": "Type a footballer name here",
+    "Played for": "Played for",
+    "Active": "Active",
+    "Today": "Today",
+    "Position": "Position",
+    "Goalkeeper": "Goalkeeper",
+    "Defender": "Defender",
+    "Midfielder": "Midfielder",
+    "Attacker": "Attacker",
+    "Won": "Won",
+    "England": "England"
 }

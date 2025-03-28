@@ -2,9 +2,13 @@
 
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
-import { router, Link } from '@inertiajs/vue3';
+import { router, Link, usePage } from '@inertiajs/vue3';
 import PlayerContainer from '@/Components/PlayerContainer.vue';
 import NavigationBar from '@/Components/NavigationBar.vue';
+//import i18n from 'laravel-vue-i18n/vite'; 
+import { loadLanguageAsync } from 'laravel-vue-i18n';
+
+const page = usePage();
 
 
 const searchQuery = ref('');
@@ -57,6 +61,22 @@ const checkGuess = async (playerId) => {
   }
 };
 
+const changeLocale = async (locale) => {
+    try {
+        const response = await axios.post('/change-locale/', { 
+            locale: locale
+        });
+
+        if (response.data.message === 'locale changed') {
+            // Cambiar el idioma en el frontend
+            loadLanguageAsync(locale);
+
+        }
+    } catch (error) {
+        console.error('Error changing locale:', error);
+    }
+}
+
 onMounted(() => {
   axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').content;
 
@@ -69,17 +89,17 @@ onMounted(() => {
 </script>
 
 <template>
-  <NavigationBar />
+  <NavigationBar @locale-changed="changeLocale" />
 
   <main class="container text-bg-dark p-4">
     <div class="row pt-4">
       <div class="col-md-3 text-center">
-        <p>left column</p>
+        <p> {{ $t('left column') }}</p>
       </div>
       <div class="col-md-6">
         <div class="input-group mb-3 input-dropdown-container pl-5 pr-5">
           <input type="text" class="searchbox" 
-            placeholder="Type a footballer name here..." 
+            :placeholder="$t('Type a footballer name here') + '...'" 
             v-model="searchQuery" 
             @input="searchPlayers"
             autocomplete="off">
@@ -103,7 +123,7 @@ onMounted(() => {
         </div>
       </div>
       <div class="col-md-3 text-center">
-        <p>right column</p>
+        <p> {{ $t('right column') }}</p>
       </div>
     </div>
   </main>
