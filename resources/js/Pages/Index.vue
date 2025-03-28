@@ -8,8 +8,9 @@ import NavigationBar from '@/Components/NavigationBar.vue';
 //import i18n from 'laravel-vue-i18n/vite'; 
 import { loadLanguageAsync } from 'laravel-vue-i18n';
 
-const page = usePage();
+let props = defineProps({ footble: Number });
 
+const page = usePage();
 
 const searchQuery = ref('');
 const suggestions = ref([]);
@@ -78,6 +79,7 @@ const changeLocale = async (locale) => {
 }
 
 onMounted(() => {
+  console.log('footble nº: ', props.footble);
   axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').content;
 
   document.addEventListener('click', (event) => {

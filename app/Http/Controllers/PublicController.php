@@ -21,8 +21,8 @@ class PublicController extends Controller
     public function index()
     {
     
-        //return view('welcome');
-        return Inertia::render('Index');
+        $footble = getFootbleNumber();
+        return Inertia::render('Index', ['footble' => $footble]);
     }
 
     public function index2()
@@ -43,10 +43,7 @@ class PublicController extends Controller
 
         $guessResult->match = false;
 
-        $offsetFromDate = new DateTime('2025-03-21');
-        $now = new DateTime();
-        $interval = $now->diff($offsetFromDate);
-        $dayOffset = $interval->days + 1;
+        $dayOffset = getFootbleNumber();
 
         $targetPlayer = Player::find($dayOffset);        
 
