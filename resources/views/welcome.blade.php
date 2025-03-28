@@ -182,7 +182,6 @@
 
     function showPlayer(player) {
 
-
       var playerLi = $('<li>');
       
       var playerDiv = $('<div>').addClass('dropdown-item');
