@@ -4,6 +4,8 @@ import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import { router, Link } from '@inertiajs/vue3';
 import PlayerContainer from '@/Components/PlayerContainer.vue';
+import NavigationBar from '@/Components/NavigationBar.vue';
+
 
 const searchQuery = ref('');
 const suggestions = ref([]);
@@ -67,9 +69,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <nav class="navbar navbar-expand navbar-dark bg-dark" aria-label="Second navbar example">
-    <!-- Tu navbar existente -->
-  </nav>
+  <NavigationBar />
 
   <main class="container text-bg-dark p-4">
     <div class="row pt-4">

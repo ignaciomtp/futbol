@@ -1,5 +1,6 @@
 
 import '../css/app.css'
+import 'bootstrap' // Esto carga el JS de Bootstrap
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
 
