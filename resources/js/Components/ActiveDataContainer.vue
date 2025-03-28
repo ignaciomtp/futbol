@@ -3,11 +3,14 @@
 	const props = defineProps({
 	    debut_year: Number,
 	    last_year: Number,
+	    guessClass: String,
+  		isFlipping: Boolean
 	}); 
+
 
 </script>
 <template>
-	<div class="player-data-item text-center partial-guess" id="player17Active">
+	<div :class="['player-data-item', 'text-center', guessClass, { 'flip': isFlipping }]">
 		<h3>Active</h3>
 		<h4>{{ debut_year }} - {{ last_year ? last_year : 'Today' }}</h4>
 	</div>
