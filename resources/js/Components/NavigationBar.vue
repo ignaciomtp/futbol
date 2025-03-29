@@ -16,7 +16,7 @@ const emitChangeLocale = (locale) => {
 </script>
 
 <template>
-	<nav class="navbar navbar-expand navbar-dark bg-dark" aria-label="Second navbar example">
+	<nav class="navbar navbar-expand fixed-top navbar-dark bg-dark" aria-label="Second navbar example">
     	<div class="container-fluid">
     		<div class="collapse navbar-collapse" id="navbarsExample02">
 	            <ul class="navbar-nav me-auto">
@@ -44,3 +44,8 @@ const emitChangeLocale = (locale) => {
     	</div>
   	</nav>
 </template>
+<style scoped>
+	.bg-dark{
+		background-color: #000 !important;
+	}
+</style>
