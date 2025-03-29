@@ -50,6 +50,9 @@ const selectPlayer = async (player) => {
   setTimeout(() => {
     player.isFlipping = false;
   }, 250);
+
+  // Guardar intentos en localStorage
+  saveDayGuesses();
 };
 
 const checkGuess = async (playerId) => {
@@ -78,15 +81,39 @@ const changeLocale = async (locale) => {
     }
 }
 
-onMounted(() => {
-  console.log('footble nº: ', props.footble);
-  axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').content;
-
-  document.addEventListener('click', (event) => {
-    if (!event.target.closest('.input-dropdown-container')) {
-      showSuggestions.value = false;
+const getDayGuesses = () => {
+    let dayGuesses = localStorage.getItem('footbleDay');
+    if (dayGuesses) dayGuesses = JSON.parse(dayGuesses);
+    console.log('Day guesses: ', dayGuesses);
+    if (dayGuesses && dayGuesses.day == props.footble) {
+        // Asegurar que cada jugador tenga las propiedades necesarias
+        guesses.value = dayGuesses.guesses.map(player => ({
+            ...player,
+            isFlipping: false // Valor por defecto al cargar
+        }));
     }
-  });
+};
+
+const saveDayGuesses = () => {
+    let newDayGuesses = {
+        day: props.footble,
+        guesses: guesses.value
+    };
+    localStorage.setItem('footbleDay', JSON.stringify(newDayGuesses));
+}
+
+//const saveDayResult = () => {}
+
+onMounted(() => {
+    getDayGuesses();
+
+    axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').content;
+
+    document.addEventListener('click', (event) => {
+        if (!event.target.closest('.input-dropdown-container')) {
+          showSuggestions.value = false;
+        }
+    });
 });
 </script>
 
@@ -99,6 +126,7 @@ onMounted(() => {
         <p> {{ $t('left column') }}</p>
       </div>
       <div class="col-md-6">
+        <div class="guesses-remaining">{{ $t('Guess') + ' ' + (guesses.length + 1) + ' ' + $t('of') }} 10</div>
         <div class="input-group mb-3 input-dropdown-container pl-5 pr-5">
           <input type="text" class="searchbox" 
             :placeholder="$t('Type a footballer name here') + '...'" 

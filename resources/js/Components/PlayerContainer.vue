@@ -11,6 +11,7 @@ const props = defineProps({
 
 // Función para determinar las clases según el resultado
 const getGuessClass = (result) => {
+  if (!props.player.checkResult) return 'wrong-guess'; // Valor por defecto si no hay resultado
   if (props.player.checkResult?.match) {
     return 'right-guess';
   }
