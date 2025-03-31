@@ -22,7 +22,9 @@ class PublicController extends Controller
     {
     
         $footble = getFootbleNumber();
-        return Inertia::render('Index', ['footble' => $footble]);
+        $player = Player::findOrFail($footble);
+
+        return Inertia::render('Index', ['footble' => $footble, 'player' => $player]);
     }
 
     public function index2()

@@ -161,11 +161,11 @@
 }
 
 .wrong-guess {
-	background-color: #454545;
+	background-color: #454545 !important;
 }
 
 .right-guess {
-	background-color: hsl(115, 29%, 43%);
+	background-color: hsl(115, 29%, 43%) !important;
 }
 
 .partial-guess {
