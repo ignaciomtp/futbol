@@ -77,6 +77,12 @@ const selectPlayer = async (player) => {
       player.checkResult = result; // Agregar el resultado al jugador
       player.isFlipping = true;    // Activar la animación
 
+      if(result.active != 'right') {
+        if(player.debut_season < props.player.debut_season) player['era'] = 'anterior';
+
+        if(player.last_season > props.player.last_season) player['era'] = 'posterior';
+      }
+
       guesses.value.unshift(player);
       searchQuery.value = '';
       suggestions.value = [];
@@ -235,7 +241,7 @@ onMounted(() => {
             </div>
 
             <div class="mt-5" id="guesses">
-              <PlayerContainer v-for="player in guesses" :key="player.id" :player="player" />
+              <PlayerContainer v-for="player in guesses" :key="player.id" :player="player"  />
             </div>
         </div>
 

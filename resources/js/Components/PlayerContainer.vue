@@ -6,7 +6,7 @@ import PositionDataContainer from '@/Components/PositionDataContainer.vue';
 import TitlesDataContainer from '@/Components/TitlesDataContainer.vue';
 
 const props = defineProps({
-  player: Object
+  player: Object,
 });
 
 // Función para determinar las clases según el resultado
@@ -26,6 +26,9 @@ const shouldFlip = (result) => {
   // Solo aplicamos flip si el resultado es 'right-guess' o 'partial-guess'
   return props.player.isFlipping && (classResult === 'right-guess' || classResult === 'partial-guess');
 };
+
+
+
 </script>
 
 <template>
@@ -47,6 +50,7 @@ const shouldFlip = (result) => {
         :last_year="player.last_season"
         :guess-class="getGuessClass(player.checkResult?.active)"
         :is-flipping="shouldFlip(player.checkResult?.active)"
+        :era="player.era"
       />
 
       <PositionDataContainer 
@@ -69,3 +73,8 @@ const shouldFlip = (result) => {
     </div>
   </div>  
 </template>
+<style scoped>
+  .text-bg-dark {
+    background-color: #141C23 !important;
+  }
+</style>
