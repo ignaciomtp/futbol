@@ -77,7 +77,7 @@ const selectPlayer = async (player) => {
       player.checkResult = result; // Agregar el resultado al jugador
       player.isFlipping = true;    // Activar la animación
 
-      if(result.active != 'right') {
+      if(!result.match && result.active != 'right') {
         if(player.debut_season < props.player.debut_season) player['era'] = 'anterior';
 
         if(player.last_season > props.player.last_season) player['era'] = 'posterior';
