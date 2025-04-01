@@ -6,12 +6,15 @@ import { usePage } from '@inertiajs/vue3';
 const page = usePage();
 const locale = page.props.locale; // El locale compartido desde Laravel
 
-const emit = defineEmits(['locale-changed']);
+const emit = defineEmits(['locale-changed', 'show-instructions']);
 
 const emitChangeLocale = (locale) => {
 	emit('locale-changed', locale);
 }
 
+const emitShowInstuctions = () => {
+	emit('show-instructions');
+}
 
 </script>
 
@@ -30,7 +33,9 @@ const emitChangeLocale = (locale) => {
 	                	<i class="bi bi-bar-chart-fill bar-button"></i>
 	                </li>
 	                <li class="nav-item ">
-	                	<i class="bi bi-question-circle bar-button"></i>
+	                	<button class="bar-button" @click="emitShowInstuctions">
+	                		<i class="bi bi-question-circle bar-button"></i>
+	                	</button>	                	
 	                </li>
 	                <li class="nav-item dropdown">
 	                    <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -58,6 +63,8 @@ const emitChangeLocale = (locale) => {
 	.bar-button {
 		color: #FFF;
 		font-size: 1.5rem;
+		background-color: transparent;
+		border: none;
 	}
 
 	.nav-item {

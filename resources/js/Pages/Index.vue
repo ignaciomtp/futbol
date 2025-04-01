@@ -5,6 +5,7 @@ import { ref, onMounted } from 'vue';
 import { router, Link, usePage } from '@inertiajs/vue3';
 import PlayerContainer from '@/Components/PlayerContainer.vue';
 import NavigationBar from '@/Components/NavigationBar.vue';
+import InstructionsComponent from '@/Components/InstructionsComponent.vue';
 import HomeCover from '@/Components/HomeCover.vue';
 import { loadLanguageAsync } from 'laravel-vue-i18n';
 import { Modal } from 'bootstrap';
@@ -167,15 +168,22 @@ const saveDayGuesses = () => {
 
 //const saveDayResult = () => {}
 
-    // Método para mostrar el modal
-    const showModal = () => {
-      modalResult.value.show();
-    };
+// Método para mostrar el modal
+const showModal = () => {
+  modalResult.value.show();
+};
 
-    // Método para ocultar el modal
-    const hideModal = () => {
-      modalResult.value.hide();
-    };
+// Método para ocultar el modal
+const hideModal = () => {
+  modalResult.value.hide();
+};
+
+
+const showInstructions = () => {
+    let instructionsModal = new Modal(document.getElementById('instructions'));
+    instructionsModal.show();
+}
+
 
 onMounted(() => {
     getDayGuesses();
@@ -197,16 +205,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <NavigationBar @locale-changed="changeLocale" />
+  <NavigationBar @locale-changed="changeLocale" @show-instructions="showInstructions" />
 
   <main class="container text-bg-dark mt-5 p-4">
     <div class="row pt-4">
       <div class="col-md-3 text-center">
         <p> {{ $t('left column') }}</p>
-        <!-- Button trigger modal -->
+         Button trigger modal
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
           Launch static backdrop modal
-        </button>
+        </button>  
       </div>
       <div class="col-md-6">
 
@@ -248,15 +256,15 @@ onMounted(() => {
 
       </div>
       <div class="col-md-3 text-center">
-        <p> {{ $t('right column') }}</p>
+        <!-- <p> {{ $t('right column') }}</p>
         <button type="button" class="btn btn-warning" @click="showModal">
           Launch static backdrop modal
-        </button>
+        </button>  -->
       </div>
     </div>
   </main>
 
-<!-- Modal -->
+<!-- Modal Resultado -->
 <div class="modal text-center fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content ">
@@ -268,10 +276,27 @@ onMounted(() => {
         <img :src="'/img/players/' + props.player.photo" :alt="props.player.name" class="result-thumb">
         <h2 class="mt-2">{{ props.player.name }}</h2>
       </div>
-      <div class="modal-footer" :class="modalResultBackground">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Understood</button>
+      <div class="modal-footer" :class="modalResultBackground"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Instrucciones -->
+<div class="modal" tabindex="-1" id="instructions">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header wrong-guess">
+        <h5 class="modal-title ">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+      <div class="modal-body bg-dark">
+
+        <InstructionsComponent />
+
+
+
+      </div>
+
     </div>
   </div>
 </div>
@@ -289,11 +314,16 @@ onMounted(() => {
   color: #FFF;
 }
 
-.modal-body img {
-  border: 1px solid #FFF;
+.instructions img {
+  max-width: 400px;
 }
 
 .result-thumb {
   max-height: 250px;
+  border: 1px solid #FFF;
+}
+
+.btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
 }
 </style>
