@@ -69,28 +69,28 @@ const searchPlayers = async () => {
   }
 };
 
-const selectPlayer = async (player) => {
+const selectPlayer = async (selectedPlayer) => {
 
   if(!gameFinished.value) {
       // Ejecutar checkGuess y almacenar el resultado en el objeto player
-      const result = await checkGuess(player.id);
-      player.checkResult = result; // Agregar el resultado al jugador
-      player.isFlipping = true;    // Activar la animación
+      const result = await checkGuess(selectedPlayer.id);
+      selectedPlayer.checkResult = result; // Agregar el resultado al jugador
+      selectedPlayer.isFlipping = true;    // Activar la animación
 
-      if(!result.match && result.active != 'right') {
-        if(player.debut_season < props.player.debut_season) player['era'] = 'anterior';
+      if(result.match == false && result.active != 'right') {
+        if(selectedPlayer.debut_season < props.player.debut_season) selectedPlayer['era'] = 'anterior';
 
-        if(player.last_season > props.player.last_season) player['era'] = 'posterior';
+        if(selectedPlayer.last_season == null || selectedPlayer.last_season > props.player.last_season) selectedPlayer['era'] = 'posterior';
       }
 
-      guesses.value.unshift(player);
+      guesses.value.unshift(selectedPlayer);
       searchQuery.value = '';
       suggestions.value = [];
       showSuggestions.value = false;
 
       // Eliminar la clase flip después de 250ms
       setTimeout(() => {
-        player.isFlipping = false;
+        selectedPlayer.isFlipping = false;
       }, 250);
 
       // Guardar intentos en localStorage
@@ -225,10 +225,10 @@ onMounted(() => {
               </span>
               <div class="dropdown w-100">
                 <ul class="dropdown-menu" id="suggestions" v-if="showSuggestions">
-                  <li v-for="player in suggestions" :key="player.id">
-                    <div class="dropdown-item dropdown-player-item" @click="selectPlayer(player)">
-                      <img :src="`/img/players/${player.photo}`" :alt="player.name" class="tinythumb" style="float: right">
-                      {{ player.name }}
+                  <li v-for="suggestedPlayer in suggestions" :key="player.id">
+                    <div class="dropdown-item dropdown-player-item" @click="selectPlayer(suggestedPlayer)">
+                      <img :src="`/img/players/${suggestedPlayer.photo}`" :alt="suggestedPlayer.name" class="tinythumb" style="float: right">
+                      {{ suggestedPlayer.name }}
                     </div>
                   </li>
                 </ul>
