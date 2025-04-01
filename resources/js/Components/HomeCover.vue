@@ -29,7 +29,11 @@ const emitPlayGame = () => {
 
 </template>
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+p {
+	
+	font-size: 1.2rem;
+	font-weight: bold;
+}
 
 #logo {
   background-image: url('/img/soccer-field-2.png');
