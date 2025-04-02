@@ -156,7 +156,6 @@ const getDayGuesses = () => {
             isFlipping: false // Valor por defecto al cargar
         }));
     }
-
     
 };
 
@@ -257,7 +256,6 @@ onMounted(() => {
             </div>
         </div>
 
-
       </div>
       <div class="col-md-3 text-center">
         <!-- <p> {{ $t('right column') }}</p>
@@ -284,11 +282,6 @@ onMounted(() => {
     </div>
   </div>
 </div>
-
-
-
-
-
 
 </template>
 <style scoped>

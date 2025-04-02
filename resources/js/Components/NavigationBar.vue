@@ -8,7 +8,7 @@ import InstructionsComponent from '@/Components/InstructionsComponent.vue';
 
 // Acceder a los datos compartidos por Inertia
 const page = usePage();
-const locale = page.props.locale; // El locale compartido desde Laravel
+let locale = page.props.locale; // El locale compartido desde Laravel
 
 
 const showInstuctions = () => {
@@ -21,16 +21,16 @@ const showSidebarMenu = () => {
     navigationModal.show();
 }
 
-const changeLocale = async (locale) => {
+const changeLocale = async (newLocale) => {
     try {
         const response = await axios.post('/change-locale/', { 
-            locale: locale
+            locale: newLocale
         });
 
         if (response.data.message === 'locale changed') {
             // Cambiar el idioma en el frontend
-            loadLanguageAsync(locale);
-
+            loadLanguageAsync(newLocale);
+            locale = newLocale;
         }
     } catch (error) {
         console.error('Error changing locale:', error);
