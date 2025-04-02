@@ -34,6 +34,25 @@ class PublicController extends Controller
         
     }
 
+    /**
+     * Show the application Rewind page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function rewind() {
+        return Inertia::render('Rewind');
+    }
+
+    /**
+     * Show the application Create page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function create() {
+        return Inertia::render('Create');
+    }
+
+
 
     /**
      * Check the guess

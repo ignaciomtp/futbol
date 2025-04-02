@@ -28,10 +28,10 @@
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
-                <a class="navbar-brand" href="{{ url('/home') }}">
+                <a class="navbar-brand" href="{{ url('/admin/home') }}">
                     Players
                 </a>
-                <a class="navbar-brand" href="{{ url('/player') }}">
+                <a class="navbar-brand" href="{{ url('/admin/player') }}">
                     Add Player
                 </a>
 

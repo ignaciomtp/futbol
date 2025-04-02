@@ -5,9 +5,9 @@ import { ref, onMounted } from 'vue';
 import { router, Link, usePage } from '@inertiajs/vue3';
 import PlayerContainer from '@/Components/PlayerContainer.vue';
 import NavigationBar from '@/Components/NavigationBar.vue';
-import InstructionsComponent from '@/Components/InstructionsComponent.vue';
+
 import HomeCover from '@/Components/HomeCover.vue';
-import { loadLanguageAsync } from 'laravel-vue-i18n';
+
 import { Modal } from 'bootstrap';
 
 let props = defineProps({ 
@@ -209,16 +209,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <NavigationBar @locale-changed="changeLocale" @show-instructions="showInstructions" />
+  <NavigationBar />
 
   <main class="container text-bg-dark mt-5 p-4">
     <div class="row pt-4">
       <div class="col-md-3 text-center">
-        <p> {{ $t('left column') }}</p>
+        <!--<p> {{ $t('left column') }}</p>
          Button trigger modal
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
           Launch static backdrop modal
-        </button>  
+        </button>  -->
       </div>
       <div class="col-md-6">
 
@@ -285,25 +285,9 @@ onMounted(() => {
   </div>
 </div>
 
-<!-- Modal Instrucciones -->
-<div class="modal" tabindex="-1" id="instructions">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header wrong-guess">
-        <h5 class="modal-title ">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body bg-dark">
-
-        <InstructionsComponent />
 
 
 
-      </div>
-
-    </div>
-  </div>
-</div>
 
 
 </template>
@@ -330,4 +314,22 @@ onMounted(() => {
 .btn-close {
     filter: invert(1) grayscale(100%) brightness(200%);
 }
+
+.sidebar ul {
+  margin: 30px 0;
+  list-style: none;
+}
+
+.sidebar ul li {
+  margin: 20px 0;
+}
+
+.sidebar p{
+  color: #b5b5b5;
+}
+
+.sidebar h3 {
+  padding-left: 20px;
+}
+
 </style>
