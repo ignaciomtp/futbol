@@ -17,17 +17,24 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [App\Http\Controllers\PublicController::class, 'index'])->name('homeapp');
 Route::get('/home2', [App\Http\Controllers\PublicController::class, 'index2'])->name('homeapp2');
+
+Route::get('/rewind', [App\Http\Controllers\PublicController::class, 'rewind'])->name('rewind');
+Route::get('/create', [App\Http\Controllers\PublicController::class, 'create'])->name('create');
+
 Route::get('/checkresult/{idGuess}', [App\Http\Controllers\PublicController::class, 'checkGuess'])->name('checkresult');
 
 Route::post('/change-locale', [App\Http\Controllers\LanguageController::class, 'changeLocale'])->name('change.locale');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/player', [App\Http\Controllers\HomeController::class, 'playerForm'])->name('player');
-Route::post('/player', [App\Http\Controllers\HomeController::class, 'addPlayer'])->name('newplayer');
-Route::get('/player/edit/{id}', [App\Http\Controllers\HomeController::class, 'playerEditForm'])->name('editplayer');
-Route::post('/player/edit', [App\Http\Controllers\HomeController::class, 'playerUpdate'])->name('updateplayer');
+Route::prefix('admin')->group(function () {
+	Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+	Route::get('/player', [App\Http\Controllers\HomeController::class, 'playerForm'])->name('player');
+	Route::post('/player', [App\Http\Controllers\HomeController::class, 'addPlayer'])->name('newplayer');
+	Route::get('/player/edit/{id}', [App\Http\Controllers\HomeController::class, 'playerEditForm'])->name('editplayer');
+	Route::post('/player/edit', [App\Http\Controllers\HomeController::class, 'playerUpdate'])->name('updateplayer');	
+});
+
 
 Route::post('/player/search', [App\Http\Controllers\PlayerController::class, 'searchPlayer'])->name('searchplayer');
 

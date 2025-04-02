@@ -104,9 +104,9 @@
                     </div>
                     <div class="col-sm-3">
                       @if(isset($player->photo) && $player->photo)
-                        <img src="../../img/players/{{ $player->photo }}" class="thumbnail" alt="{{ $player->name }}">
+                        <img src="../../../img/players/{{ $player->photo }}" class="thumbnail" alt="{{ $player->name }}">
                       @else
-                        <img src="../../img/players/user.jpg" class="thumbnail" alt="{{ $player->name }}">
+                        <img src="../../../img/players/user.jpg" class="thumbnail" alt="{{ $player->name }}">
                       @endif
                     </div>
                   </div>

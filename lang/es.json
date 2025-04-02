@@ -1,6 +1,11 @@
 {
-    "left column": "columna izquierda",
-    "right column": "columna derecha",
+    "Home": "Inicio",
+    "Follow Us": "Síguenos",
+    "Need more Footble?": "¿Necesitas más Footble?",
+    "Play the last week of Footble": "Juega la última semana de Footble",
+    "Create": "Crear",
+    "Make a Footble for your friends!": "¡Haz un Footble para tus amigos!",
+    "Privacy": "Privacidad",
     "Type a footballer name here": "Escribe el nombre de un futbolista",
     "Played for": "Jugó en",
     "Country": "País",
