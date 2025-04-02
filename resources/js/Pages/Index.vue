@@ -101,6 +101,7 @@ const selectPlayer = async (selectedPlayer) => {
       if(result.match) {
         modalResultBackground.value = 'right-guess';
         showModal();
+        gameFinished.value = true;
       }
 
       // Si ha hecho 10 intentos, no puede jugar más
@@ -112,6 +113,7 @@ const selectPlayer = async (selectedPlayer) => {
 
   } else {
     showSuggestions.value = false;
+    showModal();
   }
 
 
@@ -164,6 +166,8 @@ const saveDayGuesses = () => {
         guesses: guesses.value
     };
     localStorage.setItem('footbleDay', JSON.stringify(newDayGuesses));
+
+    checkGameFinished();
 }
 
 //const saveDayResult = () => {}
