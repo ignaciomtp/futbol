@@ -319,7 +319,7 @@ onMounted(() => {
       </div>
       <div class="my-modal-bottom " :class="modalResultBackground">
         <div class="mb-4">
-          <button type="button" class="btn btn-success" @click="shareResult">{{ shareResultText }}</button>
+          <button type="button" class="btn btn-dark" @click="shareResult">{{ $t(shareResultText) }}</button>
         </div>
         <div class="mb-4">
           <TimerComponent :start="startCounter" />

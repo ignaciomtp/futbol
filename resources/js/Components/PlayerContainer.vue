@@ -38,7 +38,7 @@ const shouldFlip = (result) => {
         <img :src="'/img/players/' + player.photo" :alt="player.name" class="round-thumb">
         <h2 class="text-bg-dark mb-0">{{ player.name }}</h2>
       </div>
-      <span class="result-icon" v-if="player.checkResult.match">🏆</span>
+      <span class="result-icon" v-if="player.checkResult.match">✔</span>
       <span class="result-icon" v-if="!player.checkResult.match">❌</span>
     </div>
     <div class="player-data data-row mt-2">
