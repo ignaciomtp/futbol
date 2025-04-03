@@ -5,6 +5,7 @@ import { ref, onMounted } from 'vue';
 import { router, Link, usePage } from '@inertiajs/vue3';
 import PlayerContainer from '@/Components/PlayerContainer.vue';
 import NavigationBar from '@/Components/NavigationBar.vue';
+import TimerComponent from '@/Components/TimerComponent.vue';
 
 import HomeCover from '@/Components/HomeCover.vue';
 
@@ -23,12 +24,46 @@ const page = usePage();
 const playGame = ref(false); 
 const gameFinished = ref(false);
 
+// contador para mostrar cuanto falta hasta el próximo footble
+const startCounter = ref(false);
+
+const shareResultText = ref('Share result');
 
 const searchQuery = ref('');
 const suggestions = ref([]);
 const showSuggestions = ref(false);
 const guesses = ref([]);
 
+// copiar resultado del juego
+const shareResult = async () => {
+  let res = [];
+
+  const wonGame = guesses.value.find((elem) => elem.id === props.player.id);
+  if(wonGame) {
+    res.push('✔');
+  } else {
+    res.push('❌');
+  }
+
+  for(let i = 0; i < guesses.value.length - 1; i++) {
+    res.unshift('⬜');
+  }
+
+  let texto = `Footble #${props.footble}⚽
+
+${res.join('')}
+
+footble.io`;
+
+  try {
+      await navigator.clipboard.writeText(texto);
+      shareResultText.value = 'Copied result';
+  } catch (err) {
+      console.error('Error al copiar al portapapeles: ', err);
+  }
+}
+
+// empezar a jugar
 const playTheGame = () => {
 
     playGame.value = true;
@@ -173,11 +208,15 @@ const saveDayGuesses = () => {
 
 // Método para mostrar el modal
 const showModal = () => {
+  startCounter.value = true;
+  console.log('startCounter value: ', startCounter.value);
   modalResult.value.show();
 };
 
 // Método para ocultar el modal
 const hideModal = () => {
+  console.log('close button clicked');
+  startCounter.value = false;
   modalResult.value.hide();
 };
 
@@ -213,11 +252,11 @@ onMounted(() => {
   <main class="container text-bg-dark mt-5 p-4">
     <div class="row pt-4">
       <div class="col-md-3 text-center">
-        <!--<p> {{ $t('left column') }}</p>
+        <p> {{ $t('left column') }}</p>
          Button trigger modal
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
           Launch static backdrop modal
-        </button>  -->
+        </button> 
       </div>
       <div class="col-md-6">
 
@@ -258,10 +297,10 @@ onMounted(() => {
 
       </div>
       <div class="col-md-3 text-center">
-        <!-- <p> {{ $t('right column') }}</p>
+        <p> {{ $t('right column') }}</p>
         <button type="button" class="btn btn-warning" @click="showModal">
           Launch static backdrop modal
-        </button>  -->
+        </button>
       </div>
     </div>
   </main>
@@ -270,15 +309,23 @@ onMounted(() => {
 <div class="modal text-center fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content ">
-      <div class="modal-header" :class="modalResultBackground">
+      <div class="modal-header " :class="modalResultBackground">
         <h1 class="modal-title fs-5" id="staticBackdropLabel">{{ $t("Today's footballer is") }}...</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" @click="hideModal"></button>
       </div>
-      <div class="modal-body" :class="modalResultBackground">
+      <div class="modal-body " :class="modalResultBackground">
         <img :src="'/img/players/' + props.player.photo" :alt="props.player.name" class="result-thumb">
         <h2 class="mt-2">{{ props.player.name }}</h2>
       </div>
-      <div class="modal-footer" :class="modalResultBackground"></div>
+      <div class="my-modal-bottom " :class="modalResultBackground">
+        <div class="mb-4">
+          <button type="button" class="btn btn-success" @click="shareResult">{{ shareResultText }}</button>
+        </div>
+        <div class="mb-4">
+          <TimerComponent :start="startCounter" />
+        </div>
+        
+      </div>
     </div>
   </div>
 </div>
@@ -324,5 +371,18 @@ onMounted(() => {
 .sidebar h3 {
   padding-left: 20px;
 }
+
+.btn {
+  border-radius: 100px;
+  min-width: 150px;
+  font-weight: 700;
+}
+
+.my-modal-bottom {
+
+    border-bottom-right-radius: var(--bs-modal-inner-border-radius);
+    border-bottom-left-radius: var(--bs-modal-inner-border-radius);
+}
+
 
 </style>

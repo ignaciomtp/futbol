@@ -56,6 +56,12 @@ p {
   font-size: 3.5rem;
 }
 
+.btn {
+  border-radius: 100px;
+  min-width: 150px;
+  font-weight: 700;
+}
+
 /* Media queries para responsividad */
 @media (max-width: 768px) {
   #logo {
