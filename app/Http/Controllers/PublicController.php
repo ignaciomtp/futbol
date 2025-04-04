@@ -59,13 +59,13 @@ class PublicController extends Controller
      * Check the guess
      *
      */
-    public function checkGuess($idGuess) {
+    public function checkGuess($idGuess, $idPlayer = null) {
 
         $guessResult = new stdClass();
 
         $guessResult->match = false;
 
-        $dayOffset = getFootbleNumber();
+        $dayOffset = $idPlayer ? $idPlayer : getFootbleNumber();
 
         $targetPlayer = Player::find($dayOffset);        
 
