@@ -3,13 +3,12 @@
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import { router, Link, usePage } from '@inertiajs/vue3';
+import { Modal } from 'bootstrap';
 import PlayerContainer from '@/Components/PlayerContainer.vue';
 import NavigationBar from '@/Components/NavigationBar.vue';
 import TimerComponent from '@/Components/TimerComponent.vue';
-
 import HomeCover from '@/Components/HomeCover.vue';
 
-import { Modal } from 'bootstrap';
 
 let props = defineProps({ 
   footble: Number,

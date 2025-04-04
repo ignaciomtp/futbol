@@ -40,7 +40,8 @@ class PublicController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function rewind() {
-        return Inertia::render('Rewind');
+        $footble = getFootbleNumber();
+        return Inertia::render('Rewind', ['footble' => $footble]);
     }
 
     /**
