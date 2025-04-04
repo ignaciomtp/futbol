@@ -34,12 +34,11 @@ const suggestions = ref([]);
 const showSuggestions = ref(false);
 const guesses = ref([]);
 
-// copiar resultado del juego
+// copiar resultado del juego para compartir
 const shareResult = async () => {
   let res = [];
 
-  const wonGame = guesses.value.find((elem) => elem.id === props.player.id);
-  if(wonGame) {
+  if(checkUserWon()) {
     res.push('✔');
   } else {
     res.push('❌');
@@ -74,10 +73,17 @@ const playTheGame = () => {
 
 }
 
+// comprobar si el usuario ha ganado
+const checkUserWon = () => {
+  const wonGame = guesses.value.find((elem) => elem.id === props.player.id);
+  if(wonGame) return true;
+  return false;
+}
+
+// comprobar si la partida del día ha terminado
 const checkGameFinished = () => {
     let result = false;
-    const wonGame = guesses.value.find((elem) => elem.id === props.player.id);
-    if(wonGame) {
+    if(checkUserWon()) {
       modalResultBackground.value = 'right-guess';
       result = true;
     } 
@@ -87,6 +93,7 @@ const checkGameFinished = () => {
     return result;
 }
 
+// buscar jugadores por nombre
 const searchPlayers = async () => {
   if (searchQuery.value.length < 1) {
     suggestions.value = [];
@@ -135,14 +142,15 @@ const selectPlayer = async (selectedPlayer) => {
       // Si ha acertado, mostrar el resultado
       if(result.match) {
         modalResultBackground.value = 'right-guess';
-        showModal();
         gameFinished.value = true;
+        saveDayResult();
+        showModal();
       }
 
       // Si ha hecho 10 intentos, no puede jugar más
       if(guesses.value.length == 10) {
         gameFinished.value = true;
-
+        saveDayResult();
         showModal();
       }
 
@@ -154,6 +162,7 @@ const selectPlayer = async (selectedPlayer) => {
 
 };
 
+// comprobar intento
 const checkGuess = async (playerId) => {
   try {
     const response = await axios.get(`/checkresult/${playerId}`);
@@ -180,6 +189,7 @@ const changeLocale = async (locale) => {
     }
 }
 
+// cargar los intentos del día si existen
 const getDayGuesses = () => {
     let dayGuesses = localStorage.getItem('footbleDay');
     if (dayGuesses) dayGuesses = JSON.parse(dayGuesses);
@@ -194,6 +204,7 @@ const getDayGuesses = () => {
     
 };
 
+// guardar los intentos del día
 const saveDayGuesses = () => {
     let newDayGuesses = {
         day: props.footble,
@@ -204,7 +215,29 @@ const saveDayGuesses = () => {
     checkGameFinished();
 }
 
-//const saveDayResult = () => {}
+// guadar en el histórico al terminar el juego
+const saveDayResult = (date = getDateOfDay()) => {
+  let dayData = {
+    date: date,
+    won: checkUserWon(),
+    idPlayer: props.footble,
+    photo: props.player.photo,
+    attempts: guesses.value.length
+  }
+
+  let historic = localStorage.getItem('FootbleHistoric');
+
+  if(historic){
+    historic = JSON.parse(historic);
+  } else {
+    historic = [];
+  }
+
+  historic.unshift(dayData);
+
+  localStorage.setItem('FootbleHistoric', JSON.stringify(historic));
+
+}
 
 // Método para mostrar el modal
 const showModal = () => {
@@ -220,12 +253,20 @@ const hideModal = () => {
   modalResult.value.hide();
 };
 
-
+// mostrar modal instrucciones
 const showInstructions = () => {
     let instructionsModal = new Modal(document.getElementById('instructions'));
     instructionsModal.show();
 }
 
+// devolver la fecha del día
+const getDateOfDay = () => {
+    const hoy = new Date();
+    const dia = String(hoy.getDate()).padStart(2, '0');
+    const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+    const anio = hoy.getFullYear();
+    return `${dia}/${mes}/${anio}`;
+}
 
 onMounted(() => {
     getDayGuesses();
