@@ -12,7 +12,7 @@ const emitPlayGame = () => {
 
 	<div class="mt-3 text-center p-3">
 		<div id="logo">
-			<h1>Footble</h1>
+			<h1>Footble</h1><span>⚽</span>
 		</div>
 
 		<div class="mt-3 mb-3" data-svelte-h="svelte-1f4f1d1">
@@ -54,6 +54,14 @@ p {
   font-family: "Oswald", sans-serif;
   font-optical-sizing: auto;
   font-size: 3.5rem;
+  padding: 0 !important;
+}
+
+#logo span {
+  font-size: 1.8rem;
+  vertical-align: baseline;
+  padding-top: 15px;
+  
 }
 
 .btn {
@@ -76,6 +84,13 @@ p {
   
   #logo h1 {
     font-size: 2.8rem; /* Tamaño de fuente menor para móviles */
+  }
+
+  #logo span {
+    font-size: 1.5rem;
+    vertical-align: text-top;
+
+    padding-top: 8px;
   }
 }
 </style>
