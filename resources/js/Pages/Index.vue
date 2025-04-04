@@ -221,6 +221,7 @@ const saveDayResult = (date = getDateOfDay()) => {
     won: checkUserWon(),
     idPlayer: props.footble,
     photo: props.player.photo,
+    name: props.player.name,
     attempts: guesses.value.length
   }
 

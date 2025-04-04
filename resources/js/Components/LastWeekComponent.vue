@@ -6,13 +6,15 @@ let props = defineProps({
   
 });
 
+const emit = defineEmits(['selected-footble']);
+
 const selectedFootble = ref(null);
 
 const selectFootble = (id) => {
 	
 	selectedFootble.value = id;
 
-	console.log(selectedFootble.value);
+	emit('selected-footble', id);
 }
 
 const footbleBackground = (id) => {
@@ -23,7 +25,6 @@ const footbleBackground = (id) => {
 	}
 	
 }
-
 
 
 </script>
@@ -88,6 +89,10 @@ const footbleBackground = (id) => {
 
 .button {
 	cursor: pointer;
+}
+
+.borde2:hover {
+	border-color: #597a96;
 }
 
 @media (max-width: 480px) {

@@ -21,7 +21,7 @@ Route::get('/home2', [App\Http\Controllers\PublicController::class, 'index2'])->
 Route::get('/rewind', [App\Http\Controllers\PublicController::class, 'rewind'])->name('rewind');
 Route::get('/create', [App\Http\Controllers\PublicController::class, 'create'])->name('create');
 
-Route::get('/checkresult/{idGuess}', [App\Http\Controllers\PublicController::class, 'checkGuess'])->name('checkresult');
+Route::get('/checkresult/{idGuess}/{idPlayer?}', [App\Http\Controllers\PublicController::class, 'checkGuess'])->name('checkresult');
 
 Route::post('/change-locale', [App\Http\Controllers\LanguageController::class, 'changeLocale'])->name('change.locale');
 
