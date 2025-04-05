@@ -17,7 +17,10 @@ const modalResultBackground = ref('wrong-guess');
 
 const targetPlayer = ref({
 	name: 'Pepito',
-	photo: 'user.jpg'
+	photo: 'user.jpg',
+	debut_season: null,
+	last_season: null
+
 });
 
 const returnTargetName = () => {
@@ -53,15 +56,44 @@ const checkCanPlay = () => {
 
 // establecer el footble del día
 const setSelectedPastFootble = async (id) => {
+
 	selectedPastFootble.value = id;
 
 	const footble = await axios.get(`/getplayer/${id}/`);
 
-
 	targetPlayer.value.name = footble.data.name;
 	targetPlayer.value.photo = footble.data.photo;
+	targetPlayer.value.debut_season = footble.data.debut_season;
+	targetPlayer.value.last_season = footble.data.last_season;
 
+	const idx = weekFootbles.value.findIndex((elem) => elem.idPlayer == id);
+
+	guesses.value = weekFootbles.value[idx].guesses;
+
+	let canPlay = checkCanPlay();
+
+	if(canPlay){
+		gameFinished.value = false;
+	} else {
+		gameFinished.value = true;
+	}
 }
+
+const updateLoadedHistoric = (finished, won) => {
+	const idx = weekFootbles.value.findIndex((elem) => elem.idPlayer == selectedPastFootble.value);
+
+	console.log('Selected past footble: ', selectedPastFootble.value);
+	console.log('Idx: ', idx);
+
+	console.log('weekfootbles: ', weekFootbles.value);
+
+	weekFootbles.value[idx].guesses = guesses.value;
+	weekFootbles.value[idx].done = finished;
+	weekFootbles.value[idx].won = won;
+	if(finished) weekFootbles.value[idx].photo = targetPlayer.value.photo;
+
+	console.log(weekFootbles.value[idx]);
+};
 
 // crear fechas de días pasados
 const getPastDates = (n) => {
@@ -73,11 +105,60 @@ const getPastDates = (n) => {
     return `${dia}/${mes}/${anio}`;
 }
 
+const updateHistoric = (gameFinished, gameResult) => {
+	let historic = localStorage.getItem('FootbleHistoric');
+
+	if(historic) {
+		historic = JSON.parse(historic);
+
+		let currentFootble = historic.find((elem) => elem.idPlayer == selectedPastFootble.value);
+
+		if(currentFootble) {
+			currentFootble.guesses = guesses.value;
+			currentFootble.done = gameFinished;
+			currentFootble.won = gameResult;
+
+			let index = historic.findIndex((elem) => elem.idPlayer === currentFootble.idPlayer);
+			historic[index] = currentFootble;
+		} else {
+			let newFootble = {
+				date: getPastDates(props.footble - selectedPastFootble.value), 
+				done: gameFinished,
+				won: gameResult,
+				photo: targetPlayer.value.photo,
+				name: targetPlayer.value.name,
+				idPlayer: selectedPastFootble.value,
+				guesses: guesses.value			
+			}
+
+			historic.unshift(newFootble);
+		}
+
+		localStorage.setItem('FootbleHistoric', JSON.stringify(historic));
+
+	} else {
+	    historic = [];
+	    let newFootble = {
+			date: getPastDates(props.footble - selectedPastFootble.value), 
+			done: gameFinished,
+			won: gameResult,
+			photo: targetPlayer.value.photo,
+			name: targetPlayer.value.name,
+			idPlayer: selectedPastFootble.value,
+			guesses: guesses.value			
+		}
+
+		historic.unshift(newFootble);
+
+		localStorage.setItem('FootbleHistoric', JSON.stringify(historic));
+	}
+}
+
 // recuperar resultados de la semana pasada
 const fillWeekFootbles = () => {
 	for(let i = 0; i < 6; i++) {
 		let dayFootble = {
-			date: getPastDates(i), // TO DO -> Cambiar a i + 1
+			date: getPastDates(i + 1), // TO DO -> Cambiar a i + 1
 			done: false,
 			won: false,
 			photo: '',
@@ -140,15 +221,19 @@ const selectPlayer = async (selectedPlayer) => {
       selectedPlayer.isFlipping = true;    // Activar la animación
 
       if(result.match == false && result.active != 'right') {
+
         if(selectedPlayer.debut_season < targetPlayer.value.debut_season) selectedPlayer['era'] = 'anterior';
 
         if(selectedPlayer.last_season == null || selectedPlayer.last_season > targetPlayer.value.last_season) selectedPlayer['era'] = 'posterior';
       }
 
+
       guesses.value.unshift(selectedPlayer);
       searchQuery.value = '';
       suggestions.value = [];
       showSuggestions.value = false;
+
+      
 
       // Eliminar la clase flip después de 250ms
       setTimeout(() => {
@@ -173,6 +258,9 @@ const selectPlayer = async (selectedPlayer) => {
         showModal();
       }
 
+      updateHistoric(gameFinished.value, result.match);
+      updateLoadedHistoric(gameFinished.value, result.match);
+
   } else {
     showSuggestions.value = false;
     showModal();
@@ -180,6 +268,8 @@ const selectPlayer = async (selectedPlayer) => {
 
 
 };
+
+
 // comprobar intento
 const checkGuess = async (playerId) => {
   try {
@@ -198,7 +288,8 @@ const showModal = () => {
 
 // Método para ocultar el modal
 const hideModal = () => {
-  modalResult.value.hide();
+	document.getElementById("mainSearchBox").focus();
+  	modalResult.value.hide();
 };
 
 onMounted(() => {
@@ -238,7 +329,7 @@ onMounted(() => {
   				<div id="game-container" v-if="playGame">
 		            <div class="guesses-remaining" v-if="guesses.length < 10">{{ $t('Guess') + ' ' + (guesses.length + 1) + ' ' + $t('of') }} 10</div>
 		            <div class="input-group mb-3 input-dropdown-container pl-5 pr-5">
-		              <input type="text" class="searchbox" 
+		              <input type="text" class="searchbox" id="mainSearchBox"
 		                :placeholder="$t('Type a footballer name here') + '...'" 
 		                v-model="searchQuery" 
 		                @input="searchPlayers"
@@ -260,7 +351,7 @@ onMounted(() => {
 		            </div>
 
 		            <div class="mt-5" id="guesses">
-		              <PlayerContainer v-for="player in guesses" :key="player.id" :player="player"  />
+		              <PlayerContainer v-for="(player, index) in guesses" :key="index" :player="player"  />
 		            </div>
 		        </div>
 
@@ -275,7 +366,7 @@ onMounted(() => {
   	</main>
 
 <!-- Modal Resultado -->
-<div class="modal text-center fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal text-center fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel">
   <div class="modal-dialog">
     <div class="modal-content ">
       <div class="modal-header " :class="modalResultBackground">
