@@ -20,6 +20,14 @@ const targetPlayer = ref({
 	photo: 'user.jpg'
 });
 
+const returnTargetName = () => {
+	return targetPlayer.value.name;
+}
+
+const returnTargetPhoto = () => {
+	return targetPlayer.value.photo;
+}
+
 const playGame = ref(true); 
 const gameFinished = ref(false);
 
@@ -44,17 +52,15 @@ const checkCanPlay = () => {
 }
 
 // establecer el footble del día
-const setSelectedPastFootble = (id) => {
+const setSelectedPastFootble = async (id) => {
 	selectedPastFootble.value = id;
 
-	let footble = weekFootbles.value.find((elem) => elem.idPlayer === id);
+	const footble = await axios.get(`/getplayer/${id}/`);
 
-	if(footble) {
-		guesses.value = footble.guesses;
-	}
 
-	targetPlayer.value.name = footble.name;
-	targetPlayer.value.photo = footble.photo;
+	targetPlayer.value.name = footble.data.name;
+	targetPlayer.value.photo = footble.data.photo;
+
 }
 
 // crear fechas de días pasados
@@ -277,10 +283,10 @@ onMounted(() => {
         <button type="button" class="btn-close" @click="hideModal"></button>
       </div>
       <div class="modal-body " :class="modalResultBackground">
-        <img :src="'/img/players/' + (targetPlayer.value?.photo || 'user.jpg')" 
-	     :alt="targetPlayer.value?.name || 'Pepito'" 
+        <img :src="'/img/players/' + returnTargetPhoto()" 
+	     :alt="returnTargetName" 
 	     class="result-thumb">
-        <h2 class="mt-2">{{ targetPlayer.value?.name || 'Pepito' }}</h2>
+        <h2 class="mt-2">{{ returnTargetName() }}</h2>
       </div>
       <div class="my-modal-bottom " :class="modalResultBackground">
 
