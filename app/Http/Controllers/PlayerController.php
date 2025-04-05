@@ -27,4 +27,17 @@ class PlayerController extends Controller
         return $players;
 
     }
+
+
+    /**
+     * Get the player by id.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getPlayerData($idPlayer) {
+
+        $player = Player::findOrFail($idPlayer);
+
+        return $player;
+    }
 }

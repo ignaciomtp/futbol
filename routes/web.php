@@ -37,6 +37,7 @@ Route::prefix('admin')->group(function () {
 
 
 Route::post('/player/search', [App\Http\Controllers\PlayerController::class, 'searchPlayer'])->name('searchplayer');
+Route::get('/getplayer/{idPlayer}', [App\Http\Controllers\PlayerController::class, 'getPlayerData'])->name('getplayer');
 
 Route::post('/player/club/{idPlayer}', [App\Http\Controllers\ClubController::class, 'addClub'])->name('newclub');
 Route::post('/player/title/{idPlayer}', [App\Http\Controllers\TitleController::class, 'addTitle'])->name('newtitle');
