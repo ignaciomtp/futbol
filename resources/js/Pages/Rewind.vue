@@ -156,9 +156,9 @@ const updateHistoric = (gameFinished, gameResult) => {
 
 // recuperar resultados de la semana pasada
 const fillWeekFootbles = () => {
-	for(let i = 0; i < 6; i++) {
+	for(let i = 1; i < 7; i++) {
 		let dayFootble = {
-			date: getPastDates(i + 1), // TO DO -> Cambiar a i + 1
+			date: getPastDates(i), 
 			done: false,
 			won: false,
 			photo: '',
@@ -318,10 +318,10 @@ onMounted(() => {
   		<div class="row pt-3">
   			<div class="col-md-3 "></div>
   			<div class="col-md-6">
-  				<div class="text-center">
+  				<div class="text-center mb-3">
   					<h1><i class="bi bi-rewind-fill"></i> Rewind</h1>
 
-  					<div>Choose a Footble to play</div>
+  					<div>{{ $t('Choose a Footble to play') }}</div>
   				</div>
   				
   				<LastWeekComponent :lastWeek="weekFootbles" @selected-footble="setSelectedPastFootble" />
@@ -336,7 +336,7 @@ onMounted(() => {
 		                :disabled="!selectedPastFootble"
 		                autocomplete="off">
 		              <span class="searchbox-button">
-		                <i class="bi bi-search text-bg-light"></i>
+		                <i class="bi bi-search text-bg-light" :class="{textBgLightDisabled: !selectedPastFootble}"></i>
 		              </span>
 		              <div class="dropdown w-100">
 		                <ul class="dropdown-menu" id="suggestions" v-if="showSuggestions">
@@ -357,10 +357,10 @@ onMounted(() => {
 
   			</div>
   			<div class="col-md-3 ">
-  				<p> {{ $t('right column') }}</p>
+  				<!-- <p> {{ $t('right column') }}</p>
 		        <button type="button" class="btn btn-warning" @click="showModal">
 		          Launch static backdrop modal
-		        </button>
+		        </button> -->
   			</div>
   		</div>
   	</main>
@@ -370,7 +370,7 @@ onMounted(() => {
   <div class="modal-dialog">
     <div class="modal-content ">
       <div class="modal-header " :class="modalResultBackground">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">{{ $t("Today's footballer is") }}...</h1>
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">{{ $t("The footballer of this day is") }}...</h1>
         <button type="button" class="btn-close" @click="hideModal"></button>
       </div>
       <div class="modal-body " :class="modalResultBackground">
@@ -448,5 +448,10 @@ h1 {
     border-bottom-left-radius: var(--bs-modal-inner-border-radius);
 }
 
+
+.textBgLightDisabled {
+	color: light-dark(rgba(239, 239, 239, 0.3), rgba(59, 59, 59, 0.3)) !important;
+    background-color: #5f6265 !important;
+}
 
 </style>
