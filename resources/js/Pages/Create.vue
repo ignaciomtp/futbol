@@ -12,6 +12,8 @@ const searchQuery = ref('');
 const suggestions = ref([]);
 const showSuggestions = ref(false);
 
+const message = ref('');
+
 let placeholderPlayer = {
 	name: 'Pepito',
 	photo: 'user.jpg'
@@ -45,6 +47,22 @@ const selectPlayer = (selectedPlayer) => {
     showSuggestions.value = false;  
 
 };
+
+const shareFootble = () => {
+	const encodedMessage = btoa(encodeURIComponent(message.value));
+	const encodedPlayerId = btoa(targetPlayer.value.id);
+
+	console.log('Encoded message: ', encodedMessage);
+	console.log('Player id: ', encodedPlayerId);
+
+	const baseUrl = window.origin;
+   
+    const url = `${baseUrl}/custom/${encodedPlayerId}/${encodedMessage}`;
+
+    console.log('URL: ', url);
+
+
+}
 
 onMounted(() => {
 
@@ -114,10 +132,10 @@ onMounted(() => {
 									
 					</div>
 
-					<textarea class="form-control" :placeholder="$t('Write a hint or message here')" id="floatingTextarea"></textarea>	
+					<textarea class="form-control" v-model="message" :placeholder="$t('Write a hint or message here')" id="floatingTextarea"></textarea>	
 
 					<div class="mt-4 text-center">
-						<button type="button" class="btn btn-success">{{ $t('Share') }}</button>		  
+						<button type="button" class="btn btn-success" @click="shareFootble">{{ $t('Share') }}</button>		  
 					</div>
 					  	
 			    </div>  				

@@ -53,7 +53,18 @@ class PublicController extends Controller
         return Inertia::render('Create');
     }
 
+    /*
+    *
+    * Show custom Footble
+    */
+    public function custom($idPlayer, $message = null) {
+        $decodedIdPlayer = base64_decode($idPlayer);
+        $decodedMessage = $message ? base64_decode($message) : '';
 
+        $player = Player::findOrFail($decodedIdPlayer);
+
+        return Inertia::render('Custom', ['player' => $player, 'footble' => $player->id]);
+    }
 
     /**
      * Check the guess
