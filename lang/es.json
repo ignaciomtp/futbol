@@ -26,6 +26,9 @@
     "Will you win today?": "¿Acertarás hoy?",
     "Play": "Jugar",
     "Today's footballer is": "El futbolista de hoy es",
+    "The footballer is": "El futbolista es",
+    "Play Today's": "Juega el de hoy",
+    "Footble challenge": "Desafío Footble",
     "How to play": "Cómo jugar",
     "Step": "Paso",
     "Guess a footballer using the search bar": "Adivina un futbolista usando la barra de búsqueda",
@@ -64,5 +67,7 @@
     "Pick a footballer for your friend to guess": "Elije un futbolista para que adivine tu amigo",
     "Leave a note for your friend": "Deja una nota para tu amigo",
     "Write a hint or message here": "Escribe una pista o un mensaje aquí",
+    "I made this Footble for you": "He hecho este Footble para ti",
+    "A hint from your friend": "Una pista de tu amigo",
     "England": "Inglaterra"
 }

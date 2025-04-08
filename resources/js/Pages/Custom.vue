@@ -3,11 +3,13 @@ import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import { router, Link, usePage } from '@inertiajs/vue3';
 import { Modal } from 'bootstrap';
+import { trans } from 'laravel-vue-i18n';
 import PlayerContainer from '@/Components/PlayerContainer.vue';
 import NavigationBar from '@/Components/NavigationBar.vue';
 
 let props = defineProps({ 
 	footble: Number,
+	message: String,
   	player: Object
 });
 
@@ -25,6 +27,36 @@ const searchQuery = ref('');
 const suggestions = ref([]);
 const showSuggestions = ref(false);
 const guesses = ref([]);
+
+// copiar resultado del juego para compartir
+const shareResult = async () => {
+  let res = [];
+
+  if(checkUserWon()) {
+    res.push('✔');
+  } else {
+    res.push('❌');
+  }
+
+  for(let i = 0; i < guesses.value.length - 1; i++) {
+    res.unshift('⬜');
+  }
+
+  let message = trans('Footble challenge')
+
+  let texto = `${message}⚽
+
+${res.join('')}
+
+footble.io`;
+
+  try {
+      await navigator.clipboard.writeText(texto);
+      shareResultText.value = 'Copied result';
+  } catch (err) {
+      console.error('Error al copiar al portapapeles: ', err);
+  }
+}
 
 // empezar a jugar
 const playTheGame = () => {
@@ -101,20 +133,18 @@ const selectPlayer = async (selectedPlayer) => {
       }, 250);
 
       // Guardar intentos en localStorage
-      //saveDayGuesses();    
+      saveCustomGuesses();    
 
       // Si ha acertado, mostrar el resultado
       if(result.match) {
         modalResultBackground.value = 'right-guess';
         gameFinished.value = true;
-        //saveDayResult();
         showModal();
       }
 
       // Si ha hecho 10 intentos, no puede jugar más
       if(guesses.value.length == 10) {
         gameFinished.value = true;
-        //saveDayResult();
         showModal();
       }
 
@@ -147,8 +177,39 @@ const hideModal = () => {
   modalResult.value.hide();
 };
 
+
+// guardar los intentos del custom
+const saveCustomGuesses = () => {
+    let newDayGuesses = {
+        day: props.footble,
+        guesses: guesses.value
+    };
+
+    let customItem = 'footbleCustom' + props.footble;
+
+    localStorage.setItem(customItem, JSON.stringify(newDayGuesses));
+
+    checkGameFinished();
+}
+
+// cargar los intentos del custom-made si existen
+const getCustomGuesses = () => {
+	let customItem = 'footbleCustom' + props.footble;
+    let customGuesses = localStorage.getItem(customItem);
+    if (customGuesses) customGuesses = JSON.parse(customGuesses);
+    console.log('Custom guesses: ', customGuesses);
+    if (customGuesses) {
+        // Asegurar que cada jugador tenga las propiedades necesarias
+        guesses.value = customGuesses.guesses.map(player => ({
+            ...player,
+            isFlipping: false // Valor por defecto al cargar
+        }));
+    }
+    
+};
+
 onMounted(() => {
-    //getDayGuesses();
+    getCustomGuesses();
 
     axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').content;
 
@@ -203,9 +264,9 @@ onMounted(() => {
 	              </div>
 	            </div>
 
-	            <div class="mt-3 text-center" v-if="!guesses.length">
-	                <p class="m-4">{{ $t('Guess the footballer of the day') }}.</p>
-	                <p class="m-4">{{ $t('Search for an footballer to make your first guess') }}.</p>
+	            <div class="mt-3 text-center hints" v-if="!guesses.length">
+	                <p class="m-4">{{ $t('A hint from your friend') }}: <span class="message">{{ props.message }}</span></p>
+	                
 	            </div>
 
 	            <div class="mt-5" id="guesses">
@@ -228,7 +289,7 @@ onMounted(() => {
   <div class="modal-dialog">
     <div class="modal-content ">
       <div class="modal-header " :class="modalResultBackground">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">{{ $t("Today's footballer is") }}...</h1>
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">{{ $t("The footballer is") }}...</h1>
         <button type="button" class="btn-close" @click="hideModal"></button>
       </div>
       <div class="modal-body " :class="modalResultBackground">
@@ -237,10 +298,10 @@ onMounted(() => {
       </div>
       <div class="my-modal-bottom " :class="modalResultBackground">
         <div class="mb-4">
-         
+         	<button type="button" class="btn btn-dark" @click="shareResult">{{ $t(shareResultText) }}</button>
         </div>
         <div class="mb-4">
-         
+         	<a class="btn btn-dark" :href="route('homeapp')">{{ $t("Play Today's") }}</a>
         </div>
         
       </div>
@@ -262,6 +323,11 @@ onMounted(() => {
 
 .instructions img {
   max-width: 400px;
+}
+
+.message {
+	color: #888;
+	font-style: italic;
 }
 
 .result-thumb {

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import { router, Link, usePage } from '@inertiajs/vue3';
 import { Modal } from 'bootstrap';
+import { trans } from 'laravel-vue-i18n';
 import NavigationBar from '@/Components/NavigationBar.vue';
 import PlayerView from '@/Components/PlayerView.vue';
 
@@ -13,6 +14,8 @@ const suggestions = ref([]);
 const showSuggestions = ref(false);
 
 const message = ref('');
+
+const shareResultText = ref('Share');
 
 let placeholderPlayer = {
 	name: 'Pepito',
@@ -52,15 +55,20 @@ const shareFootble = () => {
 	const encodedMessage = btoa(encodeURIComponent(message.value));
 	const encodedPlayerId = btoa(targetPlayer.value.id);
 
-	console.log('Encoded message: ', encodedMessage);
-	console.log('Player id: ', encodedPlayerId);
-
 	const baseUrl = window.origin;
    
     const url = `${baseUrl}/custom/${encodedPlayerId}/${encodedMessage}`;
 
-    console.log('URL: ', url);
+    const iMade = trans('I made this Footble for you');
+    const guessThe = trans('Guess the footballer in 10 tries');
 
+    let texto = `${iMade}. ${guessThe}.
+
+${url}
+`;
+
+	navigator.clipboard.writeText(texto);
+	shareResultText.value = 'Copied result';
 
 }
 
@@ -135,7 +143,7 @@ onMounted(() => {
 					<textarea class="form-control" v-model="message" :placeholder="$t('Write a hint or message here')" id="floatingTextarea"></textarea>	
 
 					<div class="mt-4 text-center">
-						<button type="button" class="btn btn-success" @click="shareFootble">{{ $t('Share') }}</button>		  
+						<button type="button" class="btn btn-success" @click="shareFootble">{{ $t(shareResultText) }}</button>		  
 					</div>
 					  	
 			    </div>  				
