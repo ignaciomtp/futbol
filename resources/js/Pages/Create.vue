@@ -72,6 +72,24 @@ ${url}
 
 }
 
+const getLocalStorageSpace = () => {
+    let total = 0;
+    for (let key in localStorage) {
+        if (localStorage.hasOwnProperty(key)) {
+            // Calcula el tamaño en bytes: longitud de la clave + valor, convertido a KB
+            total += ((localStorage[key].length + key.length) * 2); // *2 porque se usa UTF-16
+        }
+    }
+    const usedSpaceKB = total / 1024; // Convertir a KB
+    const usedSpaceMB = usedSpaceKB / 1024; // Convertir a MB
+    const maxSpaceMB = 10; // Suponiendo 10 MB como límite típico
+    const freeSpaceMB = maxSpaceMB - usedSpaceMB;
+
+    console.log(`Espacio usado: ${usedSpaceMB.toFixed(2)} MB`);
+    console.log(`Espacio libre: ${freeSpaceMB.toFixed(2)} MB`);
+    return { used: usedSpaceMB, free: freeSpaceMB, max: maxSpaceMB };
+}
+
 onMounted(() => {
 
 	axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').content;
@@ -81,6 +99,8 @@ onMounted(() => {
           showSuggestions.value = false;
         }
     });
+
+    getLocalStorageSpace();
 
 });
 
