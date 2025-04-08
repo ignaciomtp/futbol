@@ -44,7 +44,7 @@ const shareResult = async () => {
 
   let message = trans('Footble challenge')
 
-  let texto = `${message}⚽
+  let texto = `${message} ⚽
 
 ${res.join('')}
 
@@ -224,6 +224,7 @@ onMounted(() => {
     });
 
     console.log('modalResult: ', modalResult);
+    
 });
 
 </script>

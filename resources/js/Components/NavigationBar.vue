@@ -11,6 +11,13 @@ const page = usePage();
 let locale = page.props.locale; // El locale compartido desde Laravel
 
 
+const statistics = {
+	played: 0,
+	won: 0,
+	current_streak: 0,
+	max_streak: 0
+};
+
 const showInstuctions = () => {
 	let instructionsModal = new Modal(document.getElementById('instructions'));
     instructionsModal.show();
@@ -19,6 +26,11 @@ const showInstuctions = () => {
 const showSidebarMenu = () => {
 	let navigationModal = new Modal(document.getElementById('navigation'));
     navigationModal.show();
+}
+
+const showStats = () => {
+	let statsModal = new Modal(document.getElementById('stats'));
+    statsModal.show();
 }
 
 const changeLocale = async (newLocale) => {
@@ -54,7 +66,10 @@ const changeLocale = async (newLocale) => {
 	            <ul class="navbar-nav mr-3 text-end">
 	                <!-- Otros elementos de la navbar -->
 	                <li class="nav-item ">
-	                	<i class="bi bi-bar-chart-fill bar-button"></i>
+	                	<button class="bar-button" @click="showStats">
+	                		<i class="bi bi-bar-chart-fill bar-button"></i>
+	                	</button>
+	                	
 	                </li>
 	                <li class="nav-item ">
 	                	<button class="bar-button" @click="showInstuctions">
@@ -90,6 +105,46 @@ const changeLocale = async (newLocale) => {
       </div>
       <div class="modal-body bg-dark">
         <InstructionsComponent />
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Modal Estadísticas -->
+<div class="modal" tabindex="-1" id="stats">
+  <div class="modal-dialog">
+    <div class="modal-content text-center">
+      <div class="modal-header wrong-guess">
+        
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        
+      </div>
+      <div class="modal-body bg-dark p-3">
+      	<div class="fullwidth">
+        	<h5 class="modal-title mb-3">STATISTICS</h5>
+        </div>
+        <div class="row g-4 container">
+        	<div class="col stat-value">
+        		{{ statistics.played }}
+        		<div class="stat-label">Played</div>
+        	</div>
+        	<div class="col stat-value">
+        		{{ statistics.won }} %
+        		<div class="stat-label">Win %</div>
+        	</div>
+        	<div class="col stat-value">
+        		{{ statistics.current_streak }}
+        		<div class="stat-label">Current Streak</div>
+        	</div>
+        	<div class="col stat-value">
+        		{{ statistics.max_streak }}
+        		<div class="stat-label">Max Streak</div>
+        	</div>
+
+        </div>
+
+
       </div>
 
     </div>
@@ -144,6 +199,21 @@ const changeLocale = async (newLocale) => {
 
 </template>
 <style scoped>
+	.fullwidth {
+		width: 100%;
+	}
+
+	.stat-value {
+	    font-size: 24px;
+	    font-weight: 700;
+	    margin-bottom: 5px;
+	}
+
+	.stat-label {
+	    font-size: 12px;
+	    color: #b5b5b5;
+	    text-align: center;
+	}
 
 	.navbar-background {
 		background-color: #000 !important;
