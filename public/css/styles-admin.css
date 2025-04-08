@@ -8,6 +8,11 @@ h1 {
 	max-height: 150px;
 }
 
+.hints {
+	font-weight: 700 !important;
+	
+}
+
 .searchbox {
 	width: 100%;
     border: none;

@@ -172,21 +172,6 @@ const checkGuess = async (playerId) => {
   }
 };
 
-const changeLocale = async (locale) => {
-    try {
-        const response = await axios.post('/change-locale/', { 
-            locale: locale
-        });
-
-        if (response.data.message === 'locale changed') {
-            // Cambiar el idioma en el frontend
-            loadLanguageAsync(locale);
-
-        }
-    } catch (error) {
-        console.error('Error changing locale:', error);
-    }
-}
 
 // cargar los intentos del día si existen
 const getDayGuesses = () => {
@@ -326,7 +311,7 @@ onMounted(() => {
               </div>
             </div>
 
-            <div class="mt-3 text-center" v-if="!guesses.length">
+            <div class="mt-3 text-center hints" v-if="!guesses.length">
                 <p class="m-4">{{ $t('Guess the footballer of the day') }}.</p>
                 <p class="m-4">{{ $t('Search for an footballer to make your first guess') }}.</p>
             </div>

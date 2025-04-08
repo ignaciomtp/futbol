@@ -60,10 +60,15 @@ class PublicController extends Controller
     public function custom($idPlayer, $message = null) {
         $decodedIdPlayer = base64_decode($idPlayer);
         $decodedMessage = $message ? base64_decode($message) : '';
+        $message = urldecode($decodedMessage);
 
-        $player = Player::findOrFail($decodedIdPlayer);
+        $player = Player::find($decodedIdPlayer);
 
-        return Inertia::render('Custom', ['player' => $player, 'footble' => $player->id]);
+        if($player) {
+            return Inertia::render('Custom', ['player' => $player, 'footble' => $player->id, 'message' => $message]);
+        }
+
+        return Inertia::render('Error');
     }
 
     /**
