@@ -5,6 +5,7 @@ import { usePage } from '@inertiajs/vue3';
 import { Modal } from 'bootstrap';
 import { loadLanguageAsync } from 'laravel-vue-i18n';
 import InstructionsComponent from '@/Components/InstructionsComponent.vue';
+import StatsComponent from '@/Components/StatsComponent.vue';
 
 // Acceder a los datos compartidos por Inertia
 const page = usePage();
@@ -124,25 +125,9 @@ const changeLocale = async (newLocale) => {
       	<div class="fullwidth">
         	<h5 class="modal-title mb-3">STATISTICS</h5>
         </div>
-        <div class="row g-4 container">
-        	<div class="col stat-value">
-        		{{ statistics.played }}
-        		<div class="stat-label">Played</div>
-        	</div>
-        	<div class="col stat-value">
-        		{{ statistics.won }} %
-        		<div class="stat-label">Win %</div>
-        	</div>
-        	<div class="col stat-value">
-        		{{ statistics.current_streak }}
-        		<div class="stat-label">Current Streak</div>
-        	</div>
-        	<div class="col stat-value">
-        		{{ statistics.max_streak }}
-        		<div class="stat-label">Max Streak</div>
-        	</div>
 
-        </div>
+<StatsComponent />
+        
 
 
       </div>
