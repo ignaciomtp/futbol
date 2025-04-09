@@ -19,6 +19,7 @@
     "Won": "Won",
     "Guess": "Guess",
     "of": "of",
+    "Share": "Share",
     "Guess the footballer of the day": "Guess the footballer of the day",
     "Search for an footballer to make your first guess": "Search for an footballer to make your first guess",
     "guesses": "guesses",
@@ -69,5 +70,13 @@
     "Write a hint or message here": "Write a hint or message here",
     "I made this Footble for you": "I made this Footble for you",
     "A hint from your friend": "A hint from your friend",
+    "Played": "Played",
+    "Win": "Win",
+    "Current Streak": "Current Streak",
+    "Max Streak": "Max Streak",
+    "Top performances": "Top performances",
+    "guesses": "guesses",
+    "Guess distribution": "Guess distribution",
+    "Statistics": "Statistics",
     "England": "England"
 }

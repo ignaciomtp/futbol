@@ -13,7 +13,10 @@ if(historic){
 	historic = [];
 }
 
-let distribution = ref(null);
+const topThree = ref([]);
+const topThreeVisible = ref(false);
+
+const distribution = ref(null);
 
 distribution.value = [
 	{
@@ -39,22 +42,38 @@ distribution.value = [
 ];
 
 const fillDistribution = () => {
-	console.log('Won: ', won);
 
-	won.forEach((elem) =>{
-		let intentos = (elem.guesses || []).length;
+	let tempWon = won.map((item) => {
+		let clone = {...item};
+
+		if(!clone.hasOwnProperty('attempts')) {
+			clone['attempts'] = clone.guesses.length;
+		}
+
+		return clone;
+	});
+
+	tempWon.sort((a, b) => a.attempts - b.attempts);
+
+	tempWon.forEach((elem) =>{
+		let intentos = elem.attempts;		
 		let label = '';
 
 		if (intentos < 3) {
 		    label = '1-2';
+		    if(topThree.value.length < 3) topThree.value.push(elem);
 		} else if (intentos < 5) {
 		    label = '3-4';
+		    if(topThree.value.length < 3) topThree.value.push(elem);
 		} else if (intentos < 7) {
 		    label = '5-6';
+		    if(topThree.value.length < 3) topThree.value.push(elem);
 		} else if (intentos < 9) {
 		    label = '7-8';
+		    if(topThree.value.length < 3) topThree.value.push(elem);
 		} else {
 		    label = '9-10';
+		    if(topThree.value.length < 3) topThree.value.push(elem);
 		}
 
 		let idx = distribution.value.findIndex((item) => Object.keys(item)[0] === label);
@@ -65,12 +84,12 @@ const fillDistribution = () => {
 
 	});
 
+	if(topThree.value.length) topThreeVisible.value = true;
+
 	distribution.value.forEach((item) => {
 		item['percent'] = getPercentage(won.length, item[Object.keys(item)[0]]);
 	});
 
-
-	console.log('Distribution: ', distribution.value);
 }
 
 const getPercentage = (total, part) => {
@@ -78,11 +97,10 @@ const getPercentage = (total, part) => {
 
 	result = (part * 100) / total;
 
-	return Math.floor(result);
-}
+	result = Math.floor(result);	
 
-let width1 = 20;
-let width2 = '80%';
+	return isNaN(result) ? 0 : result;
+}
 
 onMounted(() => {
 	fillDistribution();
@@ -91,35 +109,38 @@ onMounted(() => {
 </script>
 <template>
 
-	<div class="row g-4 container">
+	<div class="row g-4 container mb-4">
 		<div class="col stat-value">
 			{{ historic.length }}
-			<div class="stat-label">Played</div>
+			<div class="stat-label">{{ $t('Played') }}</div>
 		</div>
 		<div class="col stat-value">
 			{{ getPercentage(historic.length, won.length) }} %
-			<div class="stat-label">Win %</div>
+			<div class="stat-label">{{ $t('Win') }} %</div>
 		</div>
 		<div class="col stat-value">
 			0
-			<div class="stat-label">Current Streak</div>
+			<div class="stat-label">{{ $t('Current Streak') }}</div>
 		</div>
 		<div class="col stat-value">
 			0
-			<div class="stat-label">Max Streak</div>
+			<div class="stat-label">{{ $t('Max Streak') }}</div>
 		</div>
 
 	</div>
 
-	<div class="container mt-3">
-		<h6>GUESS DISTRIBUTION</h6>
+	<div class="container">
+		
+			<h6 v-if="topThreeVisible" style="text-transform: uppercase;">{{ $t('Top performances') }}</h6>
+			<div class="top-footballers mb-4" >
+				<div class="top-footballer " v-for="player in topThree" :key="player.idPlayer">
+					<img :src="'/img/players/' + player.photo" :alt="player.name" class="round-thumb">
+					<div class="guess-number">{{ Array.isArray(player.guesses) ? player.guesses.length : player.attempts }} {{ $t('guesses') }}</div>
+				</div>
+			</div>
 
-		<div class="container">
-
+			<h6 style="text-transform: uppercase;">{{ $t('Guess distribution') }}</h6>
 			<DistributionComponent v-for="(rango, index) in distribution" :key="index + 1" :rango="rango" />
-
-
-		</div>
 
 	</div>
 
@@ -142,7 +163,28 @@ onMounted(() => {
     text-align: center;
 }
 
+.top-footballers {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
 
+.top-footballer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.guess-number {
+    font-size: 14px;
+    color: #b5b5b5;
+    margin-top: 7px;
+    background-color: #cbff70;
+    padding: 3px 8px;
+    border-radius: 12px;
+    color: #000;
+}
 
 
 </style>

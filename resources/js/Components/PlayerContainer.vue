@@ -35,7 +35,7 @@ const shouldFlip = (result) => {
   <div class="player-div-box p-3 mt-4 mb-4">
     <div class="data-row data-player-id d-flex justify-content-between align-items-center">
       <div class="d-flex align-items-center">
-        <img :src="'/img/players/' + player.photo" :alt="player.name" class="round-thumb">
+        <img :src="'/img/players/' + player.photo" :alt="player.name" class="round-thumb mr16">
         <h2 class="text-bg-dark mb-0">{{ player.name }}</h2>
       </div>
       <span class="result-icon" v-if="player.checkResult.match">✔</span>
