@@ -19,6 +19,7 @@
     "Won": "Ganó",
     "Guess": "Intento",
     "of": "de",
+    "Share": "Compartir",
     "Guess the footballer of the day": "Adivina el futbolista del día",
     "Search for an footballer to make your first guess": "Busca un futbolista para hacer tu primer intento",
     "guesses": "intentos",
@@ -69,5 +70,13 @@
     "Write a hint or message here": "Escribe una pista o un mensaje aquí",
     "I made this Footble for you": "He hecho este Footble para ti",
     "A hint from your friend": "Una pista de tu amigo",
+    "Played": "Jugados",
+    "Win": "Ganados",
+    "Current Streak": "Racha actual",
+    "Max Streak": "Mejor racha",
+    "Top performances": "Mejores actuaciones",
+    "guesses": "intentos",
+    "Guess distribution": "Distribución de aciertos",
+    "Statistics": "Estadísticas",
     "England": "Inglaterra"
 }

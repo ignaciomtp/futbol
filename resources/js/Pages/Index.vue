@@ -404,11 +404,7 @@ onMounted(() => {
   font-weight: 700;
 }
 
-.my-modal-bottom {
 
-    border-bottom-right-radius: var(--bs-modal-inner-border-radius);
-    border-bottom-left-radius: var(--bs-modal-inner-border-radius);
-}
 
 
 </style>

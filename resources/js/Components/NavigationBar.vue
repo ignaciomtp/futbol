@@ -101,13 +101,15 @@ const changeLocale = async (newLocale) => {
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header wrong-guess">
-        <h5 class="modal-title ">Modal title</h5>
+        
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body bg-dark">
         <InstructionsComponent />
       </div>
-
+      <div class="my-modal-bottom bg-dark" >
+      	<div style="min-height: 10px;"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -123,13 +125,15 @@ const changeLocale = async (newLocale) => {
       </div>
       <div class="modal-body bg-dark p-3">
       	<div class="fullwidth">
-        	<h5 class="modal-title mb-3">STATISTICS</h5>
+        	<h5 class="modal-title mb-3" style="text-transform: uppercase;">{{ $t('Statistics') }}</h5>
         </div>
 
-<StatsComponent />
-        
+				<StatsComponent />
 
+      </div>
 
+      <div class="my-modal-bottom bg-dark" >
+      	<div style="min-height: 10px;"></div>
       </div>
 
     </div>
@@ -142,7 +146,7 @@ const changeLocale = async (newLocale) => {
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header wrong-guess">
-        <h5 class="modal-title ">Modal title</h5>
+        
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body bg-dark p-2">
@@ -174,8 +178,9 @@ const changeLocale = async (newLocale) => {
               </li>
             </ul>
         </div>
-
-
+      </div>
+      <div class="my-modal-bottom bg-dark" >
+      	<div style="min-height: 10px;"></div>
       </div>
 
     </div>
