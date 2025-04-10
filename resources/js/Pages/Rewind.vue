@@ -42,6 +42,13 @@ const weekFootbles = ref([]);
 
 const selectedPastFootble = ref(null);
 
+// Variable para controlar el evento actualizar estadísticas
+const updateStatsTrigger = ref(false);
+
+const triggerStatsUpdate = () => {
+  updateStatsTrigger.value = !updateStatsTrigger.value; // Cambia el valor para disparar el watcher
+};
+
 const checkCanPlay = () => {
 	let result = true;
 
@@ -134,8 +141,6 @@ const updateHistoric = (gameFinished, gameResult) => {
 			historic.unshift(newFootble);
 		}
 
-		localStorage.setItem('FootbleHistoric', JSON.stringify(historic));
-
 	} else {
 	    historic = [];
 	    let newFootble = {
@@ -149,9 +154,12 @@ const updateHistoric = (gameFinished, gameResult) => {
 		}
 
 		historic.unshift(newFootble);
-
-		localStorage.setItem('FootbleHistoric', JSON.stringify(historic));
+		
 	}
+
+	console.log('Guardando es historic: ', historic);
+
+	localStorage.setItem('FootbleHistoric', JSON.stringify(historic));
 }
 
 // recuperar resultados de la semana pasada
@@ -183,7 +191,7 @@ const fillWeekFootbles = () => {
 				elem.won = footble.won;
 				elem.photo = footble.photo;
 				elem.name = footble.name;
-				if(footble.won || footble.attempts == 10) elem.done = true;
+				elem.done = footble.done;
 			}		
 		});
 
@@ -247,19 +255,25 @@ const selectPlayer = async (selectedPlayer) => {
       if(result.match) {
         modalResultBackground.value = 'right-guess';
         gameFinished.value = true;
-        
+        updateHistoric(gameFinished.value, result.match);
+      	updateLoadedHistoric(gameFinished.value, result.match);
+      	updateStreak(true);
+      	triggerStatsUpdate();
         showModal();
       }
 
       // Si ha hecho 10 intentos, no puede jugar más
       if(guesses.value.length == 10) {
         gameFinished.value = true;
-        
+        updateHistoric(gameFinished.value, result.match);
+      	updateLoadedHistoric(gameFinished.value, result.match);
+      	updateStreak(false);
+      	triggerStatsUpdate();
         showModal();
       }
 
-      updateHistoric(gameFinished.value, result.match);
-      updateLoadedHistoric(gameFinished.value, result.match);
+      
+      
 
   } else {
     showSuggestions.value = false;
@@ -269,6 +283,38 @@ const selectPlayer = async (selectedPlayer) => {
 
 };
 
+// actualizar racha
+const updateStreak = (result) => {
+  let currentStreak = localStorage.getItem('footbleCurrentStreak');
+  if(!currentStreak) {
+    currentStreak = 0;
+  } else {
+    currentStreak = parseInt(currentStreak);
+  }
+
+  if(result) {
+    currentStreak++;
+  } else {
+    currentStreak = 0;
+  }
+
+  localStorage.setItem('footbleCurrentStreak', currentStreak);
+
+  let maxStreak = localStorage.getItem('footbleMaxStreak');
+
+  if(!maxStreak) {
+    maxStreak = 0;
+  } else {
+    maxStreak = parseInt(maxStreak);
+  }
+
+  if(currentStreak > maxStreak) {
+    maxStreak = currentStreak;
+  } 
+
+  localStorage.setItem('footbleMaxStreak', maxStreak);
+
+}
 
 // comprobar intento
 const checkGuess = async (playerId) => {
@@ -312,7 +358,7 @@ onMounted(() => {
 </script>
 
 <template>
-	<NavigationBar />
+	<NavigationBar :update-trigger="updateStatsTrigger" />
 
   	<main class="container text-bg-dark mt-5 p-4">
   		<div class="row pt-3">

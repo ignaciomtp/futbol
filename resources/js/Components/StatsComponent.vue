@@ -1,22 +1,30 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import DistributionComponent from '@/Components/DistributionComponent.vue';
 
-let historic = localStorage.getItem('FootbleHistoric');
+let historic = [];
 let won = [];
 
-if(historic){
+const getHistoricData = () => {
+	historic = localStorage.getItem('FootbleHistoric');
+
+	if(historic){
 	historic = JSON.parse(historic);
 
 	won = historic.filter((elem) => elem.won);
-} else {
-	historic = [];
+	} else {
+		historic = [];
+	}
 }
+
 
 const topThree = ref([]);
 const topThreeVisible = ref(false);
 
 const distribution = ref(null);
+
+const currentStreak = ref(0);
+const maxStreak = ref(0);
 
 distribution.value = [
 	{
@@ -40,6 +48,7 @@ distribution.value = [
 		'percent': 0
 	},
 ];
+
 
 const fillDistribution = () => {
 
@@ -97,13 +106,58 @@ const getPercentage = (total, part) => {
 
 	result = (part * 100) / total;
 
+	//console.log('getPercentage total: ', total);
+	//console.log('getPercentage part: ', part);
+
 	result = Math.floor(result);	
+
+	//console.log('getPercentage result: ', result);
 
 	return isNaN(result) ? 0 : result;
 }
 
-onMounted(() => {
+
+const getCurrentStreak = () => {
+	currentStreak.value = Number(localStorage.getItem('footbleCurrentStreak')) || 0;
+}
+
+const getMaxStreak = () => {
+	maxStreak.value = Number(localStorage.getItem('footbleMaxStreak')) || 0;
+}
+
+const setStats = () => {
 	fillDistribution();
+	getCurrentStreak();
+	getMaxStreak();
+
+}
+
+// Definimos el prop con un valor por defecto
+const props = defineProps({
+  updateTrigger: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+// Observamos el prop updateTrigger y ejecutamos setStats cuando cambie
+watch(
+  () => props.updateTrigger,
+  (newValue, oldValue) => {
+  	console.log('ACTUALIZANDO STATS ************************');
+    if (newValue !== oldValue) {
+    	getHistoricData();
+      	setStats(); // Solo se ejecuta si hay un cambio real
+      	//props.updateTrigger = false;
+    }
+
+    console.log('updateTrigger: ', props.updateTrigger);
+  }
+);;
+
+onMounted(() => {
+	getHistoricData();
+	setStats();
 });
 
 </script>
@@ -119,11 +173,11 @@ onMounted(() => {
 			<div class="stat-label">{{ $t('Win') }} %</div>
 		</div>
 		<div class="col stat-value">
-			0
+			{{ currentStreak }}
 			<div class="stat-label">{{ $t('Current Streak') }}</div>
 		</div>
 		<div class="col stat-value">
-			0
+			{{ maxStreak }}
 			<div class="stat-label">{{ $t('Max Streak') }}</div>
 		</div>
 

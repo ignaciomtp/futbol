@@ -1,7 +1,7 @@
 <script setup>
 
 import axios from 'axios';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted  } from 'vue';
 import { router, Link, usePage } from '@inertiajs/vue3';
 import { Modal } from 'bootstrap';
 import PlayerContainer from '@/Components/PlayerContainer.vue';
@@ -16,12 +16,15 @@ let props = defineProps({
 });
 
 const modalResult = ref(null);
+//const modalResult2 = ref(null);
 const modalResultBackground = ref('wrong-guess');
 
 const page = usePage();
 
 const playGame = ref(false); 
 const gameFinished = ref(false);
+const userWon = ref(false);
+
 
 // contador para mostrar cuanto falta hasta el próximo footble
 const startCounter = ref(false);
@@ -33,11 +36,18 @@ const suggestions = ref([]);
 const showSuggestions = ref(false);
 const guesses = ref([]);
 
+// Variable para controlar el evento actualizar estadísticas
+const updateStatsTrigger = ref(false);
+
+const triggerStatsUpdate = () => {
+  updateStatsTrigger.value = !updateStatsTrigger.value; // Cambia el valor para disparar el watcher
+};
+
 // copiar resultado del juego para compartir
 const shareResult = async () => {
   let res = [];
 
-  if(checkUserWon()) {
+  if(userWon.value) {
     res.push('✔');
   } else {
     res.push('❌');
@@ -75,8 +85,46 @@ const playTheGame = () => {
 // comprobar si el usuario ha ganado
 const checkUserWon = () => {
   const wonGame = guesses.value.find((elem) => elem.id === props.player.id);
-  if(wonGame) return true;
+  if(wonGame) {
+    userWon.value = true;
+    return true;
+  } 
+
   return false;
+  
+}
+
+// actualizar racha
+const updateStreak = (result) => {
+  let currentStreak = localStorage.getItem('footbleCurrentStreak');
+  if(!currentStreak) {
+    currentStreak = 0;
+  } else {
+    currentStreak = parseInt(currentStreak);
+  }
+
+  if(result) {
+    currentStreak++;
+  } else {
+    currentStreak = 0;
+  }
+
+  localStorage.setItem('footbleCurrentStreak', currentStreak);
+
+  let maxStreak = localStorage.getItem('footbleMaxStreak');
+
+  if(!maxStreak) {
+    maxStreak = 0;
+  } else {
+    maxStreak = parseInt(maxStreak);
+  }
+
+  if(currentStreak > maxStreak) {
+    maxStreak = currentStreak;
+  } 
+
+  localStorage.setItem('footbleMaxStreak', maxStreak);
+
 }
 
 // comprobar si la partida del día ha terminado
@@ -138,18 +186,23 @@ const selectPlayer = async (selectedPlayer) => {
       // Guardar intentos en localStorage
       saveDayGuesses();    
 
-      // Si ha acertado, mostrar el resultado
+      // Si ha acertado, mostrar el resultado y guardar estadísticas
       if(result.match) {
         modalResultBackground.value = 'right-guess';
         gameFinished.value = true;
+        userWon.value = true;
+        updateStreak(true);
         saveDayResult();
+        triggerStatsUpdate();
         showModal();
       }
 
       // Si ha hecho 10 intentos, no puede jugar más
       if(guesses.value.length == 10) {
         gameFinished.value = true;
+        updateStreak(false);
         saveDayResult();
+        triggerStatsUpdate();
         showModal();
       }
 
@@ -158,8 +211,9 @@ const selectPlayer = async (selectedPlayer) => {
     showModal();
   }
 
-
 };
+
+
 
 // comprobar intento
 const checkGuess = async (playerId) => {
@@ -203,7 +257,8 @@ const saveDayGuesses = () => {
 const saveDayResult = (date = getDateOfDay()) => {
   let dayData = {
     date: date,
-    won: checkUserWon(),
+    done: true,
+    won: userWon.value,
     idPlayer: props.footble,
     photo: props.player.photo,
     name: props.player.name,
@@ -227,14 +282,14 @@ const saveDayResult = (date = getDateOfDay()) => {
 // Método para mostrar el modal
 const showModal = () => {
   startCounter.value = true;
-  console.log('startCounter value: ', startCounter.value);
   modalResult.value.show();
 };
 
 // Método para ocultar el modal
 const hideModal = () => {
-  console.log('close button clicked');
   startCounter.value = false;
+  document.getElementById("mainSearchBox").focus();
+  console.log('cerrandooooooo');
   modalResult.value.hide();
 };
 
@@ -253,6 +308,7 @@ const getDateOfDay = () => {
     return `${dia}/${mes}/${anio}`;
 }
 
+
 onMounted(() => {
     getDayGuesses();
 
@@ -265,15 +321,23 @@ onMounted(() => {
     });
 
     modalResult.value = new Modal(document.getElementById('staticBackdrop'), {
+      focus: false, // Desactiva el enfoque automático
       keyboard: false // Opciones adicionales si las necesitas
     });
 
-    console.log('modalResult: ', modalResult);
+/*
+    modalResult2.value = document.getElementById('staticBackdrop');
+
+    modalResult2.addEventListener('hidden.bs.modal', () => {
+      
+      openModalBtn.focus();
+    }); */
+
 });
 </script>
 
 <template>
-  <NavigationBar />
+  <NavigationBar :update-trigger="updateStatsTrigger" />
 
   <main class="container text-bg-dark mt-5 p-4">
     <div class="row pt-4">
@@ -291,7 +355,7 @@ onMounted(() => {
         <div id="game-container" v-if="playGame">
             <div class="guesses-remaining" v-if="guesses.length < 10">{{ $t('Guess') + ' ' + (guesses.length + 1) + ' ' + $t('of') }} 10</div>
             <div class="input-group mb-3 input-dropdown-container pl-5 pr-5">
-              <input type="text" class="searchbox" 
+              <input type="text" class="searchbox" id="mainSearchBox"
                 :placeholder="$t('Type a footballer name here') + '...'" 
                 v-model="searchQuery" 
                 @input="searchPlayers"

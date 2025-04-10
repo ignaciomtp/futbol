@@ -19,19 +19,51 @@ const statistics = {
 	max_streak: 0
 };
 
+// Definimos el prop con un valor por defecto
+const props = defineProps({
+  updateTrigger: {
+    type: Boolean, // Tipo del prop
+    default: false, // Valor por defecto si no se pasa
+  },
+});
+
 const showInstuctions = () => {
 	let instructionsModal = new Modal(document.getElementById('instructions'));
-    instructionsModal.show();
+	const buttonInstructions = document.getElementById('buttonInstructions');
+	const instructionsModal2 = document.getElementById('instructions');
+
+	instructionsModal2.addEventListener('hidden.bs.modal', () => {
+    // Mueve el foco al botón que abrió la modal
+    buttonInstructions.focus();
+  });
+    
+  instructionsModal.show();
 }
 
 const showSidebarMenu = () => {
 	let navigationModal = new Modal(document.getElementById('navigation'));
-    navigationModal.show();
+	const buttonSidebar = document.getElementById('buttonSidebar');
+	const navigationModal2 = document.getElementById('navigation');
+
+	navigationModal2.addEventListener('hidden.bs.modal', () => {
+    // Mueve el foco al botón que abrió la modal
+    buttonSidebar.focus();
+  });  
+
+  navigationModal.show();
 }
 
 const showStats = () => {
 	let statsModal = new Modal(document.getElementById('stats'));
-    statsModal.show();
+	const buttonStats = document.getElementById('buttonStats');
+	const statsModal2 = document.getElementById('stats');
+
+	statsModal2.addEventListener('hidden.bs.modal', () => {
+    // Mueve el foco al botón que abrió la modal
+    buttonStats.focus();
+  });  
+
+  statsModal.show();
 }
 
 const changeLocale = async (newLocale) => {
@@ -58,7 +90,7 @@ const changeLocale = async (newLocale) => {
     		<div class="collapse navbar-collapse" id="navbarsExample02">
 	            <ul class="navbar-nav me-auto">
 	              <li class="nav-item">
-	              	<button class="bar-button" @click="showSidebarMenu">
+	              	<button class="bar-button" @click="showSidebarMenu" id="buttonSidebar">
 	              		<i class="bi bi-list bar-button"></i>
 	              	</button>
 	                
@@ -67,13 +99,13 @@ const changeLocale = async (newLocale) => {
 	            <ul class="navbar-nav mr-3 text-end">
 	                <!-- Otros elementos de la navbar -->
 	                <li class="nav-item ">
-	                	<button class="bar-button" @click="showStats">
+	                	<button class="bar-button" @click="showStats" id="buttonStats">
 	                		<i class="bi bi-bar-chart-fill bar-button"></i>
 	                	</button>
 	                	
 	                </li>
 	                <li class="nav-item ">
-	                	<button class="bar-button" @click="showInstuctions">
+	                	<button class="bar-button" @click="showInstuctions" id="buttonInstructions">
 	                		<i class="bi bi-question-circle bar-button"></i>
 	                	</button>	                	
 	                </li>
@@ -128,7 +160,7 @@ const changeLocale = async (newLocale) => {
         	<h5 class="modal-title mb-3" style="text-transform: uppercase;">{{ $t('Statistics') }}</h5>
         </div>
 
-				<StatsComponent />
+				<StatsComponent :update-trigger="props.updateTrigger" />
 
       </div>
 
