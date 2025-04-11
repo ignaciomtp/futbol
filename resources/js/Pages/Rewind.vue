@@ -239,17 +239,13 @@ const selectPlayer = async (selectedPlayer) => {
       guesses.value.unshift(selectedPlayer);
       searchQuery.value = '';
       suggestions.value = [];
-      showSuggestions.value = false;
-
-      
+      showSuggestions.value = false;  
 
       // Eliminar la clase flip después de 250ms
       setTimeout(() => {
         selectedPlayer.isFlipping = false;
       }, 250);
 
-      // Guardar intentos en localStorage
-      //saveDayGuesses();    
 
       // Si ha acertado, mostrar el resultado
       if(result.match) {
@@ -259,21 +255,23 @@ const selectPlayer = async (selectedPlayer) => {
       	updateLoadedHistoric(gameFinished.value, result.match);
       	updateStreak(true);
       	triggerStatsUpdate();
+      	selectedPastFootble.value = null;
         showModal();
       }
 
       // Si ha hecho 10 intentos, no puede jugar más
       if(guesses.value.length == 10) {
+      	if(!result.match) modalResultBackground.value = 'wrong-guess';
         gameFinished.value = true;
         updateHistoric(gameFinished.value, result.match);
       	updateLoadedHistoric(gameFinished.value, result.match);
       	updateStreak(false);
       	triggerStatsUpdate();
+      	selectedPastFootble.value = null;
         showModal();
       }
 
-      
-      
+
 
   } else {
     showSuggestions.value = false;
@@ -351,6 +349,7 @@ onMounted(() => {
     });
 
     modalResult.value = new Modal(document.getElementById('staticBackdrop'), {
+    	focus: false, // Desactiva el enfoque automático
       keyboard: false // Opciones adicionales si las necesitas
     });
 });
@@ -426,8 +425,7 @@ onMounted(() => {
         <h2 class="mt-2">{{ returnTargetName() }}</h2>
       </div>
       <div class="my-modal-bottom " :class="modalResultBackground">
-
-        
+      	<div style="min-height: 10px;"></div>        
       </div>
     </div>
   </div>
