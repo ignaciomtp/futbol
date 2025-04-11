@@ -28,26 +28,47 @@ const maxStreak = ref(0);
 
 distribution.value = [
 	{
-		'1-2': 0,
-		'percent': 0
+		label: '1-2',
+		value: 0,
+		percent: 0
 	},
 	{
-		'3-4': 0,
-		'percent': 0
+		label:'3-4', 
+		value: 0,
+		percent: 0
 	},
 	{
-		'5-6': 0,
-		'percent': 0
+		label:'5-6', 
+		value: 0,
+		percent: 0
 	},
 	{
-		'7-8': 0,
-		'percent': 0
+		label:'7-8', 
+		value: 0,
+		percent: 0
 	},
 	{
-		'9-10': 0,
-		'percent': 0
+		label:'9-10', 
+		value: 0,
+		percent: 0
 	},
 ];
+
+const resetDistribution = () => {
+	distribution.value.forEach(elem => {
+		elem.value = 0;
+		elem.percent = 0;
+	});
+}
+
+const fillTopThree = (ftble) => {
+	if(topThree.value.length < 3){
+
+		const findElem = topThree.value.find((element) => element.idPlayer === ftble.idPlayer);
+
+		if(!findElem) topThree.value.push(ftble);
+	} 
+}
 
 
 const fillDistribution = () => {
@@ -70,25 +91,25 @@ const fillDistribution = () => {
 
 		if (intentos < 3) {
 		    label = '1-2';
-		    if(topThree.value.length < 3) topThree.value.push(elem);
+		    fillTopThree(elem);
 		} else if (intentos < 5) {
 		    label = '3-4';
-		    if(topThree.value.length < 3) topThree.value.push(elem);
+		    fillTopThree(elem);
 		} else if (intentos < 7) {
 		    label = '5-6';
-		    if(topThree.value.length < 3) topThree.value.push(elem);
+		    fillTopThree(elem);
 		} else if (intentos < 9) {
 		    label = '7-8';
-		    if(topThree.value.length < 3) topThree.value.push(elem);
+		    fillTopThree(elem);
 		} else {
 		    label = '9-10';
-		    if(topThree.value.length < 3) topThree.value.push(elem);
+		    fillTopThree(elem);
 		}
 
-		let idx = distribution.value.findIndex((item) => Object.keys(item)[0] === label);
+		let idx = distribution.value.findIndex((item) => item.label === label);
 
 		if (idx !== -1) {
-		  distribution.value[idx][label] += 1; // Incrementa el valor en 1
+		  distribution.value[idx]['value'] += 1; // Incrementa el valor en 1
 		}
 
 	});
@@ -96,7 +117,7 @@ const fillDistribution = () => {
 	if(topThree.value.length) topThreeVisible.value = true;
 
 	distribution.value.forEach((item) => {
-		item['percent'] = getPercentage(won.length, item[Object.keys(item)[0]]);
+		item.percent = getPercentage(won.length, item.value);
 	});
 
 }
@@ -106,12 +127,7 @@ const getPercentage = (total, part) => {
 
 	result = (part * 100) / total;
 
-	//console.log('getPercentage total: ', total);
-	//console.log('getPercentage part: ', part);
-
 	result = Math.floor(result);	
-
-	//console.log('getPercentage result: ', result);
 
 	return isNaN(result) ? 0 : result;
 }
@@ -132,6 +148,12 @@ const setStats = () => {
 
 }
 
+const resetStats = () => {
+	resetDistribution();
+	getHistoricData();
+	setStats();
+}
+
 // Definimos el prop con un valor por defecto
 const props = defineProps({
   updateTrigger: {
@@ -144,10 +166,9 @@ const props = defineProps({
 watch(
   () => props.updateTrigger,
   (newValue, oldValue) => {
-  	console.log('ACTUALIZANDO STATS ************************');
+
     if (newValue !== oldValue) {
-    	getHistoricData();
-      	setStats(); // Solo se ejecuta si hay un cambio real
+    	resetStats(); // Solo se ejecuta si hay un cambio real
       	//props.updateTrigger = false;
     }
 

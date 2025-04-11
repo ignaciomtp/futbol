@@ -9,12 +9,12 @@ const props = defineProps({
 
 <div class="distribution-row" >
 	<div class="guess-label ">
-		{{ Object.keys(rango)[0] }}
+		{{ rango.label }}
 	</div>
 	<div class="guess-bar-container">
 		<div class="guess-bar " :style="{ width: rango['percent'] + '%' }">
 			<span class="bar-value">
-				{{ rango[Object.keys(rango)[0]] }}
+				{{ rango.value }}
 			</span>
 		</div>
 	</div>
