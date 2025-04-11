@@ -13,3 +13,19 @@ defineProps({
     <img class="borde2" :src="country_flag" :alt="country_name">
   </div>
 </template>
+
+<style scoped>
+
+@media screen and (max-width: 450px) {
+  h3 {
+    margin-bottom: .1rem;
+
+  }
+
+  img {
+    max-width: 30px;
+  }
+
+}  
+
+</style>

@@ -372,7 +372,7 @@ onMounted(() => {
   				<LastWeekComponent :lastWeek="weekFootbles" @selected-footble="setSelectedPastFootble" />
 
   				<div id="game-container" v-if="playGame">
-		            <div class="guesses-remaining" v-if="guesses.length < 10">{{ $t('Guess') + ' ' + (guesses.length + 1) + ' ' + $t('of') }} 10</div>
+		            <div class="guesses-remaining" >{{ $t('Guess') + ' ' + (guesses.length + 1) + ' ' + $t('of') }} 10</div>
 		            <div class="input-group mb-3 input-dropdown-container pl-5 pr-5">
 		              <input type="text" class="searchbox" id="mainSearchBox"
 		                :placeholder="$t('Type a footballer name here') + '...'" 

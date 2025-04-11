@@ -184,7 +184,7 @@ onMounted(() => {
 </script>
 <template>
 
-	<div class="row g-4 container mb-4">
+	<div class="row row-stats g-4 container mb-4">
 		<div class="col stat-value">
 			{{ historic.length }}
 			<div class="stat-label">{{ $t('Played') }}</div>
