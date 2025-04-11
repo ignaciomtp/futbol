@@ -16,7 +16,6 @@ h1 {
 .my-modal-bottom {
     border-bottom-right-radius: var(--bs-modal-inner-border-radius);
     border-bottom-left-radius: var(--bs-modal-inner-border-radius);
-
 }
 
 .mr16 {
@@ -314,6 +313,9 @@ h1 {
 		margin-bottom: 5px;
 	}
 
+	.player-data-item-wide {
+		padding: 4px 3px;
+	}
 
 	.hideicon {
 		display: none;
@@ -340,6 +342,7 @@ h1 {
 
 	.club-name-box {
 		font-weight: 600;
+		font-size: 15px;
 	}
 
 	.player-data h4 {
@@ -348,8 +351,38 @@ h1 {
 	}
 
 	.player-div-box h2 {
-		padding-top: 6%;
+		padding-top: 0;
 	}
+
+	.num-titles-box {
+		width: 12%;
+		font-size: 15px;
+	}
+
+	.name-titles-box {
+
+		width: 88%;
+		padding-left: 0;
+		font-size: 15px;
+	}	
+
+	.round-thumb {
+		width: 70px;
+    	height: 70px;
+	}
+
+	.g-4, .gy-4 {
+	    --bs-gutter-y: 1rem !important;
+	}
+
+	.g-4, .gx-4 {
+	    --bs-gutter-x: 1rem !important;
+	}
+
+	.row-stats {
+		margin-left: 0 !important;
+	}
+
 
 }
 

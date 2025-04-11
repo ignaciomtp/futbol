@@ -19,7 +19,31 @@
 
 <style scoped>
 
-	.hideicon {
-		visibility: hidden;
+.hideicon {
+	visibility: hidden;
+}
+
+@media screen and (max-width: 1080px) {
+
+	.player-data h3 {
+		font-size: 14;
 	}
+
+	.player-data h4 {
+		font-size: 12px;
+		font-weight: 600;
+	}
+
+	.player-data-item {
+		padding: 10px 5px;
+	}
+}
+
+
+@media screen and (max-width: 400px) {
+	.player-data-item {
+		padding: 10px 5px;
+	}
+}
+
 </style>
