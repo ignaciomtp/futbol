@@ -48,39 +48,39 @@
   	<h5>{{ $t('Country') }}</h5>
   	<p>{{ $t('The country the footballer played for') }}. {{ $t('Might not coincide with his country of birth') }}.</p>
   	<div class="player-data data-row mb-2">
-  		<div class="player-data-item text-center wrong-guess">{{ $t('Incorrect') }}</div>
-  		<div class="player-data-item text-center partial-guess">{{ $t('In the same continent') }}</div>
-  		<div class="player-data-item text-center right-guess">{{ $t('Correct') }}</div>
+  		<div class="player-data-item text-center wrong-guess"><p>{{ $t('Incorrect') }}</p></div>
+  		<div class="player-data-item text-center partial-guess"><p>{{ $t('In the same continent') }}</p></div>
+  		<div class="player-data-item text-center right-guess"><p>{{ $t('Correct') }}</p></div>
   	</div>
 
   	<h5>{{ $t('Active') }}</h5>
   	<p>{{ $t('The years he was profesionally active') }}. {{ $t('A down arrow means the target player is from an older era, an up arrow a newer one') }}.</p>
   	<div class="player-data data-row mb-2">
-  		<div class="player-data-item text-center wrong-guess">{{ $t("Careers don't overlap") }}</div>
-  		<div class="player-data-item text-center partial-guess">{{ $t('Careers overlap less than 10 years') }}</div>
-  		<div class="player-data-item text-center right-guess">{{ $t('Careers overlap 10 years or more') }}</div>
+  		<div class="player-data-item text-center wrong-guess"><p>{{ $t("Careers don't overlap") }}</p></div>
+  		<div class="player-data-item text-center partial-guess"><p>{{ $t('Careers overlap less than 10 years') }}</p></div>
+  		<div class="player-data-item text-center right-guess"><p>{{ $t('Careers overlap 10 years or more') }}</p></div>
   	</div>
 
   	<h5>{{ $t('Position') }}</h5>
   	<p>{{ $t('The general position he mostly played') }}. {{ $t('Options are goalkeeper, defender, midfielder and attacker') }}.</p>
   	<div class="player-data data-row mb-2">
-  		<div class="player-data-item text-center wrong-guess">{{ $t('Incorrect') }}</div>
-  		<div class="player-data-item text-center right-guess">{{ $t('Correct') }}</div>
+  		<div class="player-data-item text-center wrong-guess"><p>{{ $t('Incorrect') }}</p></div>
+  		<div class="player-data-item text-center right-guess"><p>{{ $t('Correct') }}</p></div>
   	</div>
 
   	<h5>{{ $t('Clubs') }}</h5>
   	<p>{{ $t('The clubs the footballer played for') }}. {{ $t('Not necessarily in that order') }}. </p>
   	<div class="player-data data-row mb-2">
-  		<div class="player-data-item text-center wrong-guess">{{ $t("Didn't play for any of those clubs") }}</div>
-  		<div class="player-data-item text-center right-guess">{{ $t('Played for at least one of those clubs') }}</div>
+  		<div class="player-data-item text-center wrong-guess"><p>{{ $t("Didn't play for any of those clubs") }}</p></div>
+  		<div class="player-data-item text-center right-guess"><p>{{ $t('Played for at least one of those clubs') }}</p></div>
   	</div>
 
   	<h5>{{ $t('Won') }}</h5>
   	<p>{{ $t('The most important titles and awards the player won') }}.</p>
   	<div class="player-data data-row mb-2">
-  		<div class="player-data-item text-center wrong-guess">{{ $t("Didn't win any of those") }}</div>
-  		<div class="player-data-item text-center partial-guess">{{ $t('Won exactly one of those') }}</div>
-  		<div class="player-data-item text-center right-guess">{{ $t('Won more than one of those') }}</div>
+  		<div class="player-data-item text-center wrong-guess"><p>{{ $t("Didn't win any of those") }}</p></div>
+  		<div class="player-data-item text-center partial-guess"><p>{{ $t('Won exactly one of those') }}</p></div>
+  		<div class="player-data-item text-center right-guess"><p>{{ $t('Won more than one of those') }}</p></div>
   	</div>
   </div>
  
@@ -92,4 +92,14 @@
 	.nav-item {
 		margin: 0 20px;
 	}
+
+  .player-data-item {
+    display: grid;
+    place-items: center; /* Centra tanto horizontal como verticalmente */
+  }
+
+  .player-data-item p{
+    line-height: 1.1rem;
+    margin-bottom: 0;
+  }
 </style>

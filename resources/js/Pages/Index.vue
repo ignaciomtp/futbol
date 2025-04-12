@@ -162,6 +162,15 @@ const searchPlayers = async () => {
 const selectPlayer = async (selectedPlayer) => {
 
   if(!gameFinished.value) {
+      // comprobar que no esté ya seleccionado
+      if(guesses.value.length) {
+        let idx = guesses.value.findIndex((elem) => elem.id === selectedPlayer.id);
+        if(idx != -1){
+          showSuggestions.value = false;
+          return;
+        }
+      }
+
       // Ejecutar checkGuess y almacenar el resultado en el objeto player
       const result = await checkGuess(selectedPlayer.id);
       selectedPlayer.checkResult = result; // Agregar el resultado al jugador
@@ -342,11 +351,7 @@ onMounted(() => {
   <main class="container text-bg-dark mt-5 p-4">
     <div class="row pt-4">
       <div class="col-md-3 text-center">
-        <p> {{ $t('left column') }}</p>
-         Button trigger modal
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-          Launch static backdrop modal
-        </button> 
+
       </div>
       <div class="col-md-6">
 
@@ -380,17 +385,28 @@ onMounted(() => {
                 <p class="m-4">{{ $t('Search for an footballer to make your first guess') }}.</p>
             </div>
 
-            <div class="mt-5" id="guesses">
+            <div class="mt-3" id="guesses">
               <PlayerContainer v-for="player in guesses" :key="player.id" :player="player"  />
+            </div>
+
+            <div class="mt-3 " v-if="guesses.length == 1">
+              <div class="data-row2">
+                <div class="player-data-item text-center wrong-guess">{{ $t('No match') }}</div>
+                <div class="player-data-item text-center partial-guess">{{ $t('Close') }}</div>
+                <div class="player-data-item text-center right-guess">{{ $t('Match') }}</div>      
+              </div>
+
+              <p class="mt-2 text-center hometext">{{ $t('Use the matching attributes to make more guesses') }}. {{ $t('Good luck!') }}</p>
+                      
             </div>
         </div>
 
       </div>
       <div class="col-md-3 text-center">
-        <p> {{ $t('right column') }}</p>
+        <!--<p> {{ $t('right column') }}</p>
         <button type="button" class="btn btn-warning" @click="showModal">
           Launch static backdrop modal
-        </button>
+        </button> -->
       </div>
     </div>
   </main>
@@ -426,6 +442,11 @@ onMounted(() => {
   display: block !important;
   position: absolute;
   z-index: 1000;
+}
+
+.data-row2 {
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .modal-content {
