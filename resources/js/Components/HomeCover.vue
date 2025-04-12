@@ -15,9 +15,9 @@ const emitPlayGame = () => {
 			<h1>Footble</h1><span>⚽</span>
 		</div>
 
-		<div class="mt-3 mb-3" data-svelte-h="svelte-1f4f1d1">
-			<p class="p-1">10 {{ $t('guesses') }}, 1000 {{ $t('footballers') }}</p> 
-			<p class="p-1">{{ $t('Will you win today?') }}</p>
+		<div class="mt-3 mb-3" >
+			<p class="p-1 hometext">10 {{ $t('guesses') }}, 1000 {{ $t('footballers') }}</p> 
+			<p class="p-1 hometext">{{ $t('Will you win today?') }}</p>
 		</div>
 
 		<div class="mt-5">
@@ -29,11 +29,6 @@ const emitPlayGame = () => {
 
 </template>
 <style scoped>
-p {
-	
-	font-size: 1.2rem;
-	font-weight: bold;
-}
 
 #logo {
   background-image: url('/img/soccer-field-2.png');
