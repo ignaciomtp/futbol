@@ -45,6 +45,8 @@ const shouldFlip = (result) => {
       <CountryDataContainer  
         :country_name="player.country"
         :country_flag="player.country_flag"
+        :birth_country_name="player.birth_country"
+        :birth_country_flag="player.birth_country_flag"
         :guess-class="getGuessClass(player.checkResult?.country)"
         :is-flipping="shouldFlip(player.checkResult?.country)"
       />

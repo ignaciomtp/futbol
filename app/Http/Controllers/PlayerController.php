@@ -22,6 +22,12 @@ class PlayerController extends Controller
         foreach($players as $player) {
             $flag = returnCountryFlag($player->country);
             $player->country_flag = 'https://flagcdn.com/w40/'.$flag.'.png';
+
+            if($player->country != $player->birth_country) {
+                $flag = returnCountryFlag($player->birth_country);
+            }
+
+            $player->birth_country_flag = 'https://flagcdn.com/w40/'.$flag.'.png';
         }
 
         return $players;
