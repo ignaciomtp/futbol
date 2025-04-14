@@ -34,7 +34,7 @@ const footbleBackground = (id) => {
 		<div class="casilla" v-for="(day, index) in lastWeek" :key="index + 1">
 			<div class="date-circle borde2" :class="footbleBackground(day.idPlayer)">
 				<div v-if="day.done">
-					<img :src="'/img/players/' + day.photo" v-if="day.photo.length" />
+					<img :src="'/img/players/' + day.photo" v-if="day.photo.length" class="tinythumb2" />
 					<span v-if="!day.photo.length">?</span>
 				</div>
 
@@ -66,33 +66,39 @@ const footbleBackground = (id) => {
 	font-size: 0.9rem;
 }
 
+.tinythumb2 {
+    max-height: 53px;
+    border-radius: 50%;
+}
+
 .date-circle {
 	width: 50px;
     height: 50px;
     border-radius: 50%;
     justify-content: center;
-    align-items: center;
-    padding-top: 6px;
+    align-items: top;
+    padding: 0;
     font-size: 1.2rem;
     font-weight: bold;
     transition: all .2s ease;
     overflow: hidden;
-}
-
-.date-circle img {
-	height: 50px;
+    display: grid;
+    place-items: center; /* Centra tanto horizontal como verticalmente */
 }
 
 .date-circle span {
-	vertical-align: middle;
+	display: inline-block;
+	min-width: 50px;
+	line-height: 2.6rem;
 }
+
 
 .button {
 	cursor: pointer;
 }
 
-.borde2:hover {
-	border-color: #597a96;
+.wrong-guess:hover {
+	background-color: #030202 !important;
 }
 
 @media (max-width: 480px) {

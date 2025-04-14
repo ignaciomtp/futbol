@@ -34,6 +34,8 @@ const returnTargetPhoto = () => {
 const playGame = ref(true); 
 const gameFinished = ref(false);
 
+const playedAll = ref(false);
+
 const searchQuery = ref('');
 const suggestions = ref([]);
 const showSuggestions = ref(false);
@@ -201,6 +203,17 @@ const fillWeekFootbles = () => {
 
 }
 
+// comprobar si ha jugado todos los de la semana pasada
+const checkPlayedAll = () => {
+	let result = false;
+
+	let idx = weekFootbles.value.findIndex((elem) => elem.done === false);
+
+	if(idx === -1) result = true;
+
+	playedAll.value = result;
+}
+
 // buscar jugadores por nombre
 const searchPlayers = async () => {
   if (searchQuery.value.length < 1) {
@@ -256,6 +269,7 @@ const selectPlayer = async (selectedPlayer) => {
       	updateStreak(true);
       	triggerStatsUpdate();
       	selectedPastFootble.value = null;
+      	checkPlayedAll();
         showModal();
       }
 
@@ -268,6 +282,7 @@ const selectPlayer = async (selectedPlayer) => {
       	updateStreak(false);
       	triggerStatsUpdate();
       	selectedPastFootble.value = null;
+      	checkPlayedAll();
         showModal();
       }
 
@@ -366,7 +381,8 @@ onMounted(() => {
   				<div class="text-center mb-3">
   					<h1><i class="bi bi-rewind-fill"></i> Rewind</h1>
 
-  					<div>{{ $t('Choose a Footble to play') }}</div>
+  					<div v-if="playedAll">{{ $t('You already played them all') }}</div>
+  					<div v-else>{{ $t('Choose a Footble to play') }}</div>
   				</div>
   				
   				<LastWeekComponent :lastWeek="weekFootbles" @selected-footble="setSelectedPastFootble" />
