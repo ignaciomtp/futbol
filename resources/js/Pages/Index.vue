@@ -298,7 +298,6 @@ const showModal = () => {
 const hideModal = () => {
   startCounter.value = false;
   document.getElementById("mainSearchBox").focus();
-  console.log('cerrandooooooo');
   modalResult.value.hide();
 };
 

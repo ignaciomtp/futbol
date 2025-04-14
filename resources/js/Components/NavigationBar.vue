@@ -193,7 +193,9 @@ const changeLocale = async (newLocale) => {
                 <h4>{{ $t('Follow Us') }}</h4>
               </li>
               <li>
-                <h4>{{ $t('Privacy') }}</h4>
+                <h4>
+                	<a :href="route('privacy')">{{ $t('Privacy') }}</a>
+                </h4>
               </li>
             </ul>
 
