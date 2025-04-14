@@ -22,7 +22,6 @@ defineProps({
       <img class="borde2 smaller" :src="birth_country_flag" :alt="birth_country_name">
       <img class="borde2 smaller" :src="country_flag" :alt="country_name">
     </div>
-
     
   </div>
 </template>
