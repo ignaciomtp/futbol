@@ -316,6 +316,18 @@ const getDateOfDay = () => {
     return `${dia}/${mes}/${anio}`;
 }
 
+const setCookie = (cname, cvalue, exdays) => {
+  console.log('This is setCookie');
+  const d = new Date();
+  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+  let expires = "expires="+d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+const borrarCookie = () => {
+  setCookie("footble", "noconsent", 365);
+}
+
 
 onMounted(() => {
     getDayGuesses();
@@ -350,7 +362,7 @@ onMounted(() => {
   <main class="container text-bg-dark mt-5 p-4">
     <div class="row pt-4">
       <div class="col-md-3 text-center">
-
+        <button class="btn btn-warning" @click="borrarCookie">Borrar cookie</button>
       </div>
       <div class="col-md-6">
 

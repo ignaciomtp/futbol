@@ -1,9 +1,9 @@
 <script setup>
-import NavigationBar from '@/Components/NavigationBar.vue';
+import NavigationBar2 from '@/Components/NavigationBar2.vue';
 </script>
 
 <template>
-	<NavigationBar />
+	<NavigationBar2 />
 
   	<main class="container text-bg-dark mt-5 p-4">
   		<div class="row pt-3">
@@ -31,7 +31,5 @@ import NavigationBar from '@/Components/NavigationBar.vue';
 </template>
 
 <style scoped>
-.text-justify {
-	text-align: justify;
-}
+
 </style>

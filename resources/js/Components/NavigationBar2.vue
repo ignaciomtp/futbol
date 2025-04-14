@@ -4,21 +4,12 @@ import axios from 'axios';
 import { usePage } from '@inertiajs/vue3';
 import { Modal } from 'bootstrap';
 import { loadLanguageAsync } from 'laravel-vue-i18n';
-import InstructionsComponent from '@/Components/InstructionsComponent.vue';
-import StatsComponent from '@/Components/StatsComponent.vue';
-import CookiesComponent from '@/Components/CookiesComponent.vue';
+
 
 // Acceder a los datos compartidos por Inertia
 const page = usePage();
 let locale = page.props.locale; // El locale compartido desde Laravel
 
-
-const statistics = {
-	played: 0,
-	won: 0,
-	current_streak: 0,
-	max_streak: 0
-};
 
 // Definimos el prop con un valor por defecto
 const props = defineProps({
@@ -28,18 +19,6 @@ const props = defineProps({
   },
 });
 
-const showInstuctions = () => {
-	let instructionsModal = new Modal(document.getElementById('instructions'));
-	const buttonInstructions = document.getElementById('buttonInstructions');
-	const instructionsModal2 = document.getElementById('instructions');
-
-	instructionsModal2.addEventListener('hidden.bs.modal', () => {
-    // Mueve el foco al botón que abrió la modal
-    buttonInstructions.focus();
-  });
-    
-  instructionsModal.show();
-}
 
 const showSidebarMenu = () => {
 	let navigationModal = new Modal(document.getElementById('navigation'));
@@ -54,18 +33,7 @@ const showSidebarMenu = () => {
   navigationModal.show();
 }
 
-const showStats = () => {
-	let statsModal = new Modal(document.getElementById('stats'));
-	const buttonStats = document.getElementById('buttonStats');
-	const statsModal2 = document.getElementById('stats');
 
-	statsModal2.addEventListener('hidden.bs.modal', () => {
-    // Mueve el foco al botón que abrió la modal
-    buttonStats.focus();
-  });  
-
-  statsModal.show();
-}
 
 const changeLocale = async (newLocale) => {
     try {
@@ -99,18 +67,6 @@ const changeLocale = async (newLocale) => {
 	              </li>
 	            </ul>
 	            <ul class="navbar-nav mr-3 text-end">
-	                <!-- Otros elementos de la navbar -->
-	                <li class="nav-item ">
-	                	<button class="bar-button" @click="showStats" id="buttonStats">
-	                		<i class="bi bi-bar-chart-fill bar-button"></i>
-	                	</button>
-	                	
-	                </li>
-	                <li class="nav-item ">
-	                	<button class="bar-button" @click="showInstuctions" id="buttonInstructions">
-	                		<i class="bi bi-question-circle bar-button"></i>
-	                	</button>	                	
-	                </li>
 	                <li class="nav-item dropdown">
 	                    <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 	                       {{ locale.toUpperCase() }} <!-- Muestra el locale actual en mayúsculas -->
@@ -129,52 +85,6 @@ const changeLocale = async (newLocale) => {
     	</div>
   	</nav>
 
-  	<CookiesComponent />
-
-
-<!-- Modal Instrucciones -->
-<div class="modal" tabindex="-1" id="instructions">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header wrong-guess">
-        
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body bg-dark">
-        <InstructionsComponent />
-      </div>
-      <div class="my-modal-bottom bg-dark" >
-      	<div style="min-height: 10px;"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal Estadísticas -->
-<div class="modal" tabindex="-1" id="stats">
-  <div class="modal-dialog">
-    <div class="modal-content text-center">
-      <div class="modal-header wrong-guess">
-        
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        
-      </div>
-      <div class="modal-body bg-dark p-3">
-      	<div class="fullwidth">
-        	<h5 class="modal-title mb-3" style="text-transform: uppercase;">{{ $t('Statistics') }}</h5>
-        </div>
-
-				<StatsComponent :update-trigger="props.updateTrigger" />
-
-      </div>
-
-      <div class="my-modal-bottom bg-dark" >
-      	<div style="min-height: 10px;"></div>
-      </div>
-
-    </div>
-  </div>
-</div>
 
 
 <!-- Modal Navegación -->
