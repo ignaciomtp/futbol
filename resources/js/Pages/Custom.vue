@@ -10,7 +10,7 @@ import NavigationBar from '@/Components/NavigationBar.vue';
 let props = defineProps({ 
 	footble: Number,
 	message: String,
-  	player: Object
+  player: Object
 });
 
 const modalResult = ref(null);
@@ -42,9 +42,9 @@ const shareResult = async () => {
     res.unshift('⬜');
   }
 
-  let message = trans('Footble challenge')
+  let message = trans('Footble challenge');
 
-  let texto = `${message} ⚽
+  let texto = `${message} ⚽: ${props.player.name}
 
 ${res.join('')}
 
@@ -53,6 +53,7 @@ footble.io`;
   try {
       await navigator.clipboard.writeText(texto);
       shareResultText.value = 'Copied result';
+      localStorage.removeItem('footbleCustom' + props.footble);
   } catch (err) {
       console.error('Error al copiar al portapapeles: ', err);
   }
@@ -174,6 +175,7 @@ const showModal = () => {
 
 // Método para ocultar el modal
 const hideModal = () => {
+  document.getElementById("mainSearchBox").focus();
   modalResult.value.hide();
 };
 
@@ -220,6 +222,7 @@ onMounted(() => {
     });
 
     modalResult.value = new Modal(document.getElementById('staticBackdrop'), {
+      focus: false, // Desactiva el enfoque automático
       keyboard: false // Opciones adicionales si las necesitas
     });
 
@@ -234,18 +237,14 @@ onMounted(() => {
 	<main class="container text-bg-dark mt-5 p-4">
 	    <div class="row pt-4">
 	      <div class="col-md-3 text-center">
-	        <p> {{ $t('left column') }}</p>
-	         Button trigger modal
-	        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-	          Launch static backdrop modal
-	        </button> 
+
 	      </div>
 	      <div class="col-md-6">
 
 	        <div id="game-container">
 	            <div class="guesses-remaining" v-if="guesses.length < 10">{{ $t('Guess') + ' ' + (guesses.length + 1) + ' ' + $t('of') }} 10</div>
 	            <div class="input-group mb-3 input-dropdown-container pl-5 pr-5">
-	              <input type="text" class="searchbox" 
+	              <input type="text" class="searchbox" id="mainSearchBox"
 	                :placeholder="$t('Type a footballer name here') + '...'" 
 	                v-model="searchQuery" 
 	                @input="searchPlayers"
@@ -277,10 +276,7 @@ onMounted(() => {
 
 	      </div>
 	      <div class="col-md-3 text-center">
-	        <p> {{ $t('right column') }}</p>
-	        <button type="button" class="btn btn-warning" @click="showModal">
-	          Launch static backdrop modal
-	        </button>
+
 	      </div>
 	    </div>
 	  </main>

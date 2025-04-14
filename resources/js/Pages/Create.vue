@@ -113,7 +113,7 @@ onMounted(() => {
   		<div class="row pt-3">
   			<div class="col-md-3 "></div>
   			<div class="col-md-6">
-  				<div class="text-center mb-5">
+  				<div class="text-center mb-4">
   					<h1><i class="bi bi-plus-circle"></i> Create</h1>
   				</div>
 
@@ -125,7 +125,7 @@ onMounted(() => {
   				</div>
 
   				
-  				<div class="input-group mb-3 input-dropdown-container pl-5 pr-5 mb-4">
+  				<div class="input-group mb-3 input-dropdown-container pl-5 pr-5 mb-3">
 	              <input type="text" class="searchbox" id="mainSearchBox"
 	                :placeholder="$t('Type a footballer name here') + '...'" 
 	                v-model="searchQuery" 
@@ -146,27 +146,38 @@ onMounted(() => {
 	              </div>
 		        </div>
 
-		        <div class="data-row data-player-id d-flex align-items-center mb-5" v-if="targetPlayer">
+		        <div class="data-row data-player-id d-flex align-items-center mb-4" v-if="targetPlayer">
 			      <PlayerView :player="targetPlayer" />
 
 			    </div>
 
-			    <div v-if="targetPlayer">
+			    <div v-if="targetPlayer" class="mb-3">
 				    <div class="data-row instruction-data mb-1" >
 						<p class="mr-3">
 							2.
 						</p>
 						<h2> {{ $t('Leave a note for your friend') }}</h2>  						
 									
-					</div>
+						</div>
 
-					<textarea class="form-control" v-model="message" :placeholder="$t('Write a hint or message here')" id="floatingTextarea"></textarea>	
+						<textarea class="form-control" v-model="message" :placeholder="$t('Write a hint or message here')" id="floatingTextarea"></textarea>	
 
-					<div class="mt-4 text-center">
-						<button type="button" class="btn btn-success" @click="shareFootble">{{ $t(shareResultText) }}</button>		  
-					</div>
+						<div class="mt-4 text-center">
+							<button type="button" class="btn btn-success" @click="shareFootble">{{ $t(shareResultText) }}</button>		  
+						</div>
 					  	
 			    </div>  				
+
+			    <div v-if="shareResultText != 'Share'">
+			    	<div class="data-row instruction-data mb-1" >
+						<p class="mr-3">
+							3.
+						</p>
+						<h2> {{ $t('You can share the Footble with your friend now') }}</h2>  						
+									
+						</div>
+
+			    </div>
   			</div>
   		</div>
   	</main>

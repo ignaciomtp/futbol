@@ -18,6 +18,10 @@ export default {
         "create": {
             "uri": "create",
             "methods": ["GET"]
+        },
+        "privacy": {
+            "uri": "privacy",
+            "methods": ["GET"]
         }
     }
 };

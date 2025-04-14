@@ -53,6 +53,15 @@ class PublicController extends Controller
         return Inertia::render('Create');
     }
 
+    /**
+     * Show the privacy policy page
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function privacy() {
+        return Inertia::render('Privacy');
+    }
+
     /*
     *
     * Show custom Footble
