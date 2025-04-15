@@ -117,6 +117,16 @@ h1 {
     margin-top: 0 !important; /* Elimina márgenes extra */
 }
 
+.dropdown-player-item {
+	line-height: 48px;
+	vertical-align: middle
+}
+
+.dropdown-player-item img {
+	display: inline-block;
+	height: 100%
+}
+
 .dropdown-player-item:hover {
 	background-color: #CCC !important;
 	cursor: pointer;
