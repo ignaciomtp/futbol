@@ -24,21 +24,21 @@
       <p>{{ $t('Guess a footballer using the search bar') }}.</p>
 
       <div class="text-center">
-        <img :src="'/img/instructions-1.png'" class="img-fluid">
+        <img :src="'/img/guess1.png'" class="img-fluid">
       </div>          
 
       <h5>{{ $t('Step') }} 2</h5>
       <p>{{ $t('Make another guess based off the new information') }}.</p>
 
       <div class="text-center">
-        <img :src="'/img/instructions-3.png'" class="img-fluid">
+        <img :src="'/img/guess3.png'" class="img-fluid">
       </div>          
 
       <h5>{{ $t('Step') }} 3</h5>
       <p>{{ $t('Keep going until you guess the footballer') }}. {{ $t('A new Footble will appear every day!') }}</p>
 
       <div class="text-center">
-        <img :src="'/img/instructions-4.png'" class="img-fluid">
+        <img :src="'/img/guess4.png'" class="img-fluid">
       </div>        
 
     </div>

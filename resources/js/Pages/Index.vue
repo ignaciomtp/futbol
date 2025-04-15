@@ -362,7 +362,7 @@ onMounted(() => {
   <main class="container text-bg-dark mt-5 p-4">
     <div class="row pt-4">
       <div class="col-md-3 text-center">
-        <button class="btn btn-warning" @click="borrarCookie">Borrar cookie</button>
+        
       </div>
       <div class="col-md-6">
 
