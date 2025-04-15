@@ -67,6 +67,10 @@ const showStats = () => {
   statsModal.show();
 }
 
+const emisionReceived = (lang) => {
+	changeLocale(lang);
+}
+
 const changeLocale = async (newLocale) => {
     try {
         const response = await axios.post('/change-locale/', { 
@@ -129,7 +133,7 @@ const changeLocale = async (newLocale) => {
     	</div>
   	</nav>
 
-  	<CookiesComponent />
+  	<CookiesComponent :locale="locale" @emit-change-locale="emisionReceived" />
 
 
 <!-- Modal Instrucciones -->
