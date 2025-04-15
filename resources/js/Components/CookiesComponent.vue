@@ -60,7 +60,7 @@ const hideModal = () => {
 };
 
 onMounted(() => {
-	modalResult.value = new Modal(document.getElementById('staticBackdrop'), {
+	modalResult.value = new Modal(document.getElementById('consentModal'), {
       focus: false, // Desactiva el enfoque automático
       keyboard: false // Opciones adicionales si las necesitas
     });
@@ -72,7 +72,7 @@ onMounted(() => {
 <template>
 
 <!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="consentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -81,27 +81,27 @@ onMounted(() => {
       </div>
       <div class="modal-body">
         <div class="text-center" id="welcome">
-        	<h2>Welcome to Footble</h2>
-        	<h3>The football Wordle game</h3>
-        	<p>We use cookies and similar technologies to enhance your experience, analyze site performance, and deliver personalized ads. Here’s what you need to know:</p>
+        	<h2>{{ $t('Welcome to Footble') }}</h2>
+        	<h3>{{ $t('The football Wordle game') }}</h3>
+        	<p>{{ $t('We use cookies and similar technologies to enhance your experience, analyze site performance, and deliver personalized ads') }}. {{ $t('Here’s what you need to know') }}:</p>
         </div>
 
         <div class="text-left pl-4 pr-4 smallfont">
-        	<p class="m-2 text-justify"><strong>Local Storage:</strong> Footble stores game progress (e.g., scores or settings) directly in your browser for functionality. No personal data is collected or sent to us.</p>
-        	<p class="m-2 text-justify"><strong>Analytics:</strong> We use Google Analytics to understand how our site is used. This may involve cookies to track anonymized usage patterns.</p>
+        	<p class="m-2 text-justify"><strong>{{ $t('Local Storage') }}:</strong> {{ $t('Footble stores game progress (e.g., scores or settings) directly in your browser for functionality') }}. {{ $t('No personal data is collected or sent to us') }}.</p>
+        	<p class="m-2 text-justify"><strong>Analytics:</strong> {{ $t('We use Google Analytics to understand how our site is used') }}. {{ $t('This may involve cookies to track anonymized usage patterns') }}.</p>
         	<p class="m-2 text-justify">
-        	<strong>Advertising:</strong> We partner with ad providers that may use cookies to serve relevant ads based on your interests and browsing behavior.
+        	<strong>{{ $t('Advertising') }}:</strong> {{ $t('We partner with ad providers that may use cookies to serve relevant ads based on your interests and browsing behavior') }}.
         	</p>
         </div>
 
         <div class="text-left">
-        	<p class="text-justify smallfont">By continuing to use Footble, you consent to our use of cookies as described. You can manage your cookie preferences through your browser settings at any time.
-			For more details, see our <a :href="route('privacy')">Privacy Policy</a>.</p>
+        	<p class="text-justify smallfont">{{ $t('By continuing to use Footble, you consent to our use of cookies as described') }}. {{ $t('You can manage your cookie preferences through your browser settings at any time') }}.
+			{{ $t('For more details, see our') }} <a :href="route('privacy')">{{ $t('Privacy Policy') }}</a>.</p>
         </div>
       </div>
       <div class="modal-footer ">
-        <button type="button" class="btn btn-secondary" @click="dontConsent">Close</button>
-        <button type="button" class="btn btn-success" @click="consent">Consent</button>
+        <button type="button" class="btn btn-secondary" @click="dontConsent">{{ $t('No Consent') }}</button>
+        <button type="button" class="btn btn-success" @click="consent">{{ $t('Consent') }}</button>
       </div>
     </div>
   </div>
