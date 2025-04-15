@@ -126,6 +126,15 @@ const changeLocale = async (newLocale) => {
 	                        <li>
 	                            <button class="dropdown-item" @click="changeLocale('es')">Español</button>
 	                        </li>
+	                        <li>
+	                            <button class="dropdown-item" @click="changeLocale('fr')">Français</button>
+	                        </li>
+	                        <li>
+	                            <button class="dropdown-item" @click="changeLocale('de')">Deutsch</button>
+	                        </li>
+	                        <li>
+	                            <button class="dropdown-item" @click="changeLocale('it')">Italiano</button>
+	                        </li>
 	                    </ul>
 	                </li>
 	            </ul>

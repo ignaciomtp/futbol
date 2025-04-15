@@ -98,6 +98,15 @@ onMounted(() => {
                     <li>
                         <button class="dropdown-item" @click="emitChangeLocale('es')">Español</button>
                     </li>
+                    <li>
+                        <button class="dropdown-item" @click="emitChangeLocale('fr')">Français</button>
+                    </li>
+                    <li>
+                        <button class="dropdown-item" @click="emitChangeLocale('de')">Deutsch</button>
+                    </li>
+                    <li>
+                        <button class="dropdown-item" @click="emitChangeLocale('it')">Italiano</button>
+                    </li>
                 </ul>
             </li>
       	</ul>
