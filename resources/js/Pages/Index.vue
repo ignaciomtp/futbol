@@ -435,7 +435,7 @@ onMounted(() => {
         <h2 class="mt-2">{{ props.player.name }}</h2>
       </div>
       <div class="my-modal-bottom " :class="modalResultBackground">
-        <div class="mb-4">
+        <div class="mt-2 mb-2">
           <button type="button" class="btn btn-dark" @click="shareResult">{{ $t(shareResultText) }}</button>
         </div>
         <div class="mb-4">
@@ -462,6 +462,10 @@ onMounted(() => {
 
 .modal-content {
   color: #FFF;
+}
+
+.modal-body {
+  padding-bottom: 0;
 }
 
 .instructions img {
