@@ -361,10 +361,10 @@ onMounted(() => {
 
   <main class="container text-bg-dark mt-5 p-4">
     <div class="row pt-4">
-      <div class="col-md-3 text-center">
+      <div class="col-lg-3 text-center">
         
       </div>
-      <div class="col-md-6">
+      <div class="col-lg-6">
 
         <HomeCover v-if="!playGame" @play-game="playTheGame" />
 
@@ -413,7 +413,7 @@ onMounted(() => {
         </div>
 
       </div>
-      <div class="col-md-3 text-center">
+      <div class="col-lg-3 text-center">
         <!--<p> {{ $t('right column') }}</p>
         <button type="button" class="btn btn-warning" @click="showModal">
           Launch static backdrop modal
