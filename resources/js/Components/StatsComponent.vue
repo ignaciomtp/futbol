@@ -261,5 +261,28 @@ onMounted(() => {
     color: #000;
 }
 
+@media screen and (max-width: 450px) {
+	.top-footballer {
+		margin: 0 3px;
+	}
+}
+
+@media screen and (max-width: 350px) {
+	.stat-value {
+		font-size: 22px;
+		font-weight: 600;
+	}
+
+	.top-footballer {
+		margin: 0 1px;
+	}
+
+	.container {
+		padding-left: 2px;
+	}
+
+
+}
+
 
 </style>
