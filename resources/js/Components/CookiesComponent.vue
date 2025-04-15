@@ -17,7 +17,6 @@ const emitChangeLocale = (lang) => {
 }
 
 const setCookie = (cname, cvalue, exdays) => {
-	console.log('This is setCookie');
   const d = new Date();
   d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
   let expires = "expires="+d.toUTCString();
@@ -42,7 +41,6 @@ const getCookie = (cname) => {
 const checkCookie = () => {
   let user = getCookie("footble");
 
-  console.log('User (cookie): ', user);
 
   if (user != "consent") {
   	showModal();
@@ -105,7 +103,7 @@ onMounted(() => {
       	</ul>
 
         
-        <button type="button" class="btn-close" @click="hideModal"></button>
+        <!--<button type="button" class="btn-close" @click="hideModal"></button> -->
       </div>
       <div class="modal-body">
         <div class="text-center" id="welcome">
