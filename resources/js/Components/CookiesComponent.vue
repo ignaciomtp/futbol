@@ -2,7 +2,19 @@
 import { ref, onMounted  } from 'vue';
 import { Modal } from 'bootstrap';
 
+
+
+const props = defineProps({
+  locale: String,
+});
+
 const modalResult = ref(null);
+
+const emit = defineEmits(['emit-change-locale']);
+
+const emitChangeLocale = (lang) => {
+	emit('emit-change-locale', lang);
+}
 
 const setCookie = (cname, cvalue, exdays) => {
 	console.log('This is setCookie');
@@ -76,7 +88,23 @@ onMounted(() => {
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+      	<ul class="navbar-nav ">
+      		<li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                   {{ props.locale.toUpperCase() }} <!-- Muestra el locale actual en mayúsculas -->
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+                    <li>
+                        <button class="dropdown-item text-bg-light" @click="emitChangeLocale('en')">English</button>
+                    </li>
+                    <li>
+                        <button class="dropdown-item" @click="emitChangeLocale('es')">Español</button>
+                    </li>
+                </ul>
+            </li>
+      	</ul>
+
+        
         <button type="button" class="btn-close" @click="hideModal"></button>
       </div>
       <div class="modal-body">
