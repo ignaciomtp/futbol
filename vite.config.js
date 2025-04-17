@@ -19,9 +19,4 @@ export default defineConfig({
         }),
         i18n() 
     ],
-    build: {
-        manifest: true,
-        outDir: 'public/build',
-        base: '/', // Asegúrate de que sea '/' o elimina esta línea
-    },
 });

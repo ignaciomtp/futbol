@@ -1,10 +1,9 @@
 <script setup>
 
 import axios from 'axios';
-import { ref, onMounted, nextTick } from 'vue';
+import { ref, onMounted  } from 'vue';
 import { router, Link, usePage } from '@inertiajs/vue3';
 import { Modal } from 'bootstrap';
-import { debounce } from 'lodash';
 import PlayerContainer from '@/Components/PlayerContainer.vue';
 import NavigationBar from '@/Components/NavigationBar.vue';
 import TimerComponent from '@/Components/TimerComponent.vue';
@@ -15,8 +14,6 @@ let props = defineProps({
   footble: Number,
   player: Object
 });
-
-let tempSearchVal = '';
 
 const modalResult = ref(null);
 //const modalResult2 = ref(null);
@@ -144,29 +141,23 @@ const checkGameFinished = () => {
 }
 
 // buscar jugadores por nombre
-const searchPlayers = debounce(async () => {
+const searchPlayers = async () => {
   if (searchQuery.value.length < 1) {
     suggestions.value = [];
     showSuggestions.value = false;
     return;
   }
 
-  if(searchQuery.value != tempSearchVal) {
-    try {
-      const response = await axios.post('/player/search', { 
-        name: searchQuery.value 
-      });
-      suggestions.value = response.data;
-      showSuggestions.value = true;
-      tempSearchVal = searchQuery.value;
-      await nextTick(); // Esperar a que el DOM se actualice
-    } catch (error) {
-      console.error('Error en searchPlayers:', error.message, error.response?.data);
-    }    
+  try {
+    const response = await axios.post('/player/search/', { 
+      name: searchQuery.value 
+    });
+    suggestions.value = response.data;
+    showSuggestions.value = true;
+  } catch (error) {
+    console.error(error);
   }
-
-
-}, 300); // 300ms de espera
+};
 
 const selectPlayer = async (selectedPlayer) => {
 
@@ -249,7 +240,7 @@ const checkGuess = async (playerId) => {
 const getDayGuesses = () => {
     let dayGuesses = localStorage.getItem('footbleDay');
     if (dayGuesses) dayGuesses = JSON.parse(dayGuesses);
-
+    console.log('Day guesses: ', dayGuesses);
     if (dayGuesses && dayGuesses.day == props.footble) {
         // Asegurar que cada jugador tenga las propiedades necesarias
         guesses.value = dayGuesses.guesses.map(player => ({
@@ -326,7 +317,7 @@ const getDateOfDay = () => {
 }
 
 const setCookie = (cname, cvalue, exdays) => {
-
+  console.log('This is setCookie');
   const d = new Date();
   d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
   let expires = "expires="+d.toUTCString();
@@ -344,11 +335,9 @@ onMounted(() => {
     axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').content;
 
     document.addEventListener('click', (event) => {
-      const inputDropdown = document.querySelector('.input-dropdown-container');
-      const searchBox = document.querySelector('#mainSearchBox');
-      if (!inputDropdown?.contains(event.target) && event.target !== searchBox) {
-        showSuggestions.value = false;
-      }
+        if (!event.target.closest('.input-dropdown-container')) {
+          showSuggestions.value = false;
+        }
     });
 
     modalResult.value = new Modal(document.getElementById('staticBackdrop'), {
@@ -371,7 +360,7 @@ onMounted(() => {
   <NavigationBar :update-trigger="updateStatsTrigger" />
 
   <main class="container text-bg-dark mt-5 p-4">
-    <div class="row pt-3">
+    <div class="row pt-4">
       <div class="col-lg-3 text-center">
         
       </div>
@@ -386,8 +375,6 @@ onMounted(() => {
                 :placeholder="$t('Type a footballer name here') + '...'" 
                 v-model="searchQuery" 
                 @input="searchPlayers"
-                @keyup="searchPlayers"
-                @change="searchPlayers"
                 autocomplete="off">
               <span class="searchbox-button">
                 <i class="bi bi-search text-bg-light"></i>
