@@ -1,8 +1,9 @@
 <script setup>
 import axios from 'axios';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, nextTick } from 'vue';
 import { router, Link, usePage } from '@inertiajs/vue3';
 import { Modal } from 'bootstrap';
+import { debounce } from 'lodash';
 import NavigationBar from '@/Components/NavigationBar.vue';
 import LastWeekComponent from '@/Components/LastWeekComponent.vue';
 import PlayerContainer from '@/Components/PlayerContainer.vue';
@@ -10,6 +11,8 @@ import PlayerContainer from '@/Components/PlayerContainer.vue';
 let props = defineProps({ 
   footble: Number
 });
+
+let tempSearchVal = '';
 
 const page = usePage();
 const modalResult = ref(null);
@@ -91,17 +94,11 @@ const setSelectedPastFootble = async (id) => {
 const updateLoadedHistoric = (finished, won) => {
 	const idx = weekFootbles.value.findIndex((elem) => elem.idPlayer == selectedPastFootble.value);
 
-	console.log('Selected past footble: ', selectedPastFootble.value);
-	console.log('Idx: ', idx);
-
-	console.log('weekfootbles: ', weekFootbles.value);
-
 	weekFootbles.value[idx].guesses = guesses.value;
 	weekFootbles.value[idx].done = finished;
 	weekFootbles.value[idx].won = won;
 	if(finished) weekFootbles.value[idx].photo = targetPlayer.value.photo;
 
-	console.log(weekFootbles.value[idx]);
 };
 
 // crear fechas de días pasados
@@ -159,7 +156,6 @@ const updateHistoric = (gameFinished, gameResult) => {
 		
 	}
 
-	console.log('Guardando es historic: ', historic);
 
 	localStorage.setItem('FootbleHistoric', JSON.stringify(historic));
 }
@@ -199,7 +195,6 @@ const fillWeekFootbles = () => {
 
 	}
 
-	console.log('last week: ', weekFootbles.value);
 
 }
 
@@ -215,23 +210,28 @@ const checkPlayedAll = () => {
 }
 
 // buscar jugadores por nombre
-const searchPlayers = async () => {
+const searchPlayers = debounce(async () => {
   if (searchQuery.value.length < 1) {
     suggestions.value = [];
     showSuggestions.value = false;
     return;
   }
 
-  try {
-    const response = await axios.post('/player/search/', { 
-      name: searchQuery.value 
-    });
-    suggestions.value = response.data;
-    showSuggestions.value = true;
-  } catch (error) {
-    console.error(error);
+  if(searchQuery.value != tempSearchVal) {
+    try {
+      const response = await axios.post('/player/search', { 
+        name: searchQuery.value 
+      });
+      suggestions.value = response.data;
+      showSuggestions.value = true;
+      tempSearchVal = searchQuery.value;
+      await nextTick(); // Esperar a que el DOM se actualice
+    } catch (error) {
+      console.error('Error en searchPlayers:', error.message, error.response?.data);
+    }    
   }
-};
+
+}, 300); // 300ms de espera
 
 const selectPlayer = async (selectedPlayer) => {
 
@@ -359,10 +359,12 @@ onMounted(() => {
 	axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').content;
 
 	document.addEventListener('click', (event) => {
-        if (!event.target.closest('.input-dropdown-container')) {
-          showSuggestions.value = false;
-        }
-    });
+      const inputDropdown = document.querySelector('.input-dropdown-container');
+      const searchBox = document.querySelector('#mainSearchBox');
+      if (!inputDropdown?.contains(event.target) && event.target !== searchBox) {
+	        showSuggestions.value = false;
+	    }
+	});
 
     modalResult.value = new Modal(document.getElementById('staticBackdrop'), {
     	focus: false, // Desactiva el enfoque automático
@@ -375,15 +377,15 @@ onMounted(() => {
 <template>
 	<NavigationBar :update-trigger="updateStatsTrigger" />
 
-  	<main class="container text-bg-dark mt-5 p-4">
-  		<div class="row pt-3">
+  	<main class="container text-bg-dark mt-5 p-4 ">
+  		<div class="row">
   			<div class="col-md-3 "></div>
   			<div class="col-md-6">
   				<div class="text-center mb-3">
   					<h1><i class="bi bi-rewind-fill"></i> Rewind</h1>
 
-  					<div v-if="playedAll">{{ $t('You already played them all') }}</div>
-  					<div v-else>{{ $t('Choose a Footble to play') }}</div>
+  					<div v-if="playedAll" class="instruction-message">{{ $t('You already played them all') }}</div>
+  					<div v-else class="instruction-message">{{ $t('Choose a Footble to play') }}</div>
   				</div>
   				
   				<LastWeekComponent :lastWeek="weekFootbles" @selected-footble="setSelectedPastFootble" />
@@ -395,6 +397,8 @@ onMounted(() => {
 		                :placeholder="$t('Type a footballer name here') + '...'" 
 		                v-model="searchQuery" 
 		                @input="searchPlayers"
+		                @keyup="searchPlayers"
+                		@change="searchPlayers"
 		                :disabled="!selectedPastFootble"
 		                autocomplete="off">
 		              <span class="searchbox-button">
@@ -513,6 +517,21 @@ h1 {
 .textBgLightDisabled {
 	color: light-dark(rgba(239, 239, 239, 0.3), rgba(59, 59, 59, 0.3)) !important;
     background-color: #5f6265 !important;
+}
+
+@media screen and (max-width: 480px) {
+	.mb-3 {
+		margin-bottom: 0.25rem !important;
+	}
+
+	h1 {
+		margin-bottom: 0.18rem !important;
+	}
+
+	.instruction-message, .guesses-remaining {
+		font-size: 0.8rem;
+	}
+
 }
 
 </style>

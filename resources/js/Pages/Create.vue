@@ -109,8 +109,8 @@ onMounted(() => {
 <template>
 	<NavigationBar />
 
-  	<main class="container text-bg-dark mt-5 p-4">
-  		<div class="row pt-3">
+  	<main class="container text-bg-dark mt-5 p-4 ">
+  		<div class="row">
   			<div class="col-md-3 "></div>
   			<div class="col-md-6">
   				<div class="text-center mb-4">

@@ -113,7 +113,15 @@ h1 {
     width: 100%; /* Asegura que ocupe todo el ancho del input-group */
 }
 .dropdown-menu {
-    width: 100%; /* Igual al ancho del input */
+    position: absolute;
+	top: 100%; /* Colocar justo debajo del input */
+	left: 0;
+	width: 100%;
+	max-height: 300px; /* Limitar altura */
+	overflow-y: auto; /* Permitir desplazamiento */
+	z-index: 1000; /* Asegurar que esté por encima de otros elementos */
+	background-color: white; /* Fondo para visibilidad */
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra para destacar */
     margin-top: 0 !important; /* Elimina márgenes extra */
 }
 

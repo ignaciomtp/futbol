@@ -5,7 +5,7 @@ if (typeof window !== 'undefined' && typeof window.Ziggy !== 'undefined') {
 export { Ziggy }; */
 
 export default {
-    "url": "http://127.0.0.1:8000",
+    "url": "https://footble.io",
     "routes": {
         "homeapp": {
             "uri": "",

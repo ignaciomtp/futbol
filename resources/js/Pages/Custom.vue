@@ -1,8 +1,9 @@
 <script setup>
 import axios from 'axios';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, nextTick } from 'vue';
 import { router, Link, usePage } from '@inertiajs/vue3';
 import { Modal } from 'bootstrap';
+import { debounce } from 'lodash';
 import { trans } from 'laravel-vue-i18n';
 import PlayerContainer from '@/Components/PlayerContainer.vue';
 import NavigationBar from '@/Components/NavigationBar.vue';
@@ -12,6 +13,8 @@ let props = defineProps({
 	message: String,
   player: Object
 });
+
+let tempSearchVal = '';
 
 const modalResult = ref(null);
 const modalResultBackground = ref('wrong-guess');
@@ -91,23 +94,28 @@ const checkGameFinished = () => {
 }
 
 // buscar jugadores por nombre
-const searchPlayers = async () => {
+const searchPlayers = debounce(async () => {
   if (searchQuery.value.length < 1) {
     suggestions.value = [];
     showSuggestions.value = false;
     return;
   }
 
-  try {
-    const response = await axios.post('/player/search/', { 
-      name: searchQuery.value 
-    });
-    suggestions.value = response.data;
-    showSuggestions.value = true;
-  } catch (error) {
-    console.error(error);
+  if(searchQuery.value != tempSearchVal) {
+    try {
+      const response = await axios.post('/player/search', { 
+        name: searchQuery.value 
+      });
+      suggestions.value = response.data;
+      showSuggestions.value = true;
+      tempSearchVal = searchQuery.value;
+      await nextTick(); // Esperar a que el DOM se actualice
+    } catch (error) {
+      console.error('Error en searchPlayers:', error.message, error.response?.data);
+    }    
   }
-};
+
+}, 300); // 300ms de espera
 
 const selectPlayer = async (selectedPlayer) => {
 
@@ -216,8 +224,10 @@ onMounted(() => {
     axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').content;
 
     document.addEventListener('click', (event) => {
-        if (!event.target.closest('.input-dropdown-container')) {
-          showSuggestions.value = false;
+        const inputDropdown = document.querySelector('.input-dropdown-container');
+        const searchBox = document.querySelector('#mainSearchBox');
+        if (!inputDropdown?.contains(event.target) && event.target !== searchBox) {
+            showSuggestions.value = false;
         }
     });
 
@@ -235,7 +245,7 @@ onMounted(() => {
 	<NavigationBar />
 
 	<main class="container text-bg-dark mt-5 p-4">
-	    <div class="row pt-4">
+	    <div class="row pt-3">
 	      <div class="col-md-3 text-center">
 
 	      </div>
