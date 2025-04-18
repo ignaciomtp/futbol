@@ -113,13 +113,22 @@ h1 {
     width: 100%; /* Asegura que ocupe todo el ancho del input-group */
 }
 .dropdown-menu {
-    width: 100%; /* Igual al ancho del input */
-    margin-top: 0 !important; /* Elimina márgenes extra */
+    position: fixed; /* Usar fixed para evitar desplazamiento con el teclado */
+  top: auto; /* Ajustar posición dinámicamente */
+  left: 0;
+  width: 100%;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 10000; /* Muy alto para evitar solapamientos */
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .dropdown-player-item {
 	line-height: 48px;
-	vertical-align: middle
+	vertical-align: middle;
+	padding: 0 0.5rem !important;
+	margin: 0.8rem 0 ;
 }
 
 .dropdown-player-item img {

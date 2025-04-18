@@ -1,18 +1,22 @@
 <script setup>
 
 import axios from 'axios';
-import { ref, onMounted  } from 'vue';
+import { ref, onMounted, computed  } from 'vue';
 import { router, Link, usePage } from '@inertiajs/vue3';
 import { Modal } from 'bootstrap';
 import PlayerContainer from '@/Components/PlayerContainer.vue';
 import NavigationBar from '@/Components/NavigationBar.vue';
 import TimerComponent from '@/Components/TimerComponent.vue';
 import HomeCover from '@/Components/HomeCover.vue';
-
+import MobileSuggestions from '@/Components/MobileSuggestions.vue';
 
 let props = defineProps({ 
   footble: Number,
   player: Object
+});
+
+const isMobile = computed(() => {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 });
 
 const modalResult = ref(null);
@@ -149,11 +153,19 @@ const searchPlayers = async () => {
   }
 
   try {
-    const response = await axios.post('/player/search/', { 
+    const response = await axios.post('/player/search', { 
       name: searchQuery.value 
     });
     suggestions.value = response.data;
     showSuggestions.value = true;
+    
+    // On mobile, we want to keep the keyboard open
+    if (isMobile.value) {
+      document.activeElement.blur();
+      setTimeout(() => {
+        document.getElementById('mainSearchBox').focus();
+      }, 100);
+    }
   } catch (error) {
     console.error(error);
   }
@@ -370,7 +382,7 @@ onMounted(() => {
 
         <div id="game-container" v-if="playGame">
             <div class="guesses-remaining" v-if="guesses.length < 10">{{ $t('Guess') + ' ' + (guesses.length + 1) + ' ' + $t('of') }} 10</div>
-            <div class="input-group mb-3 input-dropdown-container pl-5 pr-5">
+            <div class="input-group mb-3 input-dropdown-container pl-5 pr-5"style="position: relative;">
               <input type="text" class="searchbox" id="mainSearchBox"
                 :placeholder="$t('Type a footballer name here') + '...'" 
                 v-model="searchQuery" 
@@ -380,7 +392,8 @@ onMounted(() => {
                 <i class="bi bi-search text-bg-light"></i>
               </span>
               <div class="dropdown w-100">
-                <ul class="dropdown-menu" id="suggestions" v-if="showSuggestions">
+                <!-- Desktop dropdown -->
+                <ul class="dropdown-menu desktop-suggestions" v-show="!isMobile && showSuggestions && suggestions.length">
                   <li v-for="suggestedPlayer in suggestions" :key="player.id">
                     <div class="dropdown-item dropdown-player-item" @click="selectPlayer(suggestedPlayer)">
                       <img :src="`/img/players/${suggestedPlayer.photo}`" :alt="suggestedPlayer.name" class="tinythumb" style="float: right">
@@ -388,6 +401,15 @@ onMounted(() => {
                     </div>
                   </li>
                 </ul>
+
+                <!-- Mobile suggestions overlay -->
+                <MobileSuggestions 
+                  v-if="isMobile"
+                  :visible="showSuggestions && suggestions.length"
+                  :players="suggestions"
+                  @select="selectPlayer"
+                />
+
               </div>
             </div>
 
@@ -449,6 +471,16 @@ onMounted(() => {
 
 </template>
 <style scoped>
+
+.desktop-suggestions {
+  display: block;
+  position: absolute;
+  z-index: 1000;
+  width: 100%;
+  overflow-y: auto;
+}
+
+
 #suggestions {
   display: block !important;
   position: absolute;
@@ -504,7 +536,12 @@ onMounted(() => {
   font-weight: 700;
 }
 
-
+/* Hide desktop suggestions on mobile */
+@media (max-width: 768px) {
+  .desktop-suggestions {
+    display: none !important;
+  }
+}
 
 
 </style>
