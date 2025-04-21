@@ -1,16 +1,21 @@
 <script setup>
 import axios from 'axios';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed  } from 'vue';
 import { router, Link, usePage } from '@inertiajs/vue3';
 import { Modal } from 'bootstrap';
 import { trans } from 'laravel-vue-i18n';
 import PlayerContainer from '@/Components/PlayerContainer.vue';
 import NavigationBar from '@/Components/NavigationBar.vue';
+import SearchComponent from '@/Components/SearchComponent.vue';
 
 let props = defineProps({ 
 	footble: Number,
 	message: String,
   player: Object
+});
+
+const isMobile = computed(() => {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 });
 
 const modalResult = ref(null);
@@ -23,8 +28,9 @@ const gameFinished = ref(false);
 
 const shareResultText = ref('Share result');
 
+/*
 const searchQuery = ref('');
-const suggestions = ref([]);
+const suggestions = ref([]);*/
 const showSuggestions = ref(false);
 const guesses = ref([]);
 
@@ -90,24 +96,7 @@ const checkGameFinished = () => {
     return result;
 }
 
-// buscar jugadores por nombre
-const searchPlayers = async () => {
-  if (searchQuery.value.length < 1) {
-    suggestions.value = [];
-    showSuggestions.value = false;
-    return;
-  }
 
-  try {
-    const response = await axios.post('/player/search/', { 
-      name: searchQuery.value 
-    });
-    suggestions.value = response.data;
-    showSuggestions.value = true;
-  } catch (error) {
-    console.error(error);
-  }
-};
 
 const selectPlayer = async (selectedPlayer) => {
 
@@ -124,8 +113,6 @@ const selectPlayer = async (selectedPlayer) => {
       }
 
       guesses.value.unshift(selectedPlayer);
-      searchQuery.value = '';
-      suggestions.value = [];
       showSuggestions.value = false;
 
       // Eliminar la clase flip después de 250ms
@@ -199,7 +186,7 @@ const getCustomGuesses = () => {
 	let customItem = 'footbleCustom' + props.footble;
     let customGuesses = localStorage.getItem(customItem);
     if (customGuesses) customGuesses = JSON.parse(customGuesses);
-    console.log('Custom guesses: ', customGuesses);
+
     if (customGuesses) {
         // Asegurar que cada jugador tenga las propiedades necesarias
         guesses.value = customGuesses.guesses.map(player => ({
@@ -209,6 +196,11 @@ const getCustomGuesses = () => {
     }
     
 };
+
+const suggestionsVisble = (value) => {
+  showSuggestions.value = value;
+}
+
 
 onMounted(() => {
     getCustomGuesses();
@@ -226,7 +218,6 @@ onMounted(() => {
       keyboard: false // Opciones adicionales si las necesitas
     });
 
-    console.log('modalResult: ', modalResult);
     
 });
 
@@ -234,34 +225,24 @@ onMounted(() => {
 <template>
 	<NavigationBar />
 
-	<main class="container text-bg-dark mt-5 p-4">
-	    <div class="row pt-4">
-	      <div class="col-md-3 text-center">
+	<main class="container text-bg-dark mt-4 p-3">
+	    <div class="row padding-top-5">
+	      <div class="col-lg-3 text-center">
 
 	      </div>
-	      <div class="col-md-6">
+	      <div class="col-lg-6">
 
 	        <div id="game-container">
 	            <div class="guesses-remaining" v-if="guesses.length < 10">{{ $t('Guess') + ' ' + (guesses.length + 1) + ' ' + $t('of') }} 10</div>
-	            <div class="input-group mb-3 input-dropdown-container pl-5 pr-5">
-	              <input type="text" class="searchbox" id="mainSearchBox"
-	                :placeholder="$t('Type a footballer name here') + '...'" 
-	                v-model="searchQuery" 
-	                @input="searchPlayers"
-	                autocomplete="off">
-	              <span class="searchbox-button">
-	                <i class="bi bi-search text-bg-light"></i>
-	              </span>
-	              <div class="dropdown w-100">
-	                <ul class="dropdown-menu" id="suggestions" v-if="showSuggestions">
-	                  <li v-for="suggestedPlayer in suggestions" :key="player.id">
-	                    <div class="dropdown-item dropdown-player-item" @click="selectPlayer(suggestedPlayer)">
-	                      <img :src="`/img/players/${suggestedPlayer.photo}`" :alt="suggestedPlayer.name" class="tinythumb" style="float: right">
-	                      {{ suggestedPlayer.name }}
-	                    </div>
-	                  </li>
-	                </ul>
-	              </div>
+	            <div class="input-group mb-3 input-dropdown-container pl-5 pr-5"style="position: relative;">
+                <SearchComponent 
+                  :player="props.player"
+                  :footble="props.footble"
+                  :showSuggestions="showSuggestions"
+                  :isMobile="isMobile"
+                  @selected="selectPlayer"
+                  @toggleSugestions="suggestionsVisble"
+                />
 	            </div>
 
 	            <div class="mt-3 text-center hints" v-if="!guesses.length">
@@ -269,13 +250,13 @@ onMounted(() => {
 	                
 	            </div>
 
-	            <div class="mt-5" id="guesses">
+	            <div class="mt-3" id="guesses">
 	              <PlayerContainer v-for="player in guesses" :key="player.id" :player="player"  />
 	            </div>
 	        </div>
 
 	      </div>
-	      <div class="col-md-3 text-center">
+	      <div class="col-lg-3 text-center">
 
 	      </div>
 	    </div>

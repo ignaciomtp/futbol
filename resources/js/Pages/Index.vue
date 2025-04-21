@@ -9,7 +9,6 @@ import NavigationBar from '@/Components/NavigationBar.vue';
 import TimerComponent from '@/Components/TimerComponent.vue';
 import HomeCover from '@/Components/HomeCover.vue';
 import SearchComponent from '@/Components/SearchComponent.vue';
-//import MobileSuggestions from '@/Components/MobileSuggestions.vue';
 
 let props = defineProps({ 
   footble: Number,
@@ -146,35 +145,6 @@ const checkGameFinished = () => {
     return result;
 }
 
-
-/*
-// buscar jugadores por nombre
-const searchPlayers = async () => {
-  if (searchQuery.value.length < 1) {
-    suggestions.value = [];
-    showSuggestions.value = false;
-    return;
-  }
-
-  try {
-    const response = await axios.post('/player/search', { 
-      name: searchQuery.value 
-    });
-    suggestions.value = response.data;
-    showSuggestions.value = true;
-    
-    // On mobile, we want to keep the keyboard open
-    if (isMobile.value) {
-      document.activeElement.blur();
-      setTimeout(() => {
-        document.getElementById('mainSearchBox').focus();
-      }, 100);
-    }
-  } catch (error) {
-    console.error(error);
-  }
-};
-*/
 
 const selectPlayer = async (selectedPlayer) => {
 
@@ -379,7 +349,7 @@ onMounted(() => {
 
         <div id="game-container" v-if="playGame">
             <div class="guesses-remaining" v-if="guesses.length < 10">{{ $t('Guess') + ' ' + (guesses.length + 1) + ' ' + $t('of') }} 10</div>
-            <div class="input-group mb-3 input-dropdown-container pl-5 pr-5"style="position: relative;">
+            <div class="input-group mb-3 input-dropdown-container pl-5 pr-5" style="position: relative;">
               <SearchComponent 
                 :player="props.player"
                 :footble="props.footble"

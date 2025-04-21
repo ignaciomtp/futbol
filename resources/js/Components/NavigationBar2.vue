@@ -113,7 +113,9 @@ const changeLocale = async (newLocale) => {
                 </h4>
               </li>
               <li>
-                <h4>{{ $t('Follow Us') }}</h4>
+                <h4>
+                	<a href="https://x.com/Footble_io">{{ $t('Follow Us') }}</a>
+                </h4>
               </li>
               <li>
                 <h4>

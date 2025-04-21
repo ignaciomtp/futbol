@@ -1,14 +1,19 @@
 <script setup>
 import axios from 'axios';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { router, Link, usePage } from '@inertiajs/vue3';
 import { Modal } from 'bootstrap';
 import NavigationBar from '@/Components/NavigationBar.vue';
 import LastWeekComponent from '@/Components/LastWeekComponent.vue';
 import PlayerContainer from '@/Components/PlayerContainer.vue';
+import SearchComponent from '@/Components/SearchComponent.vue';
 
 let props = defineProps({ 
   footble: Number
+});
+
+const isMobile = computed(() => {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 });
 
 const page = usePage();
@@ -23,21 +28,13 @@ const targetPlayer = ref({
 
 });
 
-const returnTargetName = () => {
-	return targetPlayer.value.name;
-}
-
-const returnTargetPhoto = () => {
-	return targetPlayer.value.photo;
-}
-
 const playGame = ref(true); 
 const gameFinished = ref(false);
 
 const playedAll = ref(false);
 
-const searchQuery = ref('');
-const suggestions = ref([]);
+/*const searchQuery = ref('');
+const suggestions = ref([]);	*/
 const showSuggestions = ref(false);
 const guesses = ref([]);
 const weekFootbles = ref([]);
@@ -46,6 +43,14 @@ const selectedPastFootble = ref(null);
 
 // Variable para controlar el evento actualizar estadísticas
 const updateStatsTrigger = ref(false);
+
+const returnTargetName = () => {
+	return targetPlayer.value.name;
+}
+
+const returnTargetPhoto = () => {
+	return targetPlayer.value.photo;
+}
 
 const triggerStatsUpdate = () => {
   updateStatsTrigger.value = !updateStatsTrigger.value; // Cambia el valor para disparar el watcher
@@ -154,8 +159,6 @@ const updateHistoric = (gameFinished, gameResult) => {
 		
 	}
 
-	console.log('Guardando es historic: ', historic);
-
 	localStorage.setItem('FootbleHistoric', JSON.stringify(historic));
 }
 
@@ -194,7 +197,6 @@ const fillWeekFootbles = () => {
 
 	}
 
-	console.log('last week: ', weekFootbles.value);
 
 }
 
@@ -245,8 +247,8 @@ const selectPlayer = async (selectedPlayer) => {
 
 
       guesses.value.unshift(selectedPlayer);
-      searchQuery.value = '';
-      suggestions.value = [];
+ /*     searchQuery.value = '';
+      suggestions.value = [];	*/
       showSuggestions.value = false;  
 
       // Eliminar la clase flip después de 250ms
@@ -346,6 +348,11 @@ const hideModal = () => {
   	modalResult.value.hide();
 };
 
+const suggestionsVisble = (value) => {
+  showSuggestions.value = value;
+}
+
+
 onMounted(() => {
 
 	fillWeekFootbles();
@@ -386,25 +393,14 @@ onMounted(() => {
   				<div id="game-container" v-if="playGame">
 		            <div class="guesses-remaining" >{{ $t('Guess') + ' ' + (guesses.length + 1) + ' ' + $t('of') }} 10</div>
 		            <div class="input-group mb-3 input-dropdown-container pl-5 pr-5">
-		              <input type="text" class="searchbox" id="mainSearchBox"
-		                :placeholder="$t('Type a footballer name here') + '...'" 
-		                v-model="searchQuery" 
-		                @input="searchPlayers"
-		                :disabled="!selectedPastFootble"
-		                autocomplete="off">
-		              <span class="searchbox-button">
-		                <i class="bi bi-search text-bg-light" :class="{textBgLightDisabled: !selectedPastFootble}"></i>
-		              </span>
-		              <div class="dropdown w-100">
-		                <ul class="dropdown-menu" id="suggestions" v-if="showSuggestions">
-		                  <li v-for="(suggestedPlayer, index) in suggestions" :key="index + 1">
-		                    <div class="dropdown-item dropdown-player-item" @click="selectPlayer(suggestedPlayer)">
-		                      <img :src="`/img/players/${suggestedPlayer.photo}`" :alt="suggestedPlayer.name" class="tinythumb" style="float: right">
-		                      {{ suggestedPlayer.name }}
-		                    </div>
-		                  </li>
-		                </ul>
-		              </div>
+		            	<SearchComponent 
+		                :player="props.player"
+		                :footble="props.footble"
+		                :showSuggestions="showSuggestions"
+		                :isMobile="isMobile"
+		                @selected="selectPlayer"
+		                @toggleSugestions="suggestionsVisble"
+		              />
 		            </div>
 
 		            <div class="margin-top-5" id="guesses">

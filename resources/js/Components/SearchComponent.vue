@@ -1,6 +1,7 @@
 <script setup>
 import axios from 'axios';
 import { ref, onMounted  } from 'vue';
+import { debounce } from 'lodash';
 
 let props = defineProps({ 
   footble: Number,
@@ -25,7 +26,7 @@ const toggleSugestions = (val) => {
 }
 
 // buscar jugadores por nombre
-const searchPlayers = async () => {
+const searchPlayers = debounce(async () => {
 
   if (searchQuery.value.length < 1) {
     suggestions.value = [];
@@ -53,7 +54,7 @@ const searchPlayers = async () => {
   } catch (error) {
     console.error(error);
   }
-};
+}, 300); // Espera 300ms antes de ejecutar
 
 onMounted(() => {
 

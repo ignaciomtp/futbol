@@ -109,11 +109,11 @@ onMounted(() => {
 <template>
 	<NavigationBar />
 
-  	<main class="container text-bg-dark mt-5 p-4">
-  		<div class="row pt-3">
-  			<div class="col-md-3 "></div>
-  			<div class="col-md-6">
-  				<div class="text-center mb-4">
+  	<main class="container text-bg-dark mt-4 p-3">
+  		<div class="row padding-top-5">
+  			<div class="col-lg-3 "></div>
+  			<div class="col-lg-6">
+  				<div class="text-center mb-3">
   					<h1><i class="bi bi-plus-circle"></i> Create</h1>
   				</div>
 
@@ -179,6 +179,7 @@ onMounted(() => {
 
 			    </div>
   			</div>
+  			<div class="col-lg-3 "></div>
   		</div>
   	</main>
 </template>
