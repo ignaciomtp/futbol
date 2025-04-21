@@ -91,11 +91,6 @@ const setSelectedPastFootble = async (id) => {
 const updateLoadedHistoric = (finished, won) => {
 	const idx = weekFootbles.value.findIndex((elem) => elem.idPlayer == selectedPastFootble.value);
 
-	console.log('Selected past footble: ', selectedPastFootble.value);
-	console.log('Idx: ', idx);
-
-	console.log('weekfootbles: ', weekFootbles.value);
-
 	weekFootbles.value[idx].guesses = guesses.value;
 	weekFootbles.value[idx].done = finished;
 	weekFootbles.value[idx].won = won;
@@ -223,7 +218,7 @@ const searchPlayers = async () => {
   }
 
   try {
-    const response = await axios.post('/player/search/', { 
+    const response = await axios.post('/player/search', { 
       name: searchQuery.value 
     });
     suggestions.value = response.data;
@@ -375,15 +370,15 @@ onMounted(() => {
 <template>
 	<NavigationBar :update-trigger="updateStatsTrigger" />
 
-  	<main class="container text-bg-dark mt-5 p-4">
-  		<div class="row pt-3">
-  			<div class="col-md-3 "></div>
-  			<div class="col-md-6">
-  				<div class="text-center mb-3">
+  	<main class="container text-bg-dark mt-4 p-3">
+  		<div class="row padding-top-5">
+  			<div class="col-lg-3 "></div>
+  			<div class="col-lg-6">
+  				<div class="text-center mb-1">
   					<h1><i class="bi bi-rewind-fill"></i> Rewind</h1>
 
-  					<div v-if="playedAll">{{ $t('You already played them all') }}</div>
-  					<div v-else>{{ $t('Choose a Footble to play') }}</div>
+  					<div v-if="playedAll" class="instruction-text">{{ $t('You already played them all') }}</div>
+  					<div v-else class="instruction-text">{{ $t('Choose a Footble to play') }}</div>
   				</div>
   				
   				<LastWeekComponent :lastWeek="weekFootbles" @selected-footble="setSelectedPastFootble" />
@@ -412,13 +407,13 @@ onMounted(() => {
 		              </div>
 		            </div>
 
-		            <div class="mt-5" id="guesses">
+		            <div class="margin-top-5" id="guesses">
 		              <PlayerContainer v-for="(player, index) in guesses" :key="index" :player="player"  />
 		            </div>
 		        </div>
 
   			</div>
-  			<div class="col-md-3 ">
+  			<div class="col-lg-3 ">
   				<!-- <p> {{ $t('right column') }}</p>
 		        <button type="button" class="btn btn-warning" @click="showModal">
 		          Launch static backdrop modal
@@ -461,6 +456,11 @@ h1 {
   display: block !important;
   position: absolute;
   z-index: 1000;
+}
+
+.instruction-text {
+	font-size: 0.9rem;
+	margin-bottom: 10px;
 }
 
 .modal-content {
@@ -513,6 +513,24 @@ h1 {
 .textBgLightDisabled {
 	color: light-dark(rgba(239, 239, 239, 0.3), rgba(59, 59, 59, 0.3)) !important;
     background-color: #5f6265 !important;
+}
+
+
+
+@media (max-width: 480px) {
+	.container h1 {
+		margin-bottom: 0;
+	}
+
+	.instruction-text {
+		margin-bottom: 5px;
+	}
+
+	.guesses-remaining {
+		font-size: 0.9rem;
+		margin-top: 2px;
+	}
+
 }
 
 </style>

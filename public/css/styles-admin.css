@@ -164,6 +164,14 @@ h1 {
     
 }
 
+.padding-top-5 {
+	padding-top: 3rem !important;
+}
+
+.margin-top-5 {
+	margin-top: 3rem !important;
+}
+
 .data-row {
 	display: flex;
 }
@@ -349,6 +357,13 @@ h1 {
 		display: none;
 	}
 
+	.padding-top-5 {
+		padding-top: 1.2rem !important;
+	}
+
+	.margin-top-5 {
+		margin-top: 1rem !important;
+	}
 
 	.marginleft-li-15 {
 		margin-left: 7px;

@@ -8,7 +8,8 @@ import PlayerContainer from '@/Components/PlayerContainer.vue';
 import NavigationBar from '@/Components/NavigationBar.vue';
 import TimerComponent from '@/Components/TimerComponent.vue';
 import HomeCover from '@/Components/HomeCover.vue';
-import MobileSuggestions from '@/Components/MobileSuggestions.vue';
+import SearchComponent from '@/Components/SearchComponent.vue';
+//import MobileSuggestions from '@/Components/MobileSuggestions.vue';
 
 let props = defineProps({ 
   footble: Number,
@@ -20,7 +21,7 @@ const isMobile = computed(() => {
 });
 
 const modalResult = ref(null);
-//const modalResult2 = ref(null);
+
 const modalResultBackground = ref('wrong-guess');
 
 const page = usePage();
@@ -35,9 +36,10 @@ const startCounter = ref(false);
 
 const shareResultText = ref('Share result');
 
+/*
 const searchQuery = ref('');
-const suggestions = ref([]);
-const showSuggestions = ref(false);
+const suggestions = ref([]);*/
+const showSuggestions = ref(false); 
 const guesses = ref([]);
 
 // Variable para controlar el evento actualizar estadísticas
@@ -144,6 +146,8 @@ const checkGameFinished = () => {
     return result;
 }
 
+
+/*
 // buscar jugadores por nombre
 const searchPlayers = async () => {
   if (searchQuery.value.length < 1) {
@@ -170,6 +174,7 @@ const searchPlayers = async () => {
     console.error(error);
   }
 };
+*/
 
 const selectPlayer = async (selectedPlayer) => {
 
@@ -195,8 +200,6 @@ const selectPlayer = async (selectedPlayer) => {
       }
 
       guesses.value.unshift(selectedPlayer);
-      searchQuery.value = '';
-      suggestions.value = [];
       showSuggestions.value = false;
 
       // Eliminar la clase flip después de 250ms
@@ -252,7 +255,7 @@ const checkGuess = async (playerId) => {
 const getDayGuesses = () => {
     let dayGuesses = localStorage.getItem('footbleDay');
     if (dayGuesses) dayGuesses = JSON.parse(dayGuesses);
-    console.log('Day guesses: ', dayGuesses);
+
     if (dayGuesses && dayGuesses.day == props.footble) {
         // Asegurar que cada jugador tenga las propiedades necesarias
         guesses.value = dayGuesses.guesses.map(player => ({
@@ -313,11 +316,6 @@ const hideModal = () => {
   modalResult.value.hide();
 };
 
-// mostrar modal instrucciones
-const showInstructions = () => {
-    let instructionsModal = new Modal(document.getElementById('instructions'));
-    instructionsModal.show();
-}
 
 // devolver la fecha del día
 const getDateOfDay = () => {
@@ -340,30 +338,29 @@ const borrarCookie = () => {
   setCookie("footble", "noconsent", 365);
 }
 
+const suggestionsVisble = (value) => {
+  showSuggestions.value = value;
+}
+
 
 onMounted(() => {
     getDayGuesses();
 
     axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').content;
 
+
     document.addEventListener('click', (event) => {
         if (!event.target.closest('.input-dropdown-container')) {
           showSuggestions.value = false;
         }
-    });
+    }); 
 
     modalResult.value = new Modal(document.getElementById('staticBackdrop'), {
       focus: false, // Desactiva el enfoque automático
       keyboard: false // Opciones adicionales si las necesitas
     });
 
-/*
-    modalResult2.value = document.getElementById('staticBackdrop');
 
-    modalResult2.addEventListener('hidden.bs.modal', () => {
-      
-      openModalBtn.focus();
-    }); */
 
 });
 </script>
@@ -371,8 +368,8 @@ onMounted(() => {
 <template>
   <NavigationBar :update-trigger="updateStatsTrigger" />
 
-  <main class="container text-bg-dark mt-5 p-4">
-    <div class="row pt-4">
+  <main class="container text-bg-dark mt-4 p-3">
+    <div class="row padding-top-5">
       <div class="col-lg-3 text-center">
         
       </div>
@@ -383,34 +380,14 @@ onMounted(() => {
         <div id="game-container" v-if="playGame">
             <div class="guesses-remaining" v-if="guesses.length < 10">{{ $t('Guess') + ' ' + (guesses.length + 1) + ' ' + $t('of') }} 10</div>
             <div class="input-group mb-3 input-dropdown-container pl-5 pr-5"style="position: relative;">
-              <input type="text" class="searchbox" id="mainSearchBox"
-                :placeholder="$t('Type a footballer name here') + '...'" 
-                v-model="searchQuery" 
-                @input="searchPlayers"
-                autocomplete="off">
-              <span class="searchbox-button">
-                <i class="bi bi-search text-bg-light"></i>
-              </span>
-              <div class="dropdown w-100">
-                <!-- Desktop dropdown -->
-                <ul class="dropdown-menu desktop-suggestions" v-show="!isMobile && showSuggestions && suggestions.length">
-                  <li v-for="suggestedPlayer in suggestions" :key="player.id">
-                    <div class="dropdown-item dropdown-player-item" @click="selectPlayer(suggestedPlayer)">
-                      <img :src="`/img/players/${suggestedPlayer.photo}`" :alt="suggestedPlayer.name" class="tinythumb" style="float: right">
-                      {{ suggestedPlayer.name }}
-                    </div>
-                  </li>
-                </ul>
-
-                <!-- Mobile suggestions overlay -->
-                <MobileSuggestions 
-                  v-if="isMobile"
-                  :visible="showSuggestions && suggestions.length"
-                  :players="suggestions"
-                  @select="selectPlayer"
-                />
-
-              </div>
+              <SearchComponent 
+                :player="props.player"
+                :footble="props.footble"
+                :showSuggestions="showSuggestions"
+                :isMobile="isMobile"
+                @selected="selectPlayer"
+                @toggleSugestions="suggestionsVisble"
+              />
             </div>
 
             <div class="mt-3 text-center hints" v-if="!guesses.length">
@@ -536,12 +513,12 @@ onMounted(() => {
   font-weight: 700;
 }
 
-/* Hide desktop suggestions on mobile */
+/* Hide desktop suggestions on mobile 
 @media (max-width: 768px) {
   .desktop-suggestions {
     display: none !important;
   }
 }
-
+*/
 
 </style>

@@ -107,10 +107,14 @@ const footbleBackground = (id) => {
 		margin: 0 7px;
 	}
 
+	.date {
+		font-size: 0.8rem;
+	}
+
 	.date-circle {
 		width: 45px;
 	    height: 45px;
-	    padding-top: 3px;
+	    padding-top: 1px;
 	}
 
 	.date-circle img {

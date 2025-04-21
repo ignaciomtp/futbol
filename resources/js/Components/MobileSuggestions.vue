@@ -1,3 +1,16 @@
+<script setup>
+defineProps({
+  visible: Boolean,
+  players: Array
+});
+
+const emit = defineEmits(['select']);
+
+const select = (player) => {
+  emit('select', player);
+};
+</script>
+
 <template>
   <div v-if="visible" class="mobile-suggestions-overlay">
     <div class="mobile-suggestions-container">
@@ -11,18 +24,7 @@
   </div>
 </template>
 
-<script setup>
-defineProps({
-  visible: Boolean,
-  players: Array
-});
 
-const emit = defineEmits(['select']);
-
-const select = (player) => {
-  emit('select', player);
-};
-</script>
 
 <style scoped>
 .mobile-suggestions-overlay {
