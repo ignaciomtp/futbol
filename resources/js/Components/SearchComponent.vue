@@ -7,7 +7,11 @@ let props = defineProps({
   footble: Number,
   player: Object,
   showSuggestions: Boolean,
-  isMobile: Boolean
+  isMobile: Boolean,
+  disabled: {
+    type: Boolean,
+    default: false
+  }
 });
 
 
@@ -72,9 +76,10 @@ onMounted(() => {
     :placeholder="$t('Type a footballer name here') + '...'" 
     v-model="searchQuery" 
     @input="searchPlayers"
+    :disabled="props.disabled"
     autocomplete="off">
   <span class="searchbox-button">
-    <i class="bi bi-search text-bg-light"></i>
+    <i class="bi bi-search text-bg-light" :class="{textBgLightDisabled: props.disabled}"></i>
   </span>
   <div class="dropdown w-100">
     <!-- Desktop dropdown -->
@@ -98,6 +103,12 @@ onMounted(() => {
   z-index: 1000;
   width: 100%;
   overflow-y: auto;
+}
+
+
+.textBgLightDisabled {
+  color: light-dark(rgba(239, 239, 239, 0.3), rgba(59, 59, 59, 0.3)) !important;
+    background-color: #5f6265 !important;
 }
 
 

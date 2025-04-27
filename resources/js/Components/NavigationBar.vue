@@ -73,7 +73,7 @@ const emisionReceived = (lang) => {
 
 const changeLocale = async (newLocale) => {
     try {
-        const response = await axios.post('/change-locale/', { 
+        const response = await axios.post('/change-locale', { 
             locale: newLocale
         });
 

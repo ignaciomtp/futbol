@@ -45,7 +45,7 @@ const stopCountdown = () => {
   if (intervalId.value) {
     clearInterval(intervalId.value);
     intervalId.value = null;
-    console.log('Countdown stopped!');
+
   }
 };
 

@@ -172,7 +172,6 @@ watch(
       	//props.updateTrigger = false;
     }
 
-    console.log('updateTrigger: ', props.updateTrigger);
   }
 );;
 
@@ -265,13 +264,15 @@ onMounted(() => {
 	.top-footballer {
 		margin: 0 3px;
 	}
-}
 
-@media screen and (max-width: 350px) {
 	.stat-value {
 		font-size: 22px;
 		font-weight: 600;
 	}
+}
+
+@media screen and (max-width: 350px) {
+
 
 	.top-footballer {
 		margin: 0 1px;

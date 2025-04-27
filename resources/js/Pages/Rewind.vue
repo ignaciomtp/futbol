@@ -377,7 +377,7 @@ onMounted(() => {
 <template>
 	<NavigationBar :update-trigger="updateStatsTrigger" />
 
-  	<main class="container text-bg-dark mt-4 p-3">
+  	<main class="container text-bg-dark mt-5 p-2">
   		<div class="row padding-top-5">
   			<div class="col-lg-3 "></div>
   			<div class="col-lg-6">
@@ -392,12 +392,13 @@ onMounted(() => {
 
   				<div id="game-container" v-if="playGame">
 		            <div class="guesses-remaining" >{{ $t('Guess') + ' ' + (guesses.length + 1) + ' ' + $t('of') }} 10</div>
-		            <div class="input-group mb-3 input-dropdown-container pl-5 pr-5">
+		            <div class="input-group mb-3 input-dropdown-container px-1">
 		            	<SearchComponent 
 		                :player="props.player"
 		                :footble="props.footble"
 		                :showSuggestions="showSuggestions"
 		                :isMobile="isMobile"
+		                :disabled="!selectedPastFootble"
 		                @selected="selectPlayer"
 		                @toggleSugestions="suggestionsVisble"
 		              />
@@ -457,6 +458,11 @@ h1 {
 .instruction-text {
 	font-size: 0.9rem;
 	margin-bottom: 10px;
+	line-height: 1.6rem;
+}
+
+.guesses-remaining {
+	margin-top: 14px;
 }
 
 .modal-content {
@@ -506,13 +512,6 @@ h1 {
 }
 
 
-.textBgLightDisabled {
-	color: light-dark(rgba(239, 239, 239, 0.3), rgba(59, 59, 59, 0.3)) !important;
-    background-color: #5f6265 !important;
-}
-
-
-
 @media (max-width: 480px) {
 	.container h1 {
 		margin-bottom: 0;
@@ -524,7 +523,7 @@ h1 {
 
 	.guesses-remaining {
 		font-size: 0.9rem;
-		margin-top: 2px;
+		margin-top: 7px;
 	}
 
 }

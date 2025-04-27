@@ -225,7 +225,7 @@ onMounted(() => {
 <template>
 	<NavigationBar />
 
-	<main class="container text-bg-dark mt-4 p-3">
+	<main class="container text-bg-dark mt-5 p-2">
 	    <div class="row padding-top-5">
 	      <div class="col-lg-3 text-center">
 
@@ -234,7 +234,7 @@ onMounted(() => {
 
 	        <div id="game-container">
 	            <div class="guesses-remaining" v-if="guesses.length < 10">{{ $t('Guess') + ' ' + (guesses.length + 1) + ' ' + $t('of') }} 10</div>
-	            <div class="input-group mb-3 input-dropdown-container pl-5 pr-5"style="position: relative;">
+	            <div class="input-group mb-3 input-dropdown-container px-1"style="position: relative;">
                 <SearchComponent 
                   :player="props.player"
                   :footble="props.footble"

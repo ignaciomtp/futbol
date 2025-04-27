@@ -100,7 +100,7 @@ if (! function_exists('checkContinent')) {
             "Bulgaria", 
             "Croatia", 
             "Cyprus", 
-            "Czech Republic", 
+            "Czechia", 
             "Denmark", 
             "England", 
             "Estonia", 

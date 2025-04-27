@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [App\Http\Controllers\PublicController::class, 'index'])->name('homeapp');
-Route::get('/home2', [App\Http\Controllers\PublicController::class, 'index2'])->name('homeapp2');
+Route::get('/home27887', [App\Http\Controllers\PublicController::class, 'index2'])->name('homeapp2');
 
 Route::get('/rewind', [App\Http\Controllers\PublicController::class, 'rewind'])->name('rewind');
 Route::get('/create', [App\Http\Controllers\PublicController::class, 'create'])->name('create');

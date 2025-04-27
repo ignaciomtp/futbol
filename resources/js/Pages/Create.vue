@@ -31,7 +31,7 @@ const searchPlayers = async () => {
   }
 
   try {
-    const response = await axios.post('/player/search/', { 
+    const response = await axios.post('/player/search', { 
       name: searchQuery.value 
     });
     suggestions.value = response.data;
@@ -109,7 +109,7 @@ onMounted(() => {
 <template>
 	<NavigationBar />
 
-  	<main class="container text-bg-dark mt-4 p-3">
+  	<main class="container text-bg-dark mt-5 p-2">
   		<div class="row padding-top-5">
   			<div class="col-lg-3 "></div>
   			<div class="col-lg-6">
@@ -125,7 +125,7 @@ onMounted(() => {
   				</div>
 
   				
-  				<div class="input-group mb-3 input-dropdown-container pl-5 pr-5 mb-3">
+  				<div class="input-group mb-3 input-dropdown-container px-1 mb-4">
 	              <input type="text" class="searchbox" id="mainSearchBox"
 	                :placeholder="$t('Type a footballer name here') + '...'" 
 	                v-model="searchQuery" 
@@ -146,21 +146,24 @@ onMounted(() => {
 	              </div>
 		        </div>
 
-		        <div class="data-row data-player-id d-flex align-items-center mb-4" v-if="targetPlayer">
-			      <PlayerView :player="targetPlayer" />
+		        <div class="data-row data-player-id d-flex align-items-center mb-4 " v-if="targetPlayer">
+				      <PlayerView :player="targetPlayer" />
 
-			    </div>
+				    </div>
 
 			    <div v-if="targetPlayer" class="mb-3">
 				    <div class="data-row instruction-data mb-1" >
-						<p class="mr-3">
-							2.
-						</p>
-						<h2> {{ $t('Leave a note for your friend') }}</h2>  						
+							<p class="mr-3">
+								2.
+							</p>
+							<h2> {{ $t('Leave a note for your friend') }}</h2>  						
 									
 						</div>
 
-						<textarea class="form-control" v-model="message" :placeholder="$t('Write a hint or message here')" id="floatingTextarea"></textarea>	
+						<div class="px-1">
+							<textarea class="form-control" v-model="message" :placeholder="$t('Write a hint or message here')" id="floatingTextarea"></textarea>	
+						</div>
+						
 
 						<div class="mt-4 text-center">
 							<button type="button" class="btn btn-success" @click="shareFootble">{{ $t(shareResultText) }}</button>		  

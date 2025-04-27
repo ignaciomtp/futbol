@@ -76,6 +76,22 @@ footble.io`;
   }
 }
 
+
+// compartir en Twitter
+const shareOnTwitter = () => {
+  const text = encodeURIComponent(shareResultText.value);
+  const url = `https://twitter.com/intent/tweet?text=${text}`;
+  window.open(url, '_blank');
+}
+
+// compartir en Whatsapp
+const shareOnWhatsApp = () => {
+  const text = encodeURIComponent(shareResultText.value);
+  const url = `https://api.whatsapp.com/send?text=${text}`;
+  window.open(url, '_blank');
+}
+
+
 // empezar a jugar
 const playTheGame = () => {
 
@@ -338,7 +354,7 @@ onMounted(() => {
 <template>
   <NavigationBar :update-trigger="updateStatsTrigger" />
 
-  <main class="container text-bg-dark mt-4 p-3">
+  <main class="container text-bg-dark mt-5 p-2">
     <div class="row padding-top-5">
       <div class="col-lg-3 text-center">
         
@@ -349,7 +365,7 @@ onMounted(() => {
 
         <div id="game-container" v-if="playGame">
             <div class="guesses-remaining" v-if="guesses.length < 10">{{ $t('Guess') + ' ' + (guesses.length + 1) + ' ' + $t('of') }} 10</div>
-            <div class="input-group mb-3 input-dropdown-container pl-5 pr-5" style="position: relative;">
+            <div class="input-group mb-3 input-dropdown-container px-1" style="position: relative;">
               <SearchComponent 
                 :player="props.player"
                 :footble="props.footble"
@@ -361,8 +377,8 @@ onMounted(() => {
             </div>
 
             <div class="mt-3 text-center hints" v-if="!guesses.length">
-                <p class="m-4">{{ $t('Guess the footballer of the day') }}.</p>
-                <p class="m-4">{{ $t('Search for an footballer to make your first guess') }}.</p>
+                <p class="m-3">{{ $t('Guess the footballer of the day') }}.</p>
+                <p class="m-3">{{ $t('Search for an footballer to make your first guess') }}.</p>
             </div>
 
             <div class="mt-3" id="guesses">
@@ -404,9 +420,29 @@ onMounted(() => {
         <h2 class="mt-2">{{ props.player.name }}</h2>
       </div>
       <div class="my-modal-bottom " :class="modalResultBackground">
-        <div class="mt-2 mb-2">
-          <button type="button" class="btn btn-dark" @click="shareResult">{{ $t(shareResultText) }}</button>
-        </div>
+
+      <div class="mt-2 mb-2">
+        <button type="button" class="btn bigger btn-dark" @click="shareResult">{{ $t(shareResultText) }}</button>
+      </div>
+
+<div class="share-buttons" v-if="shareResultText == 'Copied result'">
+    <button @click="shareOnTwitter" class="btn share-btn twitter-btn text-center">
+      <div class="share-btn-content" >
+        <i class="bi bi-twitter-x"></i>
+        <span>{{ $t('Share on X') }}</span>
+        
+      </div>
+    </button>
+    <button @click="shareOnWhatsApp" class="btn share-btn whatsapp-btn text-center">
+      <div class="share-btn-content" >
+        <i class="bi bi-whatsapp"></i>
+        <span>{{ $t('Share on WhatsApp') }}</span>
+      </div>
+    </button>
+
+</div>
+
+
         <div class="mb-4">
           <TimerComponent :start="startCounter" />
         </div>
@@ -477,11 +513,6 @@ onMounted(() => {
   padding-left: 20px;
 }
 
-.btn {
-  border-radius: 100px;
-  min-width: 150px;
-  font-weight: 700;
-}
 
 /* Hide desktop suggestions on mobile 
 @media (max-width: 768px) {
@@ -490,5 +521,95 @@ onMounted(() => {
   }
 }
 */
+
+.btn {
+  min-width: 200px;
+  font-weight: 500;
+}
+
+.share-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.share-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 12px;
+    border: none;
+
+    cursor: pointer;
+
+
+    transition: background-color 0.3s;
+    width: 48%;
+    justify-content: center; /* Centra el contenido del botón */
+}
+
+.share-btn i {
+  font-size: 22px;
+  float: left;
+  margin-right: 8px;
+}
+
+.share-btn-content {
+  display: inline-block; 
+
+
+}
+
+.share-btn-content span {
+  vertical-align: middle; 
+
+  line-height: 32px;
+  display: inline-block;
+  font-weight: 500;
+}
+
+.twitter-btn {
+    background-color: #000;
+    color: #fff;
+}
+
+.twitter-btn:hover {
+    background-color: #333;
+}
+
+.whatsapp-btn {
+    background-color: #25D366;
+    color: #fff;
+}
+
+.whatsapp-btn:hover {
+    background-color: #20b358;
+}
+
+.copy-btn {
+    background-color: #f0f0f0;
+    color: #000;
+}
+
+.copy-btn:hover {
+    background-color: #e0e0e0;
+}
+
+/* Media query para dispositivos móviles */
+@media (max-width: 768px) {
+    .share-buttons {
+        flex-direction: column; /* Cambia a disposición vertical */
+        align-items: center; /* Centra los botones horizontalmente */
+        gap: 15px; /* Aumenta el espacio entre botones */
+    }
+
+    .btn {
+        width: 100%; /* Ocupa todo el ancho disponible (hasta un máximo) */
+        max-width: 300px; /* Límite máximo para evitar botones demasiado anchos */
+        min-height: 43px;
+    }
+}
 
 </style>

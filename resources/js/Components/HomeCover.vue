@@ -21,7 +21,7 @@ const emitPlayGame = () => {
 		</div>
 
 		<div class="mt-5">
-			<button class="btn btn-success" @click="emitPlayGame">{{ $t('Play') }}</button>
+			<button class="btn bigger btn-success" @click="emitPlayGame">{{ $t('Play') }}</button>
 		</div>
 		
 	</div>
@@ -59,11 +59,7 @@ const emitPlayGame = () => {
   
 }
 
-.btn {
-  border-radius: 100px;
-  min-width: 150px;
-  font-weight: 700;
-}
+
 
 /* Media queries para responsividad */
 @media (max-width: 768px) {
