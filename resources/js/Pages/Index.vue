@@ -354,66 +354,69 @@ onMounted(() => {
 <template>
   <NavigationBar :update-trigger="updateStatsTrigger" />
 
-  <main class="container text-bg-dark mt-5 pt-2">
-    <div class="row padding-top-5">
-      <div class="col-lg-3 text-center">
-        
-      </div>
-      <div class="col-lg-6">
+<div class="page-wrapper">
+    <main class="main-content text-bg-dark mt-5 pt-2">
+      <div class="container">
+        <div class="row padding-top-5">
+          <div class="col-lg-3 text-center">
+            
+          </div>
+          <div class="col-lg-6">
 
 
-        <div id="game-container" v-if="playGame">
-            <div class="guesses-remaining" v-if="guesses.length < 10">{{ $t('Guess') + ' ' + (guesses.length + 1) + ' ' + $t('of') }} 10</div>
-            <div class="input-group mb-3 input-dropdown-container px-1" style="position: relative;">
-              <SearchComponent 
-                :player="props.player"
-                :footble="props.footble"
-                :showSuggestions="showSuggestions"
-                :isMobile="isMobile"
-                @selected="selectPlayer"
-                @toggleSugestions="suggestionsVisble"
-              />
+            <div id="game-container" v-if="playGame">
+                <div class="guesses-remaining" v-if="guesses.length < 10">{{ $t('Guess') + ' ' + (guesses.length + 1) + ' ' + $t('of') }} 10</div>
+                <div class="input-group mb-3 input-dropdown-container px-1" style="position: relative;">
+                  <SearchComponent 
+                    :player="props.player"
+                    :footble="props.footble"
+                    :showSuggestions="showSuggestions"
+                    :isMobile="isMobile"
+                    @selected="selectPlayer"
+                    @toggleSugestions="suggestionsVisble"
+                  />
+                </div>
+
+                <div class="mt-3 text-center hints" v-if="!guesses.length">
+                    <p class="m-3">{{ $t('Guess the footballer of the day') }}.</p>
+                    <p class="m-3">{{ $t('Search for an footballer to make your first guess') }}.</p>
+                </div>
+
+                <div class="mt-3" id="guesses">
+                  <PlayerContainer v-for="player in guesses" :key="player.id" :player="player"  />
+                </div>
+
+                <div class="mt-3 " v-if="guesses.length == 1">
+                  <div class="data-row2">
+                    <div class="player-data-item text-center wrong-guess">{{ $t('No match') }}</div>
+                    <div class="player-data-item text-center partial-guess">{{ $t('Close') }}</div>
+                    <div class="player-data-item text-center right-guess">{{ $t('Match') }}</div>      
+                  </div>
+
+                  <p class="mt-2 text-center hometext">{{ $t('Use the matching attributes to make more guesses') }}. {{ $t('Good luck!') }}</p>
+                          
+                </div>
             </div>
 
-            <div class="mt-3 text-center hints" v-if="!guesses.length">
-                <p class="m-3">{{ $t('Guess the footballer of the day') }}.</p>
-                <p class="m-3">{{ $t('Search for an footballer to make your first guess') }}.</p>
-            </div>
-
-            <div class="mt-3" id="guesses">
-              <PlayerContainer v-for="player in guesses" :key="player.id" :player="player"  />
-            </div>
-
-            <div class="mt-3 " v-if="guesses.length == 1">
-              <div class="data-row2">
-                <div class="player-data-item text-center wrong-guess">{{ $t('No match') }}</div>
-                <div class="player-data-item text-center partial-guess">{{ $t('Close') }}</div>
-                <div class="player-data-item text-center right-guess">{{ $t('Match') }}</div>      
-              </div>
-
-              <p class="mt-2 text-center hometext">{{ $t('Use the matching attributes to make more guesses') }}. {{ $t('Good luck!') }}</p>
-                      
-            </div>
+          </div>
+          <div class="col-lg-3 text-center">
+            <!--<p> {{ $t('right column') }}</p>
+            <button type="button" class="btn btn-warning" @click="showModal">
+              Launch static backdrop modal
+            </button> -->
+          </div>
         </div>
-
       </div>
-      <div class="col-lg-3 text-center">
-        <!--<p> {{ $t('right column') }}</p>
-        <button type="button" class="btn btn-warning" @click="showModal">
-          Launch static backdrop modal
-        </button> -->
-      </div>
-    </div>
+    </main>
+  </div>
 
-    <div class="footer__bottom">
-        <div class="footer__copir">Footble.io © 2025</div>
-        <ul class="footer__links">
-            <li><a href="mailto:admin@footble.io?subject=Footble">Contact</a></li>
-            <li><a :href="route('privacy')">{{ $t('Privacy') }}</a></li>
-        </ul>
-    </div>
-    
-  </main>
+  <div class="footer__bottom">
+      <div class="footer__copir">Footble.io © 2025</div>
+      <ul class="footer__links">
+          <li><a href="mailto:admin@footble.io?subject=Footble">Contact</a></li>
+          <li><a :href="route('privacy')">{{ $t('Privacy') }}</a></li>
+      </ul>
+  </div>
 
 <!-- Modal Resultado -->
 <div class="modal text-center fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

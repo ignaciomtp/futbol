@@ -377,56 +377,58 @@ onMounted(() => {
 <template>
 	<NavigationBar :update-trigger="updateStatsTrigger" />
 
-  	<main class="container text-bg-dark mt-5 pt-2">
-  		<div class="row padding-top-5">
-  			<div class="col-lg-3 "></div>
-  			<div class="col-lg-6">
-  				<div class="text-center mb-1">
-  					<h1><i class="bi bi-rewind-fill"></i> Rewind</h1>
+  <div class="page-wrapper">
+  	<main class="main-content text-bg-dark mt-5 pt-2">
+  		<div class="container">
+	  		<div class="row padding-top-5">
+	  			<div class="col-lg-3 "></div>
+	  			<div class="col-lg-6">
+	  				<div class="text-center mb-1">
+	  					<h1><i class="bi bi-rewind-fill"></i> Rewind</h1>
 
-  					<div v-if="playedAll" class="instruction-text">{{ $t('You already played them all') }}</div>
-  					<div v-else class="instruction-text">{{ $t('Choose a Footble to play') }}</div>
-  				</div>
-  				
-  				<LastWeekComponent :lastWeek="weekFootbles" @selected-footble="setSelectedPastFootble" />
+	  					<div v-if="playedAll" class="instruction-text">{{ $t('You already played them all') }}</div>
+	  					<div v-else class="instruction-text">{{ $t('Choose a Footble to play') }}</div>
+	  				</div>
+	  				
+	  				<LastWeekComponent :lastWeek="weekFootbles" @selected-footble="setSelectedPastFootble" />
 
-  				<div id="game-container" v-if="playGame">
-		            <div class="guesses-remaining" >{{ $t('Guess') + ' ' + (guesses.length + 1) + ' ' + $t('of') }} 10</div>
-		            <div class="input-group mb-3 input-dropdown-container px-1">
-		            	<SearchComponent 
-		                :player="props.player"
-		                :footble="props.footble"
-		                :showSuggestions="showSuggestions"
-		                :isMobile="isMobile"
-		                :disabled="!selectedPastFootble"
-		                @selected="selectPlayer"
-		                @toggleSugestions="suggestionsVisble"
-		              />
-		            </div>
+	  				<div id="game-container" v-if="playGame">
+			            <div class="guesses-remaining" >{{ $t('Guess') + ' ' + (guesses.length + 1) + ' ' + $t('of') }} 10</div>
+			            <div class="input-group mb-3 input-dropdown-container px-1">
+			            	<SearchComponent 
+			                :player="props.player"
+			                :footble="props.footble"
+			                :showSuggestions="showSuggestions"
+			                :isMobile="isMobile"
+			                :disabled="!selectedPastFootble"
+			                @selected="selectPlayer"
+			                @toggleSugestions="suggestionsVisble"
+			              />
+			            </div>
 
-		            <div class="margin-top-5" id="guesses">
-		              <PlayerContainer v-for="(player, index) in guesses" :key="index" :player="player"  />
-		            </div>
-		        </div>
+			            <div class="margin-top-5" id="guesses">
+			              <PlayerContainer v-for="(player, index) in guesses" :key="index" :player="player"  />
+			            </div>
+			        </div>
 
-  			</div>
-  			<div class="col-lg-3 ">
-  				<!-- <p> {{ $t('right column') }}</p>
-		        <button type="button" class="btn btn-warning" @click="showModal">
-		          Launch static backdrop modal
-		        </button> -->
-  			</div>
+	  			</div>
+	  			<div class="col-lg-3 ">
+	  				<!-- <p> {{ $t('right column') }}</p>
+			        <button type="button" class="btn btn-warning" @click="showModal">
+			          Launch static backdrop modal
+			        </button> -->
+	  			</div>
+	  		</div>
   		</div>
-
-    <div class="footer__bottom">
-        <div class="footer__copir">Footble.io © 2025</div>
-        <ul class="footer__links">
-            <li><a href="mailto:admin@footble.io?subject=Footble">Contact</a></li>
-            <li><a :href="route('privacy')">{{ $t('Privacy') }}</a></li>
-        </ul>
-    </div>
-  		
   	</main>
+	</div>
+  <div class="footer__bottom">
+      <div class="footer__copir">Footble.io © 2025</div>
+      <ul class="footer__links">
+          <li><a href="mailto:admin@footble.io?subject=Footble">Contact</a></li>
+          <li><a :href="route('privacy')">{{ $t('Privacy') }}</a></li>
+      </ul>
+  </div>
 
 <!-- Modal Resultado -->
 <div class="modal text-center fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel">

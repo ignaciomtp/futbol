@@ -100,7 +100,7 @@ onMounted(() => {
         }
     });
 
-    getLocalStorageSpace();
+    //getLocalStorageSpace();
 
 });
 
@@ -108,82 +108,87 @@ onMounted(() => {
 
 <template>
 	<NavigationBar />
+	<div class="page-wrapper">
+  	<main class="main-content text-bg-dark mt-5 pt-2">
+  		<div class="container">
+	  		<div class="row padding-top-5">
+	  			<div class="col-lg-3 "></div>
+	  			<div class="col-lg-6">
+	  				<div class="text-center mb-3">
+	  					<h1><i class="bi bi-plus-circle"></i> {{ $t('Create') }}</h1>
+	  				</div>
 
-  	<main class="container text-bg-dark mt-5 pt-2">
-  		<div class="row padding-top-5">
-  			<div class="col-lg-3 "></div>
-  			<div class="col-lg-6">
-  				<div class="text-center mb-3">
-  					<h1><i class="bi bi-plus-circle"></i> Create</h1>
-  				</div>
+	  				<div class="data-row instruction-data mb-2">
+	  					<p class="mr-3">
+	  						1.
+	  					</p>
+	  					<h2> {{ $t('Pick a footballer for your friend to guess') }}</h2>  				
+	  				</div>
 
-  				<div class="data-row instruction-data mb-2">
-  					<p class="mr-3">
-  						1.
-  					</p>
-  					<h2> {{ $t('Pick a footballer for your friend to guess') }}</h2>  				
-  				</div>
+	  				
+	  				<div class="input-group mb-3 input-dropdown-container px-1 mb-4">
+		              <input type="text" class="searchbox" id="mainSearchBox"
+		                :placeholder="$t('Type a footballer name here') + '...'" 
+		                v-model="searchQuery" 
+		                @input="searchPlayers"		          
+		                autocomplete="off">
+		              <span class="searchbox-button">
+		                <i class="bi bi-search text-bg-light"></i>
+		              </span>
+		              <div class="dropdown w-100">
+		                <ul class="dropdown-menu" id="suggestions" v-if="showSuggestions">
+		                  <li v-for="(suggestedPlayer, index) in suggestions" :key="index + 1">
+		                    <div class="dropdown-item dropdown-player-item" @click="selectPlayer(suggestedPlayer)">
+		                      <img :src="`/img/players/${suggestedPlayer.photo}`" :alt="suggestedPlayer.name" class="tinythumb" style="float: right">
+		                      {{ suggestedPlayer.name }}
+		                    </div>
+		                  </li>
+		                </ul>
+		              </div>
+			        </div>
 
-  				
-  				<div class="input-group mb-3 input-dropdown-container px-1 mb-4">
-	              <input type="text" class="searchbox" id="mainSearchBox"
-	                :placeholder="$t('Type a footballer name here') + '...'" 
-	                v-model="searchQuery" 
-	                @input="searchPlayers"		          
-	                autocomplete="off">
-	              <span class="searchbox-button">
-	                <i class="bi bi-search text-bg-light"></i>
-	              </span>
-	              <div class="dropdown w-100">
-	                <ul class="dropdown-menu" id="suggestions" v-if="showSuggestions">
-	                  <li v-for="(suggestedPlayer, index) in suggestions" :key="index + 1">
-	                    <div class="dropdown-item dropdown-player-item" @click="selectPlayer(suggestedPlayer)">
-	                      <img :src="`/img/players/${suggestedPlayer.photo}`" :alt="suggestedPlayer.name" class="tinythumb" style="float: right">
-	                      {{ suggestedPlayer.name }}
-	                    </div>
-	                  </li>
-	                </ul>
-	              </div>
-		        </div>
+			        <div class="data-row data-player-id d-flex align-items-center mb-4 " v-if="targetPlayer">
+					      <PlayerView :player="targetPlayer" />
 
-		        <div class="data-row data-player-id d-flex align-items-center mb-4 " v-if="targetPlayer">
-				      <PlayerView :player="targetPlayer" />
+					    </div>
+
+				    <div v-if="targetPlayer" class="mb-3">
+					    <div class="data-row instruction-data mb-1" >
+								<p class="mr-3">
+									2.
+								</p>
+								<h2> {{ $t('Leave a note for your friend') }}</h2>  						
+										
+							</div>
+
+							<div class="px-1">
+								<textarea class="form-control" v-model="message" :placeholder="$t('Write a hint or message here')" id="floatingTextarea"></textarea>	
+							</div>
+							
+
+							<div class="mt-4 text-center">
+								<button type="button" class="btn btn-success" @click="shareFootble">{{ $t(shareResultText) }}</button>		  
+							</div>
+						  	
+				    </div>  				
+
+				    <div v-if="shareResultText != 'Share'">
+				    	<div class="data-row instruction-data mb-1" >
+							<p class="mr-3">
+								3.
+							</p>
+							<h2> {{ $t('You can share the Footble with your friend now') }}</h2>  						
+										
+							</div>
 
 				    </div>
+	  			</div>
+	  			<div class="col-lg-3 "></div>
+	  		</div>
+	  	</div>
 
-			    <div v-if="targetPlayer" class="mb-3">
-				    <div class="data-row instruction-data mb-1" >
-							<p class="mr-3">
-								2.
-							</p>
-							<h2> {{ $t('Leave a note for your friend') }}</h2>  						
-									
-						</div>
 
-						<div class="px-1">
-							<textarea class="form-control" v-model="message" :placeholder="$t('Write a hint or message here')" id="floatingTextarea"></textarea>	
-						</div>
-						
-
-						<div class="mt-4 text-center">
-							<button type="button" class="btn btn-success" @click="shareFootble">{{ $t(shareResultText) }}</button>		  
-						</div>
-					  	
-			    </div>  				
-
-			    <div v-if="shareResultText != 'Share'">
-			    	<div class="data-row instruction-data mb-1" >
-						<p class="mr-3">
-							3.
-						</p>
-						<h2> {{ $t('You can share the Footble with your friend now') }}</h2>  						
-									
-						</div>
-
-			    </div>
-  			</div>
-  			<div class="col-lg-3 "></div>
-  		</div>
+  	</main>
 
 		<div class="footer__bottom">
         <div class="footer__copir">Footble.io © 2025</div>
@@ -192,8 +197,7 @@ onMounted(() => {
             <li><a :href="route('privacy')">{{ $t('Privacy') }}</a></li>
         </ul>
     </div>
-
-  	</main>
+  </div>
 </template>
 
 <style scoped>

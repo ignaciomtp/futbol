@@ -225,51 +225,51 @@ onMounted(() => {
 <template>
 	<NavigationBar />
 
-	<main class="container text-bg-dark mt-5 pt-2">
-	    <div class="row padding-top-5">
-	      <div class="col-lg-3 text-center">
+	<div class="page-wrapper">
+    <main class="main-content text-bg-dark mt-5 pt-2">
+      <div class="container">
+  	    <div class="row padding-top-5">
+  	      <div class="col-lg-3 text-center"></div>
+  	      <div class="col-lg-6">
+  	        <div id="game-container">
+  	            <div class="guesses-remaining" v-if="guesses.length < 10">{{ $t('Guess') + ' ' + (guesses.length + 1) + ' ' + $t('of') }} 10</div>
+  	            <div class="input-group mb-3 input-dropdown-container px-1"style="position: relative;">
+                  <SearchComponent 
+                    :player="props.player"
+                    :footble="props.footble"
+                    :showSuggestions="showSuggestions"
+                    :isMobile="isMobile"
+                    @selected="selectPlayer"
+                    @toggleSugestions="suggestionsVisble"
+                  />
+  	            </div>
 
-	      </div>
-	      <div class="col-lg-6">
+  	            <div class="mt-3 text-center hints" v-if="!guesses.length">
+  	                <p class="m-4">{{ $t('A hint from your friend') }}: <span class="message">{{ props.message }}</span></p>
+  	                
+  	            </div>
 
-	        <div id="game-container">
-	            <div class="guesses-remaining" v-if="guesses.length < 10">{{ $t('Guess') + ' ' + (guesses.length + 1) + ' ' + $t('of') }} 10</div>
-	            <div class="input-group mb-3 input-dropdown-container px-1"style="position: relative;">
-                <SearchComponent 
-                  :player="props.player"
-                  :footble="props.footble"
-                  :showSuggestions="showSuggestions"
-                  :isMobile="isMobile"
-                  @selected="selectPlayer"
-                  @toggleSugestions="suggestionsVisble"
-                />
-	            </div>
+  	            <div class="mt-3" id="guesses">
+  	              <PlayerContainer v-for="player in guesses" :key="player.id" :player="player"  />
+  	            </div>
+  	        </div>
 
-	            <div class="mt-3 text-center hints" v-if="!guesses.length">
-	                <p class="m-4">{{ $t('A hint from your friend') }}: <span class="message">{{ props.message }}</span></p>
-	                
-	            </div>
+  	      </div>
+  	      <div class="col-lg-3 text-center">
 
-	            <div class="mt-3" id="guesses">
-	              <PlayerContainer v-for="player in guesses" :key="player.id" :player="player"  />
-	            </div>
-	        </div>
-
-	      </div>
-	      <div class="col-lg-3 text-center">
-
-	      </div>
-	    </div>
-
-    <div class="footer__bottom">
-        <div class="footer__copir">Footble.io © 2025</div>
-        <ul class="footer__links">
-            <li><a href="mailto:admin@footble.io?subject=Footble">Contact</a></li>
-            <li><a :href="route('privacy')">{{ $t('Privacy') }}</a></li>
-        </ul>
-    </div>
-
+  	      </div>
+  	    </div>
+      </div>
 	  </main>
+  </div>
+
+  <div class="footer__bottom">
+      <div class="footer__copir">Footble.io © 2025</div>
+      <ul class="footer__links">
+          <li><a href="mailto:admin@footble.io?subject=Footble">Contact</a></li>
+          <li><a :href="route('privacy')">{{ $t('Privacy') }}</a></li>
+      </ul>
+  </div>
 
 <!-- Modal Resultado -->
 <div class="modal text-center fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

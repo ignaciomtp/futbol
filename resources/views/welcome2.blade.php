@@ -51,7 +51,7 @@
                 </div>
 
                 <div class="my-4">
-                    <a class="btn bigger btn-success" href="{{ route('playgame') }}">{{ $homeTexts['Play'] }}</a>
+                    <a class="btn bigger btn-success btn-cover" href="{{ route('playgame') }}">{{ $homeTexts['Play'] }}</a>
                 </div>
             </div>            
             
@@ -72,14 +72,14 @@
                     <div class="width50">
                         <h3>{{ $homeTexts['li1h3'] }}</h3>
                         <span>{{ $homeTexts['li1span'] }}</span>
-                        <img src="/img/guess0.png" class="img-fluid img-instructions">
+                        <img src="/img/guess0.png" class="img-fluid img-instructions" alt="{{ $homeTexts['li1h3'] }}">
                     </div>                    
                 </li>
                 <li>
                     <div class="width50">
                         <h3>{{ $homeTexts['li2h3'] }}</h3>
                         <span>{{ $homeTexts['li2span'] }}</span>
-                        <img src="/img/guess1.png" class="img-fluid img-instructions">
+                        <img src="/img/guess1.png" class="img-fluid img-instructions" alt="{{ $homeTexts['li2h3'] }}">
                     </div>
                     
                 </li>
@@ -87,7 +87,7 @@
                     <div class="width50">
                         <h3>{{ $homeTexts['li3h3'] }}</h3>
                         <span>{{ $homeTexts['li3span'] }}</span>
-                        <img src="/img/guess3.png" class="img-fluid img-instructions mb-3">
+                        <img src="/img/guess3.png" class="img-fluid img-instructions mb-3" alt="{{ $homeTexts['li3h3'] }}">
                         <h4>{{ $homeTexts['li3h4'] }}</h4>
                         
                         <h5>{{ $homeTexts['li3li1h5'] }}</h5>
@@ -136,7 +136,7 @@
                     <div class="width50">
                         <h3>{{ $homeTexts['li4h3'] }}</h3>
                         <span>{{ $homeTexts['li4span'] }}</span>
-                        <img src="/img/guess4.png" class="img-fluid img-instructions">
+                        <img src="/img/guess4.png" class="img-fluid img-instructions" alt="{{ $homeTexts['li4h3'] }}">
                     </div>
                 </li>
             </ol>
@@ -147,7 +147,7 @@
                 <h2>{{ $homeTexts['h2-2'] }}</h2>
                 <p class="headline__text">{{ $homeTexts['p4'] }}</p>
                 <div class="mt-4">
-                    <a class="btn bigger btn-success" href="{{ route('playgame') }}">{{ $homeTexts['playnow'] }}</a>
+                    <a class="btn bigger btn-success btn-cover" href="{{ route('playgame') }}">{{ $homeTexts['playnow'] }}</a>
                 </div>
             </div>
         </div>
@@ -196,6 +196,32 @@
             </div>
         </div>
 
+        <div class="section-clearer1 my-4">
+            <div class="p-5">
+                <h2>{{ $homeTexts['h2-4'] }}</h2>
+                <div class="width50 headline__text ">
+                    <p>{{ $homeTexts['p6'] }}</p>
+                    <a class="btn-create generator" href="{{ route('create') }}">
+                        <i class="bi bi-plus-circle"></i> {{ $homeTexts['create-footble'] }}
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class=" my-4">
+            <div class="p-5">
+                <h3>{{ $homeTexts['h2-5'] }}</h3>
+                <div class="width50 headline__text ">
+                    <p>{{ $homeTexts['p7'] }}</p>
+                    <p>{{ $homeTexts['p81'] }}, <strong>{{ $homeTexts['p82'] }}</strong></p>
+                    <p>{{ $homeTexts['p9'] }} ⚽🧠</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
     <div class="footer__bottom">
         <div class="footer__copir">Footble.io © 2025</div>
         <ul class="footer__links">
@@ -203,9 +229,6 @@
             <li><a href="{{ route('privacy') }}">Privacy Policy</a></li>
         </ul>
     </div>
-
-    </main>
-
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
