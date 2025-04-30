@@ -15,8 +15,10 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('/', [App\Http\Controllers\PublicController::class, 'index'])->name('homeapp');
+
+Route::get('/play', [App\Http\Controllers\PublicController::class, 'play'])->name('playgame');
 Route::get('/home27887', [App\Http\Controllers\PublicController::class, 'index2'])->name('homeapp2');
+
 
 Route::get('/rewind', [App\Http\Controllers\PublicController::class, 'rewind'])->name('rewind');
 Route::get('/create', [App\Http\Controllers\PublicController::class, 'create'])->name('create');
@@ -24,7 +26,7 @@ Route::get('/privacy', [App\Http\Controllers\PublicController::class, 'privacy']
 
 Route::get('/custom/{idPlayer}/{message?}', [App\Http\Controllers\PublicController::class, 'custom'])->name('custom');
 
-
+Route::get('/{lang?}', [App\Http\Controllers\PublicController::class, 'index'])->name('homeapp');
 
 Route::get('/checkresult/{idGuess}/{idPlayer?}', [App\Http\Controllers\PublicController::class, 'checkGuess'])->name('checkresult');
 

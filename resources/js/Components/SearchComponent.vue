@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios';
-import { ref, onMounted  } from 'vue';
+import { ref, onMounted, nextTick } from 'vue';
 import { debounce } from 'lodash';
 
 let props = defineProps({ 
@@ -29,6 +29,25 @@ const toggleSugestions = (val) => {
   emit('toggleSugestions', val);
 }
 
+// forzar ocultar el teclado en móviles
+const handleSearch = async () => {
+  console.log('enter');
+
+  document.getElementById('mainSearchBox').blur();
+
+  await searchPlayers(); // esperar a que termine la búsqueda
+
+  // Esperar a que Vue actualice el DOM
+  await nextTick();
+
+  // Ahora seleccionar el primer <li> y hacer focus
+  const playersList = document.querySelector('.desktop-suggestions');
+  const firstLi = playersList?.querySelector('li');
+
+  firstLi?.setAttribute('tabindex', '-1'); // Hace el <li> focusable sin estar en el tab natural
+  firstLi?.focus();
+};
+
 // buscar jugadores por nombre
 const searchPlayers = debounce(async () => {
 
@@ -46,15 +65,8 @@ const searchPlayers = debounce(async () => {
 
     suggestions.value = response.data;
     toggleSugestions(true);
-    //showSuggestions.value = true;
     
-    // On mobile, we want to keep the keyboard open
-    if (props.isMobile.value) {
-      document.activeElement.blur();
-      setTimeout(() => {
-        document.getElementById('mainSearchBox').focus();
-      }, 100);
-    }
+
   } catch (error) {
     console.error(error);
   }
@@ -76,6 +88,7 @@ onMounted(() => {
     :placeholder="$t('Type a footballer name here') + '...'" 
     v-model="searchQuery" 
     @input="searchPlayers"
+    @keyup.enter="handleSearch"
     :disabled="props.disabled"
     autocomplete="off">
   <span class="searchbox-button">
@@ -83,7 +96,7 @@ onMounted(() => {
   </span>
   <div class="dropdown w-100">
     <!-- Desktop dropdown -->
-    <ul class="dropdown-menu desktop-suggestions" v-show="props.showSuggestions && suggestions.length">
+    <ul class="dropdown-menu desktop-suggestions" v-show="props.showSuggestions && suggestions.length" ref="playerslist">
       <li v-for="suggestedPlayer in suggestions" :key="suggestedPlayer.id">
         <div class="dropdown-item dropdown-player-item" @click="selected(suggestedPlayer)">
           <img :src="`/img/players/${suggestedPlayer.photo}`" :alt="suggestedPlayer.name" class="tinythumb" style="float: right">
@@ -118,12 +131,9 @@ onMounted(() => {
   z-index: 1000;
 }
 
-/* Hide desktop suggestions on mobile 
-@media (max-width: 768px) {
-  .desktop-suggestions {
-    display: none !important;
-  }
+.desktop-suggestions li:focus {
+  outline: none; /* quitar el borde negro */
+  background-color: #eee; /* color de fondo gris clarito */
 }
-*/
 
 </style>

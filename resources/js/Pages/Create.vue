@@ -109,7 +109,7 @@ onMounted(() => {
 <template>
 	<NavigationBar />
 
-  	<main class="container text-bg-dark mt-5 p-2">
+  	<main class="container text-bg-dark mt-5 pt-2">
   		<div class="row padding-top-5">
   			<div class="col-lg-3 "></div>
   			<div class="col-lg-6">
@@ -184,6 +184,15 @@ onMounted(() => {
   			</div>
   			<div class="col-lg-3 "></div>
   		</div>
+
+		<div class="footer__bottom">
+        <div class="footer__copir">Footble.io © 2025</div>
+        <ul class="footer__links">
+            <li><a href="mailto:admin@footble.io?subject=Footble">Contact</a></li>
+            <li><a :href="route('privacy')">{{ $t('Privacy') }}</a></li>
+        </ul>
+    </div>
+
   	</main>
 </template>
 

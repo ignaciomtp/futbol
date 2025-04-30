@@ -2,5 +2,8 @@
 
 return [
     'en',
-    'es'
+    'es',
+    'fr',
+    'de',
+    'it'
 ];

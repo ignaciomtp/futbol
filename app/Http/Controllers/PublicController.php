@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Session;
+
 use App\Models\Player;
 
 use DateTime;
@@ -18,7 +21,29 @@ class PublicController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index($lang = 'en')
+    {
+        $languages = config('languages');
+        $lang = in_array($lang, $languages) ? $lang : 'en';
+
+        Session::put('locale', $lang);
+        App::setLocale($lang);
+
+        $homeTexts = config('hometexts');
+
+        return view('welcome2', [
+            'lang' => $lang,
+            'homeTexts' => $homeTexts[$lang]
+        ]);
+    }
+
+
+    /**
+     * Show the game page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function play()
     {
     
         $footble = getFootbleNumber();
@@ -26,7 +51,7 @@ class PublicController extends Controller
         $player = Player::findOrFail($footble);
 
         return Inertia::render('Index', ['footble' => $footble, 'player' => $player]);
-    }
+    }  
 
     public function index2()
     {
