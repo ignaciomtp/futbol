@@ -178,4 +178,36 @@ class HomeController extends Controller
         return view('search-results', compact('players'));
 
     }
+
+
+
+    /**
+     * Show multiple update page
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function showMultipleUpdate() {
+        $clubs = Club::orderBy('name')->get();
+
+        return view('multiple-update', compact('clubs'));
+    }
+
+
+    /**
+     * Show multiple update search results
+     *
+     */
+    public function searchPlayersToUpdate(Request $request) {
+
+        // Buscar el club por ID
+        $club = Club::findOrFail($request->club);
+
+        // Obtener los jugadores del club con last_season null
+        $players = $club->players()
+            ->where('last_season', null)
+            ->get();
+
+        return view('search-results', compact('players'));
+    }
+
 }

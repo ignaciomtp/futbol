@@ -36,7 +36,9 @@ Route::prefix('admin')->group(function () {
 	Route::post('/player', [App\Http\Controllers\HomeController::class, 'addPlayer'])->name('newplayer');
 	Route::get('/player/edit/{id}', [App\Http\Controllers\HomeController::class, 'playerEditForm'])->name('editplayer');
 	Route::post('/player/edit', [App\Http\Controllers\HomeController::class, 'playerUpdate'])->name('updateplayer');
-	Route::post('/sarchplayers', [App\Http\Controllers\HomeController::class, 'searchPlayerAdmin'])->name('searchplayersadmin');	
+	Route::post('/sarchplayers', [App\Http\Controllers\HomeController::class, 'searchPlayerAdmin'])->name('searchplayersadmin');
+	Route::get('/multipleupdate', [App\Http\Controllers\HomeController::class, 'showMultipleUpdate'])->name('multiple');
+	Route::post('/multipleupdate', [App\Http\Controllers\HomeController::class, 'searchPlayersToUpdate'])->name('multipleresult');
 });
 
 
