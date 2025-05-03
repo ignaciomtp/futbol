@@ -3,7 +3,6 @@ import { ref, onMounted  } from 'vue';
 import { Modal } from 'bootstrap';
 
 
-
 const props = defineProps({
   locale: String,
 });

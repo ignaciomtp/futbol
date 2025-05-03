@@ -11,6 +11,28 @@ h1, h2, h3, h4, h5 {
 	font-family: "Oswald", sans-serif;
 }
 
+#homeConsentModal .modal-footer {
+	justify-content: space-around;
+}
+
+#homeConsentModal .smallfont {
+	font-size: 0.9rem;
+}
+
+#welcome p{
+	font-weight: bold;
+}
+
+#welcome h2 {
+	font-size: 1.65rem;
+}
+
+#welcome h3 {
+	font-size: 1rem;
+	text-transform: uppercase;
+	color: #888;
+}
+
 /* Contenedor principal de la página */
 .page-wrapper {
   display: flex;
@@ -106,6 +128,11 @@ h1, h2, h3, h4, h5 {
     display: block;
 }
 
+.footer-container {
+	margin-top: 50px;
+
+}
+
 .footer__bottom {
     display: flex;
     -webkit-box-align: center;
@@ -113,10 +140,10 @@ h1, h2, h3, h4, h5 {
     align-items: center;
     -webkit-box-pack: center;
     -ms-flex-pack: center;
-    justify-content: center;
-    margin-top: 50px;
+    justify-content: center;    
     background-color: #000;
     flex-shrink: 0; /* Evita que el footer se comprima */
+    margin-top: 20px;
 }
 
 .footer__copir {
@@ -455,6 +482,10 @@ h1, h2, h3, h4, h5 {
 	padding-top: 3rem !important;
 }
 
+.padding-five {
+	padding: 3rem !important;
+}
+
 .margin-top-5 {
 	margin-top: 3.5rem !important;
 }
@@ -478,7 +509,7 @@ h1, h2, h3, h4, h5 {
 .player-data ul {
 	list-style-type: none;
 	padding-left: 0.2rem;
-	font-weight: 700;
+	font-weight: 600;
 }
 
 .player-data h3 {
@@ -654,20 +685,41 @@ h1, h2, h3, h4, h5 {
 }
 
 @media (max-width: 480px) {
-  #logo {
-    min-height: 150px;
-  }
-  
-  #logo h1 {
-    font-size: 2.8rem; /* Tamaño de fuente menor para móviles */
-  }
+	#logo {
+		min-height: 150px;
+	}
 
-  #logo span {
-    font-size: 1.5rem;
-    vertical-align: text-top;
+	#logo h1 {
+		font-size: 2.8rem; /* Tamaño de fuente menor para móviles */
+	}
 
-    padding-top: 8px;
-  }
+	#logo span {
+		font-size: 1.5rem;
+		vertical-align: text-top;
+
+		padding-top: 8px;
+	}
+
+  	.headline__text {
+	    line-height: 18px;
+	    font-size: 14px;
+	    margin: 0 0 5px;
+	    
+	}
+
+	.headline__text_just {
+		text-align: justify;
+	}
+
+	.padding-five {
+		padding: 1.5rem !important;
+	}
+
+	.width50 span, .width50 p {
+		line-height: 20px !important;
+		font-size: 15px !important;
+	}
+
 }
 
 @media screen and (max-width: 450px) {

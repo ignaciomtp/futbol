@@ -203,7 +203,7 @@ const changeLocale = async (newLocale) => {
             <ul>
               <li>
                 <h4>
-                	<a :href="route('homeapp')">{{ $t('Home') }}</a>
+                	<a :href="route('playgame')">{{ $t('Home') }}</a>
                 </h4>
               </li>
               <li>
@@ -230,6 +230,8 @@ const changeLocale = async (newLocale) => {
                 <p>{{ $t('Make a Footble for your friends!') }}</p>
               </li>
             </ul>
+
+            
         </div>
       </div>
       <div class="my-modal-bottom bg-dark" >
@@ -298,4 +300,18 @@ const changeLocale = async (newLocale) => {
 	.sidebar h3 {
 	  padding-left: 20px;
 	}
+
+	.sidebar a {
+		color: #798188;
+		text-decoration: none;
+		
+	}
+
+	.sidebar a:hover {
+		color: #454F58;
+		
+	}
+
+
+
 </style>

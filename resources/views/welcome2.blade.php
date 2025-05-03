@@ -27,11 +27,26 @@
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.min.js" integrity="sha384-VQqxDN0EQCkWoxt/0vsQvZswzTHUVOImccYmSyhJTp7kGtPed0Qcx8rK9h9YEgx+" crossorigin="anonymous"></script>
+
+    <script type='text/javascript' src='https://platform-api.sharethis.com/js/sharethis.js#property=68134b9659793500196ab5a1&product=sop' async='async'></script>
+
     <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css'])
 
     
 </head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LD004TRT5D"></script>
+<script>
+    /*
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LD004TRT5D'); */
+</script>
 <body class="antialiased bg-dark ">
 <div id="back-to-top" class="back-to-top-btn">
   ↑
@@ -58,9 +73,9 @@
         </div>
 
         <div class="section-darker1 my-4">
-            <div class="p-5">
+            <div class="padding-five">
                 <h1>{{ $homeTexts['h1'] }}</h1>
-                <p class="headline__text">{{ $homeTexts['p3'] }}</p>
+                <p class="headline__text headline__text_just">{{ $homeTexts['p3'] }}</p>
             </div>
         </div>
 
@@ -87,7 +102,7 @@
                     <div class="width50">
                         <h3>{{ $homeTexts['li3h3'] }}</h3>
                         <span>{{ $homeTexts['li3span'] }}</span>
-                        <img src="/img/guess3.png" class="img-fluid img-instructions mb-3" alt="{{ $homeTexts['li3h3'] }}">
+                        <img src="/img/guess3.png" class="img-fluid img-instructions mb-3 mt-1" alt="{{ $homeTexts['li3h3'] }}">
                         <h4>{{ $homeTexts['li3h4'] }}</h4>
                         
                         <h5>{{ $homeTexts['li3li1h5'] }}</h5>
@@ -143,7 +158,7 @@
         </div>
 
         <div class="section-clearer1 my-4">
-            <div class="p-5">
+            <div class="padding-five">
                 <h2>{{ $homeTexts['h2-2'] }}</h2>
                 <p class="headline__text">{{ $homeTexts['p4'] }}</p>
                 <div class="mt-4">
@@ -153,7 +168,7 @@
         </div>
 
         <div class="my-4">
-            <div class="p-5">
+            <div class="padding-five headline__text_just">
                 <h2>{{ $homeTexts['h2-3'] }}</h2>
                 <p class="headline__text">{{ $homeTexts['p5'] }}</p>
                 <div class="width50 headline__text home-textleft">
@@ -197,7 +212,7 @@
         </div>
 
         <div class="section-clearer1 my-4">
-            <div class="p-5">
+            <div class="padding-five">
                 <h2>{{ $homeTexts['h2-4'] }}</h2>
                 <div class="width50 headline__text ">
                     <p>{{ $homeTexts['p6'] }}</p>
@@ -220,6 +235,8 @@
             </div>
         </div>
 
+        <!-- ShareThis BEGIN --><div class="sharethis-inline-share-buttons"></div><!-- ShareThis END -->
+
     </main>
 
     <div class="footer__bottom">
@@ -230,27 +247,121 @@
         </ul>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-          const backToTopBtn = document.getElementById('back-to-top');
 
-          // Mostrar/ocultar botón al hacer scroll
-          window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-              backToTopBtn.classList.add('show');
-            } else {
-              backToTopBtn.classList.remove('show');
-            }
-          });
+<!-- Modal Cookies -->
+<div class="modal fade" id="homeConsentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
 
-          // Volver arriba al hacer clic
-          backToTopBtn.addEventListener('click', () => {
-            window.scrollTo({
-              top: 0,
-              behavior: 'smooth'
-            });
-          });
+        
+        <!--<button type="button" class="btn-close" @click="hideModal"></button> -->
+      </div>
+      <div class="modal-body">
+        <div class="text-center" id="welcome">
+            <h2>{{ $cookieTexts['h2-1'] }}</h2>
+            <h3>{{ $cookieTexts['h3-1'] }}</h3>
+            <p>{{ $cookieTexts['p-1'] }}:</p>
+        </div>
+
+        <div class="text-left pl-4 pr-4 smallfont">
+            <p class="m-2 text-justify"><strong>{{ $cookieTexts['localstorage'] }}:</strong> {{ $cookieTexts['p-2'] }}</p>
+            <p class="m-2 text-justify"><strong>Analytics:</strong> {{ $cookieTexts['p-3'] }}</p>
+            <p class="m-2 text-justify">
+            <strong>{{ $cookieTexts['advertising'] }}:</strong> {{ $cookieTexts['p-4'] }}.
+            </p>
+        </div>
+
+        <div class="text-left">
+            <p class="text-justify smallfont">{{ $cookieTexts['p-5'] }}</p>
+            <p>{{ $cookieTexts['p-6'] }} <a href="{{ route('privacy') }}">{{ $cookieTexts['privacypolicy'] }}</a>.</p>
+        </div>
+      </div>
+      <div class="modal-footer ">
+        <button type="button" class="btn btn-secondary" onclick="dontConsent()">{{ $cookieTexts['noconsent'] }}</button>
+        <button type="button" class="btn btn-success" onclick="consent()">{{ $cookieTexts['consent'] }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+    const cookieModal = new bootstrap.Modal(document.getElementById('homeConsentModal'), {});
+
+    const setCookie = (cname, cvalue, exdays) => {
+      const d = new Date();
+      d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+      let expires = "expires="+d.toUTCString();
+      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
+    const getCookie = (cname) => {
+      let name = cname + "=";
+      let ca = document.cookie.split(';');
+      for(let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
+    }
+
+    const checkCookie = () => {
+
+      let user = getCookie("footble");
+
+      if (user != "consent") {
+        showModal();
+      }     
+
+    }
+
+    const consent = () => {
+        setCookie("footble", "consent", 365);
+        hideModal();
+    }
+
+    const dontConsent = () => {
+        window.location.replace("https://www.google.com/");
+    }
+
+
+    const showModal = () => {
+      cookieModal.show();
+    }
+
+    const hideModal = () => {
+      cookieModal.hide();
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const backToTopBtn = document.getElementById('back-to-top');
+
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          backToTopBtn.classList.add('show');
+        } else {
+          backToTopBtn.classList.remove('show');
+        }
+      });
+
+
+      backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
         });
-    </script>
+      });
+
+      checkCookie();
+    });
+
+</script>
 </body>
 </html>

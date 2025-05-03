@@ -14,7 +14,7 @@
       <link rel="preconnect" href="https://fonts.bunny.net">
       <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
 
-
+      <script type='text/javascript' src='https://platform-api.sharethis.com/js/sharethis.js#property=68134b9659793500196ab5a1&product=sop' async='async'></script>
 
       <link rel="stylesheet" href="{{ URL::to('css/styles-admin.css') }}" />
 

@@ -30,10 +30,12 @@ class PublicController extends Controller
         App::setLocale($lang);
 
         $homeTexts = config('hometexts');
+        $cookieTexts = config('cookietexts');
 
         return view('welcome2', [
             'lang' => $lang,
-            'homeTexts' => $homeTexts[$lang]
+            'homeTexts' => $homeTexts[$lang],
+            'cookieTexts' => $cookieTexts[$lang]
         ]);
     }
 

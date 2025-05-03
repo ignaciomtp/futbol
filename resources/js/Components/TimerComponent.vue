@@ -25,8 +25,15 @@ const startCountdown = () => {
 
 const updateCountdown = () => {
   const now = new Date();
-  const nextChange = new Date(now);
-  nextChange.setHours(24, 0, 0, 0);
+  /* const nextChange = new Date(now);
+  nextChange.setHours(24, 0, 0, 0); */
+
+  const nextChange = new Date(Date.UTC(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate() + 1, // Siguiente día
+    0, 0, 0, 0 // Medianoche UTC
+  ));
 
   const diffMs = nextChange - now;
   

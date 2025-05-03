@@ -6,6 +6,7 @@ import { Modal } from 'bootstrap';
 import { trans } from 'laravel-vue-i18n';
 import NavigationBar from '@/Components/NavigationBar.vue';
 import PlayerView from '@/Components/PlayerView.vue';
+import FooterComponent from '@/Components/FooterComponent.vue';
 
 const targetPlayer = ref(null);
 
@@ -43,8 +44,6 @@ const searchPlayers = async () => {
 
 const selectPlayer = (selectedPlayer) => {
 
-	console.log(selectedPlayer);
-
 	targetPlayer.value = selectedPlayer;
 
     showSuggestions.value = false;  
@@ -70,6 +69,9 @@ ${url}
 	navigator.clipboard.writeText(texto);
 	shareResultText.value = 'Copied result';
 
+	document.getElementById('buttonsCover').style.backgroundColor = "transparent";
+	document.getElementById('buttonsCover').style.height = "1px";
+	document.getElementById('buttonsCover').style.width = "5%";
 }
 
 const getLocalStorageSpace = () => {
@@ -174,29 +176,23 @@ onMounted(() => {
 
 				    <div v-if="shareResultText != 'Share'">
 				    	<div class="data-row instruction-data mb-1" >
-							<p class="mr-3">
-								3.
-							</p>
-							<h2> {{ $t('You can share the Footble with your friend now') }}</h2>  						
-										
+								<p class="mr-3">
+									3.
+								</p>
+								<h2> {{ $t('You can share the Footble with your friend now') }}</h2>  						
+								
 							</div>
-
 				    </div>
+
+				    
 	  			</div>
 	  			<div class="col-lg-3 "></div>
 	  		</div>
 	  	</div>
 
-
   	</main>
 
-		<div class="footer__bottom">
-        <div class="footer__copir">Footble.io © 2025</div>
-        <ul class="footer__links">
-            <li><a href="mailto:admin@footble.io?subject=Footble">Contact</a></li>
-            <li><a :href="route('privacy')">{{ $t('Privacy') }}</a></li>
-        </ul>
-    </div>
+		<FooterComponent />
   </div>
 </template>
 
@@ -213,6 +209,23 @@ h1 {
   position: absolute;
   z-index: 1000;
 }
+
+#shareButtons {
+	position: relative;
+}
+
+#buttonsCover {
+	height: 50px;
+	width: 50%;
+	background-color: #212529;
+	position: absolute;
+	top: 0;
+	left: 20%;
+	z-index: 10;
+	
+}
+
+
 
 .instruction-data h2 {
 	font-size: 1.2rem;

@@ -7,6 +7,7 @@ import NavigationBar from '@/Components/NavigationBar.vue';
 import LastWeekComponent from '@/Components/LastWeekComponent.vue';
 import PlayerContainer from '@/Components/PlayerContainer.vue';
 import SearchComponent from '@/Components/SearchComponent.vue';
+import FooterComponent from '@/Components/FooterComponent.vue';
 
 let props = defineProps({ 
   footble: Number
@@ -421,14 +422,10 @@ onMounted(() => {
 	  		</div>
   		</div>
   	</main>
+
+  	<FooterComponent />
 	</div>
-  <div class="footer__bottom">
-      <div class="footer__copir">Footble.io © 2025</div>
-      <ul class="footer__links">
-          <li><a href="mailto:admin@footble.io?subject=Footble">Contact</a></li>
-          <li><a :href="route('privacy')">{{ $t('Privacy') }}</a></li>
-      </ul>
-  </div>
+
 
 <!-- Modal Resultado -->
 <div class="modal text-center fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel">

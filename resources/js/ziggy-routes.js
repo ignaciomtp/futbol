@@ -11,6 +11,10 @@ export default {
             "uri": "",
             "methods": ["GET"]
         },
+        "playgame": {
+            "uri": "play",
+            "methods": ["GET"]
+        },
         "rewind": {
             "uri": "rewind",
             "methods": ["GET"]

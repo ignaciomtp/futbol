@@ -9,6 +9,7 @@ import NavigationBar from '@/Components/NavigationBar.vue';
 import TimerComponent from '@/Components/TimerComponent.vue';
 import HomeCover from '@/Components/HomeCover.vue';
 import SearchComponent from '@/Components/SearchComponent.vue';
+import FooterComponent from '@/Components/FooterComponent.vue';
 
 let props = defineProps({ 
   footble: Number,
@@ -34,6 +35,7 @@ const userWon = ref(false);
 const startCounter = ref(false);
 
 const shareResultText = ref('Share result');
+const shareResultMessage = ref('');
 
 /*
 const searchQuery = ref('');
@@ -68,6 +70,8 @@ ${res.join('')}
 
 footble.io`;
 
+shareResultMessage.value = texto;
+
   try {
       await navigator.clipboard.writeText(texto);
       shareResultText.value = 'Copied result';
@@ -79,14 +83,14 @@ footble.io`;
 
 // compartir en Twitter
 const shareOnTwitter = () => {
-  const text = encodeURIComponent(shareResultText.value);
+  const text = encodeURIComponent(shareResultMessage.value);
   const url = `https://twitter.com/intent/tweet?text=${text}`;
   window.open(url, '_blank');
 }
 
 // compartir en Whatsapp
 const shareOnWhatsApp = () => {
-  const text = encodeURIComponent(shareResultText.value);
+  const text = encodeURIComponent(shareResultMessage.value);
   const url = `https://api.whatsapp.com/send?text=${text}`;
   window.open(url, '_blank');
 }
@@ -408,15 +412,11 @@ onMounted(() => {
         </div>
       </div>
     </main>
+
+    <FooterComponent />
   </div>
 
-  <div class="footer__bottom">
-      <div class="footer__copir">Footble.io © 2025</div>
-      <ul class="footer__links">
-          <li><a href="mailto:admin@footble.io?subject=Footble">Contact</a></li>
-          <li><a :href="route('privacy')">{{ $t('Privacy') }}</a></li>
-      </ul>
-  </div>
+
 
 <!-- Modal Resultado -->
 <div class="modal text-center fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -427,7 +427,7 @@ onMounted(() => {
         <button type="button" class="btn-close" @click="hideModal"></button>
       </div>
       <div class="modal-body " :class="modalResultBackground">
-        <img :src="'/img/players/' + props.player.photo" :alt="props.player.name" class="result-thumb">
+        <img :src="'/img/players/' + props.player.photo" :alt="props.player.name" class="result-thumb" alt="{{ props.player.name }}">
         <h2 class="mt-2">{{ props.player.name }}</h2>
       </div>
       <div class="my-modal-bottom " :class="modalResultBackground">
@@ -557,7 +557,7 @@ onMounted(() => {
 
 
     transition: background-color 0.3s;
-    width: 48%;
+    width: 40%;
     justify-content: center; /* Centra el contenido del botón */
 }
 

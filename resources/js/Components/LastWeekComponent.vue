@@ -30,7 +30,7 @@ const footbleBackground = (id) => {
 </script>
 
 <template>
-	<div class="data-row text-center ">
+	<div class="data-row text-center p-1">
 		<div class="casilla" v-for="(day, index) in lastWeek" :key="index + 1">
 			<div class="date-circle borde2" :class="footbleBackground(day.idPlayer)">
 				<div v-if="day.done">
@@ -109,6 +109,7 @@ const footbleBackground = (id) => {
 
 	.date {
 		font-size: 0.8rem;
+		font-weight: 400;
 	}
 
 	.date-circle {
