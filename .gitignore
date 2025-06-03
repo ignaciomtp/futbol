@@ -1,20 +1,75 @@
-/.phpunit.cache
-/node_modules
-/public/build
-/public/img
-/public/hot
-/public/storage
-/storage/*.key
-/vendor
-.env
-.env.backup
-.env.production
-.phpunit.result.cache
-Homestead.json
-Homestead.yaml
-auth.json
+# Dependencias de Composer
+/vendor/
+
+# Dependencias de Node.js
+/node_modules/
 npm-debug.log
 yarn-error.log
-/.fleet
-/.idea
-/.vscode
+package-lock.json
+yarn.lock
+
+# Archivos de entorno
+.env
+.env.backup
+.env.*.backup
+!.env.example
+
+# Archivos generados por Laravel
+/storage/*.key
+/storage/logs/*.log
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/framework/testing/*
+/storage/app/public/*
+!/storage/app/public/.gitignore
+
+# Archivos de caché y compilación
+/bootstrap/cache/*
+!/bootstrap/cache/.gitignore
+/cache/
+
+# Archivos de pruebas y cobertura
+/coverage/*
+.phpunit.result.cache
+
+# Archivos de configuración de editores y IDEs
+/.idea/
+.vscode/
+*.sublime-*
+*.swp
+*.swo
+
+# Archivos de sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de despliegue y CI/CD
+/public/hot
+/public/storage
+/public/build/*
+/build/
+/public/builddd/*
+
+# Archivos de pruebas locales
+/homestead.json
+/homestead.yaml
+/phpunit.xml
+
+# Archivos de documentación generada
+/docs/api/
+
+# Archivos grandes o binarios (si no usas Git LFS)
+*.zip
+*.tar.gz
+*.pdf
+*.jpg
+*.png
+*.mp4
+
+# Otros archivos temporales
+*.bak
+*.swp
+*.log
+*.csv
+*.sql
