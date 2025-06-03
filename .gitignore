@@ -12,7 +12,7 @@ yarn.lock
 .env
 .env.backup
 .env.*.backup
-!.env.example
+.env*
 
 # Archivos generados por Laravel
 /storage/*.key
@@ -47,9 +47,9 @@ Thumbs.db
 # Archivos de despliegue y CI/CD
 /public/hot
 /public/storage
+/public/builddd/*
 /public/build/*
 /build/
-/public/builddd/*
 
 # Archivos de pruebas locales
 /homestead.json
