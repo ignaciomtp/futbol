@@ -162,18 +162,7 @@ class HomeController extends Controller
 
         $playerName = $request->name;
 
-        $players = Player::where('name', 'LIKE', '%' . $playerName . '%')->limit(5)->with('clubs', 'titles')->get();
-
-        foreach($players as $player) {
-            $flag = returnCountryFlag($player->country);
-            $player->country_flag = 'https://flagcdn.com/w40/'.$flag.'.png';
-
-            if($player->country != $player->birth_country) {
-                $flag = returnCountryFlag($player->birth_country);
-            }
-
-            $player->birth_country_flag = 'https://flagcdn.com/w40/'.$flag.'.png';
-        }
+        $players = Player::where('name', 'LIKE', '%' . $playerName . '%')->get();
 
         return view('search-results', compact('players'));
 

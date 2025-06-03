@@ -48,6 +48,7 @@ const updateStatsTrigger = ref(false);
 
 const triggerStatsUpdate = () => {
   updateStatsTrigger.value = !updateStatsTrigger.value; // Cambia el valor para disparar el watcher
+  console.log('Trigger stats update');
 };
 
 // copiar resultado del juego para compartir

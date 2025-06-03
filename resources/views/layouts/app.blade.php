@@ -35,6 +35,7 @@
                 </a>
                 @endauth
 
+                
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
@@ -44,12 +45,17 @@
                             <a class="navbar-brand" href="{{ route('multiple') }}">Multiple update</a>
                         </li>
                         <li>
+                            <p class="m-2"><span>Footble:</span> {{ getFootbleNumber() }}</p>
+                        </li>
+                        <li>
                             <form class="d-flex" method="POST" action="{{ route('searchplayersadmin') }}">
                               @csrf
-                              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                              <input class="form-control me-2" name="name" type="search" placeholder="Search" aria-label="Search">
                               <button class="btn btn-outline-success" type="submit">Search</button>
                             </form>
                         </li>
+                        
+                        
                         
                     </ul>
                     @endauth

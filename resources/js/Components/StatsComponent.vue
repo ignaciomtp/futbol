@@ -166,7 +166,7 @@ const props = defineProps({
 watch(
   () => props.updateTrigger,
   (newValue, oldValue) => {
-
+  	console.log('se ha actualizado');
     if (newValue !== oldValue) {
     	resetStats(); // Solo se ejecuta si hay un cambio real
       	//props.updateTrigger = false;
